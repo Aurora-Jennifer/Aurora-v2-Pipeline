@@ -50,6 +50,7 @@ logger = logging.getLogger(__name__)
 # Suppress warnings from SHAP/sklearn
 warnings.filterwarnings('ignore', category=FutureWarning)
 warnings.filterwarnings('ignore', category=UserWarning)
+warnings.filterwarnings('ignore', message='X does not have valid feature names')
 
 
 @dataclass
@@ -288,10 +289,15 @@ def train_model_and_get_importance(
     elif model_family == 'neural_network':
         from sklearn.neural_network import MLPRegressor
         from sklearn.preprocessing import StandardScaler
+        from sklearn.impute import SimpleImputer
+        
+        # Handle NaN values (neural networks can't handle them)
+        imputer = SimpleImputer(strategy='median')
+        X_imputed = imputer.fit_transform(X)
         
         # Scale for neural networks
         scaler = StandardScaler()
-        X_scaled = scaler.fit_transform(X)
+        X_scaled = scaler.fit_transform(X_imputed)
         
         model = MLPRegressor(**model_config, random_state=42)
         model.fit(X_scaled, y)

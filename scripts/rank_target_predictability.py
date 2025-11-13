@@ -35,6 +35,11 @@ from dataclasses import dataclass
 import yaml
 import json
 from collections import defaultdict
+import warnings
+
+# Suppress sklearn feature name warnings (harmless)
+warnings.filterwarnings('ignore', message='X does not have valid feature names')
+warnings.filterwarnings('ignore', category=UserWarning, module='sklearn')
 
 # Add project root
 _REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -148,24 +153,67 @@ def train_and_evaluate_models(
     model_scores = {}
     importance_magnitudes = []
     
-    # Determine task type
+    # Determine task type (fixed detection)
     unique_vals = np.unique(y[~np.isnan(y)])
-    is_classification = len(unique_vals) <= 10 and all(v in [0, 1, -1] for v in unique_vals)
+    is_binary = len(unique_vals) == 2 and set(unique_vals).issubset({0, 1, 0.0, 1.0})
+    is_multiclass = len(unique_vals) <= 10 and all(isinstance(v, (int, np.integer)) or v.is_integer() for v in unique_vals)
+    is_classification = is_binary or is_multiclass
     
-    scoring = 'accuracy' if is_classification else 'r2'
+    # Use R² for both (works for classification too, measures explained variance)
+    scoring = 'r2'
     
     # LightGBM
     if 'lightgbm' in model_families:
         try:
-            objective = 'binary' if is_classification else 'regression'
-            model = lgb.LGBMRegressor(
-                objective=objective,
-                n_estimators=200,
-                learning_rate=0.05,
-                num_leaves=31,
-                verbose=-1,
-                random_state=42
-            )
+            # GPU settings (will fallback to CPU if GPU not available)
+            gpu_params = {}
+            try:
+                # Try CUDA first (fastest)
+                test_model = lgb.LGBMRegressor(device='cuda', n_estimators=1, verbose=-1)
+                test_model.fit(np.random.rand(10, 5), np.random.rand(10))
+                gpu_params = {'device': 'cuda', 'gpu_device_id': 0}
+                logger.info("  Using GPU (CUDA) for LightGBM")
+            except:
+                try:
+                    # Try OpenCL
+                    test_model = lgb.LGBMRegressor(device='gpu', n_estimators=1, verbose=-1)
+                    test_model.fit(np.random.rand(10, 5), np.random.rand(10))
+                    gpu_params = {'device': 'gpu', 'gpu_platform_id': 0, 'gpu_device_id': 0}
+                    logger.info("  Using GPU (OpenCL) for LightGBM")
+                except:
+                    logger.info("  Using CPU for LightGBM")
+            
+            if is_binary:
+                model = lgb.LGBMClassifier(
+                    objective='binary',
+                    n_estimators=200,
+                    learning_rate=0.05,
+                    num_leaves=31,
+                    verbose=-1,
+                    random_state=42,
+                    **gpu_params
+                )
+            elif is_multiclass:
+                model = lgb.LGBMClassifier(
+                    objective='multiclass',
+                    n_estimators=200,
+                    learning_rate=0.05,
+                    num_leaves=31,
+                    verbose=-1,
+                    random_state=42,
+                    **gpu_params
+                )
+            else:
+                model = lgb.LGBMRegressor(
+                    objective='regression',
+                    n_estimators=200,
+                    learning_rate=0.05,
+                    num_leaves=31,
+                    verbose=-1,
+                    random_state=42,
+                    **gpu_params
+                )
+            
             scores = cross_val_score(model, X, y, cv=3, scoring=scoring, n_jobs=1)
             model_scores['lightgbm'] = scores.mean()
             
@@ -181,7 +229,7 @@ def train_and_evaluate_models(
         try:
             from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
             
-            if is_classification:
+            if is_binary or is_multiclass:
                 model = RandomForestClassifier(n_estimators=100, max_depth=10, 
                                               random_state=42, n_jobs=2)
             else:
@@ -201,12 +249,17 @@ def train_and_evaluate_models(
     if 'neural_network' in model_families:
         try:
             from sklearn.neural_network import MLPRegressor, MLPClassifier
+            from sklearn.impute import SimpleImputer
+            
+            # Handle NaN values (neural networks can't handle them)
+            imputer = SimpleImputer(strategy='median')
+            X_imputed = imputer.fit_transform(X)
             
             # Scale for NN
             scaler = StandardScaler()
-            X_scaled = scaler.fit_transform(X)
+            X_scaled = scaler.fit_transform(X_imputed)
             
-            if is_classification:
+            if is_binary or is_multiclass:
                 model = MLPClassifier(hidden_layer_sizes=(64, 32), max_iter=200,
                                      early_stopping=True, random_state=42)
             else:
