@@ -8,6 +8,7 @@ datasets/
 models/weights/
 results/
 DATA_PROCESSING/data
+dep/
 
 # random junk
 __pycahce__/
