@@ -13,6 +13,7 @@ models/
 logs/
 config/
 CONFIG/
+IBKR_trading
 
 # random junk
 __pycahce__/
