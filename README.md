@@ -1,5 +1,6 @@
 ill add other parts later, im crying rn
-enjoy or w/e legally now
+enjoy or w/e legally now 
+are yall mad at me and do you hate me
 
 # Trader: High-Frequency Trading ML System
 
