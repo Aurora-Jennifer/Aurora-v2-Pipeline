@@ -1,7 +1,7 @@
 
 Email: jtlewis204@gmail.com
 
-# RESEARCH AND TRADING PLATFORM(defaults tuned for 5m data)
+# RESEARCH AND TRADING software
 
 A comprehensive machine learning system for high-frequency trading, featuring temporal leakage prevention, cross-sectional feature engineering, and a model zoo with 17+ production-ready models.
 
