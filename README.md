@@ -10,7 +10,7 @@ Shorter intervals like daily data, or maybe even 1h, would be reasonable on cons
 or if its just sheer compute, as always suggestions, review, and critiques are welcome as long as its constructive. :D
 Email: jtlewis204@gmail.com
 
-# Trader: High-Frequency Trading ML System
+# RESEARCH AND TRADING PLATFORM(defaults tuned for 5m data)
 
 A comprehensive machine learning system for high-frequency trading, featuring temporal leakage prevention, cross-sectional feature engineering, and a model zoo with 17+ production-ready models.
 
