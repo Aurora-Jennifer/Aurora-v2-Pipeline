@@ -1,4 +1,22 @@
 #!/usr/bin/env python3
+
+"""
+Copyright (c) 2025 Jennifer Lewis
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
 """
 Target Construction Module
 
@@ -8,6 +26,7 @@ Implements excess-return labels (classification) and regression targets:
 - Neutral band epsilon computation (train-only)
 - 3-class labels via neutral band (SELL=-1, HOLD=0, BUY=+1)
 """
+
 
 import numpy as np
 import pandas as pd

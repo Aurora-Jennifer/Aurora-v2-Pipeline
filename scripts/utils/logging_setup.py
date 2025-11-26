@@ -1,4 +1,21 @@
 """
+Copyright (c) 2025 Jennifer Lewis
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
+"""
 Logging Setup with Journald Support
 
 Configures logging to send messages to:
@@ -12,6 +29,7 @@ Usage:
     logger = setup_logging(script_name="rank_target_predictability")
     logger.info("This will appear in console and journald")
 """
+
 
 import logging
 import sys

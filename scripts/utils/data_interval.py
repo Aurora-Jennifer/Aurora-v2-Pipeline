@@ -1,4 +1,21 @@
 """
+Copyright (c) 2025 Jennifer Lewis
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
+"""
 Utility for auto-detecting data bar interval from timestamps
 
 CRITICAL: Using wrong interval causes data leakage in PurgedTimeSeriesSplit.
@@ -6,6 +23,7 @@ For example, if data is 1-minute bars but code assumes 5-minute bars:
 - 60m target horizon = 60 bars (correct)
 - But code calculates: 60m / 5m = 12 bars (WRONG - leaks 48 minutes!)
 """
+
 
 import pandas as pd
 import numpy as np
