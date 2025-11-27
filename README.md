@@ -1,9 +1,18 @@
 
 Email: jtlewis204@gmail.com
 
-# RESEARCH AND TRADING software
+# High-Frequency Trading (HFT) Machine Learning System
 
-A comprehensive machine learning system for high-frequency trading, featuring temporal leakage prevention, cross-sectional feature engineering, and a model zoo with 17+ production-ready models.
+A comprehensive high-frequency trading machine learning platform featuring temporal leakage prevention, cross-sectional feature engineering, and a production-ready model zoo with 17+ model families optimized for HFT applications.
+
+## Overview
+
+This system is designed for high-frequency trading research, featuring:
+- **Sub-second inference**: C++ inference engine for ultra-low latency
+- **Temporal leakage prevention**: Purged time series cross-validation for financial ML
+- **Cross-sectional processing**: Multi-symbol feature engineering and target generation
+- **17+ Model Families**: LightGBM, XGBoost, Deep Learning, Probabilistic models
+- **Production-ready validation**: Comprehensive safety guards and leakage detection
 
 ## Quick Start
 
@@ -14,15 +23,15 @@ A comprehensive machine learning system for high-frequency trading, featuring te
    ```
 
 2. **Quick Start Guide**
- - See [INFORMATION/01_QUICK_START.md](INFORMATION/01_QUICK_START.md) for detailed setup instructions
+   - See [INFORMATION/01_QUICK_START.md](INFORMATION/01_QUICK_START.md) for detailed setup instructions
 
-3. **Key Features**
- - **Temporal Leakage Prevention**: Purged time series cross-validation
- - **Cross-Sectional Data Loading**: Multi-symbol feature engineering
- - **17+ Model Families**: LightGBM, XGBoost, Deep Learning, Probabilistic models
- - **Feature Selection**: IC-based and predictive power ranking
- - **Target Discovery**: Automated target predictability ranking
- - **Production-Ready**: Comprehensive validation and safety guards
+3. **Key HFT Features**
+   - **Ultra-Low Latency**: C++ inference engine for sub-millisecond predictions
+   - **Temporal Leakage Prevention**: Purged time series cross-validation
+   - **Cross-Sectional Data Loading**: Multi-symbol feature engineering
+   - **17+ Model Families**: Optimized for HFT signal generation
+   - **Feature Selection**: IC-based and predictive power ranking
+   - **Target Discovery**: Automated target predictability ranking
 
 ## Table of Contents
 
@@ -45,21 +54,23 @@ A comprehensive machine learning system for high-frequency trading, featuring te
 - **[INFORMATION/08_FEATURE_SELECTION.md](INFORMATION/08_FEATURE_SELECTION.md)** - Feature selection guide
 - **[INFORMATION/MULTI_MODEL_FEATURE_SELECTION.md](INFORMATION/MULTI_MODEL_FEATURE_SELECTION.md)** - Multi-model feature selection
 
-### Data Processing
+### Data Processing (DATA_PROCESSING/)
 
 - **[DATA_PROCESSING/README.md](DATA_PROCESSING/README.md)** - Data processing module documentation
-- **[docs/DATASET_SIZING_STRATEGY.md](docs/DATASET_SIZING_STRATEGY.md)** - Dataset sizing recommendations
 
-### Training
+### Training (TRAINING/)
 
 - **[TRAINING/FEATURE_SELECTION_GUIDE.md](TRAINING/FEATURE_SELECTION_GUIDE.md)** - Feature selection workflow
 - **[TRAINING/FIRST_BATCH_SPECS_IMPLEMENTATION.md](TRAINING/FIRST_BATCH_SPECS_IMPLEMENTATION.md)** - First batch implementation guide
 - **[TRAINING/SAFE_TARGET_PATTERN_IMPLEMENTATION.md](TRAINING/SAFE_TARGET_PATTERN_IMPLEMENTATION.md)** - Safe target pattern implementation
 - **[TRAINING/TRAINING_OPTIMIZATION_GUIDE.md](TRAINING/TRAINING_OPTIMIZATION_GUIDE.md)** - Training optimization strategies
 - **[TRAINING/IMPORT_AUDIT_AND_STRUCTURE.md](TRAINING/IMPORT_AUDIT_AND_STRUCTURE.md)** - Import structure and audit
+
+#### Training Strategies (TRAINING/strategies/)
+
 - **[TRAINING/strategies/STRATEGY_UPDATES.md](TRAINING/strategies/STRATEGY_UPDATES.md)** - Training strategy updates
 
-#### Training Experiments
+#### Training Experiments (TRAINING/EXPERIMENTS/)
 
 - **[TRAINING/EXPERIMENTS/README.md](TRAINING/EXPERIMENTS/README.md)** - Experiments overview
 - **[TRAINING/EXPERIMENTS/QUICK_START.md](TRAINING/EXPERIMENTS/QUICK_START.md)** - Quick start for experiments
@@ -67,7 +78,14 @@ A comprehensive machine learning system for high-frequency trading, featuring te
 - **[TRAINING/EXPERIMENTS/OPERATIONS_GUIDE.md](TRAINING/EXPERIMENTS/OPERATIONS_GUIDE.md)** - Operations guide
 - **[TRAINING/EXPERIMENTS/phase1_feature_engineering/README.md](TRAINING/EXPERIMENTS/phase1_feature_engineering/README.md)** - Phase 1 feature engineering
 
-### Feature Selection & Ranking
+### Scripts (scripts/)
+
+- **[scripts/OUTDATED_SCRIPTS.md](scripts/OUTDATED_SCRIPTS.md)** - List of outdated scripts
+- **[scripts/ranking.md](scripts/ranking.md)** - Ranking scripts guide
+
+### Documentation (docs/)
+
+#### Feature Selection & Ranking
 
 - **[docs/COMPREHENSIVE_FEATURE_RANKING.md](docs/COMPREHENSIVE_FEATURE_RANKING.md)** - Comprehensive feature ranking guide
 - **[docs/ADDITIONAL_FEATURE_SELECTION_MODELS.md](docs/ADDITIONAL_FEATURE_SELECTION_MODELS.md)** - Additional feature selection models
@@ -77,14 +95,15 @@ A comprehensive machine learning system for high-frequency trading, featuring te
 - **[docs/FEATURE_IMPORTANCE_FIX.md](docs/FEATURE_IMPORTANCE_FIX.md)** - Feature importance fixes
 - **[docs/IMPORTANCE_R2_WEIGHTING.md](docs/IMPORTANCE_R2_WEIGHTING.md)** - Importance and R² weighting
 - **[docs/IMPORTANCE_SCORE_INTERPRETATION.md](docs/IMPORTANCE_SCORE_INTERPRETATION.md)** - Interpreting importance scores
-- **[scripts/ranking.md](scripts/ranking.md)** - Ranking scripts documentation
-- **[NOTES/QUICK_START_FEATURE_RANKING.md](NOTES/QUICK_START_FEATURE_RANKING.md)** - Quick start for feature ranking
 
-### Validation & Leakage Prevention
+#### Validation & Leakage Prevention
 
 - **[docs/VALIDATION_LEAK_AUDIT.md](docs/VALIDATION_LEAK_AUDIT.md)** - Validation leakage audit report
 - **[docs/TARGET_LEAKAGE_CLARIFICATION.md](docs/TARGET_LEAKAGE_CLARIFICATION.md)** - Target leakage clarification
 - **[docs/FWD_RET_20D_LEAKAGE_ANALYSIS.md](docs/FWD_RET_20D_LEAKAGE_ANALYSIS.md)** - Forward return leakage analysis
+
+#### Leakage Fixes (docs/FIXES/)
+
 - **[docs/FIXES/leakage.md](docs/FIXES/leakage.md)** - Leakage fixes documentation
 - **[docs/FIXES/DEEPER_LEAK_FIX.md](docs/FIXES/DEEPER_LEAK_FIX.md)** - Deeper leak fixes
 - **[docs/FIXES/FINAL_LEAKAGE_SUMMARY.md](docs/FIXES/FINAL_LEAKAGE_SUMMARY.md)** - Final leakage summary
@@ -92,76 +111,110 @@ A comprehensive machine learning system for high-frequency trading, featuring te
 - **[docs/FIXES/QUICK_START_CLEAN_BASELINE.md](docs/FIXES/QUICK_START_CLEAN_BASELINE.md)** - Quick start with clean baseline
 - **[docs/FIXES/ROUND3_TEMPORAL_OVERLAP_FIX.md](docs/FIXES/ROUND3_TEMPORAL_OVERLAP_FIX.md)** - Round 3 temporal overlap fixes
 - **[docs/FIXES/TARGET_IS_LEAKED.md](docs/FIXES/TARGET_IS_LEAKED.md)** - Target leakage identification
-- **[leakage.md](leakage.md)** - Leakage documentation
 
-### Target Discovery & Analysis
+#### Target Discovery & Analysis
 
 - **[docs/TARGET_DISCOVERY_UPDATE.md](docs/TARGET_DISCOVERY_UPDATE.md)** - Target discovery updates
 - **[docs/TARGET_RECOMMENDATIONS.md](docs/TARGET_RECOMMENDATIONS.md)** - Target recommendations
 - **[docs/TARGET_MODEL_PIPELINE_ANALYSIS.md](docs/TARGET_MODEL_PIPELINE_ANALYSIS.md)** - Target and model pipeline analysis
 - **[docs/TARGET_TO_FEATURE_WORKFLOW.md](docs/TARGET_TO_FEATURE_WORKFLOW.md)** - Target to feature workflow
 
-### Model & Performance
+#### Model & Performance
 
 - **[docs/MODEL_ENABLING_RECOMMENDATIONS.md](docs/MODEL_ENABLING_RECOMMENDATIONS.md)** - Model enabling recommendations
 - **[docs/ALPHA_ENHANCEMENT_ROADMAP.md](docs/ALPHA_ENHANCEMENT_ROADMAP.md)** - Alpha enhancement roadmap
 - **[docs/GPU_SETUP_MULTI_MODEL.md](docs/GPU_SETUP_MULTI_MODEL.md)** - GPU setup for multi-model training
 - **[docs/AVOID_LONG_RUNS.md](docs/AVOID_LONG_RUNS.md)** - Avoiding long-running processes
+- **[docs/DATASET_SIZING_STRATEGY.md](docs/DATASET_SIZING_STRATEGY.md)** - Dataset sizing recommendations
 
-### Setup & Configuration
+#### Logging & Monitoring
+
+- **[docs/JOURNALD_LOGGING.md](docs/JOURNALD_LOGGING.md)** - Journald logging setup
+- **[docs/RESTORE_FROM_LOGS.md](docs/RESTORE_FROM_LOGS.md)** - Restoring from logs
+
+#### Workflows & Next Steps
+
+- **[docs/NEXT_STEPS_WORKFLOW.md](docs/NEXT_STEPS_WORKFLOW.md)** - Next steps workflow
+- **[docs/CODE_REVIEW_BUGS.md](docs/CODE_REVIEW_BUGS.md)** - Code review and bugs
+
+### Notes (NOTES/)
+
+- **[NOTES/journallog.md](NOTES/journallog.md)** - Journal logging notes
+- **[NOTES/QUICK_START_FEATURE_RANKING.md](NOTES/QUICK_START_FEATURE_RANKING.md)** - Quick start for feature ranking
+- **[NOTES/WHAT_TO_DO_NEXT.md](NOTES/WHAT_TO_DO_NEXT.md)** - What to do next
+
+### Setup (SETUP/)
 
 - **[SETUP/QUICK_SETUP.sh](SETUP/QUICK_SETUP.sh)** - Quick setup script
 - **[SETUP/verify_data_directory_setup.sh](SETUP/verify_data_directory_setup.sh)** - Data directory verification
 
-### Logging & Monitoring
+### Configuration (CONFIG/)
 
-- **[docs/JOURNALD_LOGGING.md](docs/JOURNALD_LOGGING.md)** - Journald logging setup
-- **[docs/RESTORE_FROM_LOGS.md](docs/RESTORE_FROM_LOGS.md)** - Restoring from logs
-- **[NOTES/journallog.md](NOTES/journallog.md)** - Journal logging notes
+- **[CONFIG/README.md](CONFIG/README.md)** - Configuration documentation
 
-### Workflows & Next Steps
+### Data (data/)
 
-- **[docs/NEXT_STEPS_WORKFLOW.md](docs/NEXT_STEPS_WORKFLOW.md)** - Next steps workflow
-- **[NOTES/WHAT_TO_DO_NEXT.md](NOTES/WHAT_TO_DO_NEXT.md)** - What to do next
-- **[docs/CODE_REVIEW_BUGS.md](docs/CODE_REVIEW_BUGS.md)** - Code review and bugs
+- **[data/README.md](data/README.md)** - Data directory documentation
 
-### Scripts Documentation
+### Deprecated (dep/)
 
-- **[scripts/OUTDATED_SCRIPTS.md](scripts/OUTDATED_SCRIPTS.md)** - List of outdated scripts
-- **[scripts/ranking.md](scripts/ranking.md)** - Ranking scripts guide
+- **[dep/GPU_FEATURE_SELECTION_GUIDE.md](dep/GPU_FEATURE_SELECTION_GUIDE.md)** - GPU feature selection guide (deprecated)
+- **[dep/LEAKAGE_FIX_README.md](dep/LEAKAGE_FIX_README.md)** - Leakage fix documentation (deprecated)
+- **[dep/QUICK_START_GPU.md](dep/QUICK_START_GPU.md)** - Quick start GPU guide (deprecated)
 
-### Updates & Changelog
+### Root Documentation
 
-- **[UPDATE/README.md](UPDATE/README.md)** - Updates overview
-- Various update entries in `UPDATE/` directory
+- **[leakage.md](leakage.md)** - Leakage documentation
+- **[EQUATIONS_LIST.md](EQUATIONS_LIST.md)** - Complete list of all mathematical equations and formulas
+- **[CREDITS.md](CREDITS.md)** - Academic credits and contributors
+- **[CREDIT.md](CREDIT.md)** - Additional credits
 
-### ALPACA Paper Trading Integration
+### ALPACA Paper Trading Integration (ALPACA_trading/)
 
 - **[ALPACA_trading/README.md](ALPACA_trading/README.md)** - ALPACA paper trading system overview
-- **Core Components:**
-  - **[ALPACA_trading/core/README.md](ALPACA_trading/core/README.md)** - Core trading engine components (regime detection, strategy selection, performance tracking, risk management)
-- **Broker Integration:**
-  - **[ALPACA_trading/brokers/README.md](ALPACA_trading/brokers/README.md)** - Broker interface and implementations (Alpaca paper trading, data providers)
-- **Trading Strategies:**
-  - **[ALPACA_trading/strategies/README.md](ALPACA_trading/strategies/README.md)** - Trading strategy implementations (regime-aware ensemble, factory pattern)
-- **ML Integration:**
-  - **[ALPACA_trading/ml/README.md](ALPACA_trading/ml/README.md)** - Machine learning model interface, registry, and runtime
-- **Scripts & Tools:**
-  - **[ALPACA_trading/scripts/README.md](ALPACA_trading/scripts/README.md)** - Executable scripts (paper runner, data fetching)
-  - **[ALPACA_trading/cli/README.md](ALPACA_trading/cli/README.md)** - Command-line interface for paper trading
-  - **[ALPACA_trading/utils/README.md](ALPACA_trading/utils/README.md)** - Utility functions and helpers
-  - **[ALPACA_trading/tools/README.md](ALPACA_trading/tools/README.md)** - Development and debugging tools
-- **Configuration:**
-  - **[ALPACA_trading/config/README.md](ALPACA_trading/config/README.md)** - Configuration files and settings
 
-### IBKR Trading Integration (Untested)
+#### Core Components (ALPACA_trading/core/)
 
-**️ Warning**: The IBKR trading code is **untested** and should not be used for live trading. See [notes_from_creator.md](notes_from_creator.md) for details.
+- **[ALPACA_trading/core/README.md](ALPACA_trading/core/README.md)** - Core trading engine components (regime detection, strategy selection, performance tracking, risk management)
+
+#### Broker Integration (ALPACA_trading/brokers/)
+
+- **[ALPACA_trading/brokers/README.md](ALPACA_trading/brokers/README.md)** - Broker interface and implementations (Alpaca paper trading, data providers)
+
+#### Trading Strategies (ALPACA_trading/strategies/)
+
+- **[ALPACA_trading/strategies/README.md](ALPACA_trading/strategies/README.md)** - Trading strategy implementations (regime-aware ensemble, factory pattern)
+
+#### ML Integration (ALPACA_trading/ml/)
+
+- **[ALPACA_trading/ml/README.md](ALPACA_trading/ml/README.md)** - Machine learning model interface, registry, and runtime
+
+#### Scripts & Tools (ALPACA_trading/scripts/)
+
+- **[ALPACA_trading/scripts/README.md](ALPACA_trading/scripts/README.md)** - Executable scripts (paper runner, data fetching)
+
+#### CLI (ALPACA_trading/cli/)
+
+- **[ALPACA_trading/cli/README.md](ALPACA_trading/cli/README.md)** - Command-line interface for paper trading
+
+#### Utilities (ALPACA_trading/utils/)
+
+- **[ALPACA_trading/utils/README.md](ALPACA_trading/utils/README.md)** - Utility functions and helpers
+
+#### Tools (ALPACA_trading/tools/)
+
+- **[ALPACA_trading/tools/README.md](ALPACA_trading/tools/README.md)** - Development and debugging tools
+
+#### Configuration (ALPACA_trading/config/)
+
+- **[ALPACA_trading/config/README.md](ALPACA_trading/config/README.md)** - Configuration files and settings
+
+### IBKR Trading Integration (IBKR_trading/)
+
+**Warning**: The IBKR trading code is **untested** and should not be used for live trading. See [notes_from_creator.md](notes_from_creator.md) for details.
 
 - **[IBKR_trading/README.md](IBKR_trading/README.md)** - IBKR trading system overview
 - **[IBKR_trading/DAILY_TESTING_README.md](IBKR_trading/DAILY_TESTING_README.md)** - Daily model testing guide
-- **[IBKR_trading/live_trading/README.md](IBKR_trading/live_trading/README.md)** - Live trading system documentation
-- **[IBKR_trading/live_trading/C++_INTEGRATION_SUMMARY.md](IBKR_trading/live_trading/C++_INTEGRATION_SUMMARY.md)** - C++ integration summary
 - **[IBKR_trading/LIVE_TRADING_INTEGRATION.md](IBKR_trading/LIVE_TRADING_INTEGRATION.md)** - Live trading integration guide
 - **[IBKR_trading/YAHOO_FINANCE_INTEGRATION.md](IBKR_trading/YAHOO_FINANCE_INTEGRATION.md)** - Yahoo Finance integration
 - **[IBKR_trading/INTRADAY_TRADING_ANALYSIS.md](IBKR_trading/INTRADAY_TRADING_ANALYSIS.md)** - Intraday trading analysis
@@ -175,8 +228,22 @@ A comprehensive machine learning system for high-frequency trading, featuring te
 - **[IBKR_trading/PRESSURE_TEST_IMPLEMENTATION_ROADMAP.md](IBKR_trading/PRESSURE_TEST_IMPLEMENTATION_ROADMAP.md)** - Pressure test roadmap
 - **[IBKR_trading/PRESSURE_TEST_UPGRADES.md](IBKR_trading/PRESSURE_TEST_UPGRADES.md)** - Pressure test upgrades
 - **[IBKR_trading/MATHEMATICAL_FOUNDATIONS.md](IBKR_trading/MATHEMATICAL_FOUNDATIONS.md)** - Mathematical foundations
+
+#### Live Trading (IBKR_trading/live_trading/)
+
+- **[IBKR_trading/live_trading/README.md](IBKR_trading/live_trading/README.md)** - Live trading system documentation
+- **[IBKR_trading/live_trading/C++_INTEGRATION_SUMMARY.md](IBKR_trading/live_trading/C++_INTEGRATION_SUMMARY.md)** - C++ integration summary
+
+#### C++ Engine (IBKR_trading/cpp_engine/)
+
 - **[IBKR_trading/cpp_engine/README.md](IBKR_trading/cpp_engine/README.md)** - C++ engine documentation
+
+#### Cross-Sectional Documentation (IBKR_trading/CS_DOCS/)
+
 - **[IBKR_trading/CS_DOCS/OPTIMIZATION_ARCHITECTURE.md](IBKR_trading/CS_DOCS/OPTIMIZATION_ARCHITECTURE.md)** - Optimization architecture
+
+#### Deprecated (IBKR_trading/deprecated/)
+
 - **[IBKR_trading/deprecated/README.md](IBKR_trading/deprecated/README.md)** - Deprecated components
 - **[IBKR_trading/deprecated/DEPRECATION_NOTICE.md](IBKR_trading/deprecated/DEPRECATION_NOTICE.md)** - Deprecation notice
 
@@ -208,8 +275,6 @@ trader/
 │   └── FIXES/                # Leakage fixes documentation
 ├── NOTES/                    # Development notes
 ├── SETUP/                    # Setup scripts
-├── UPDATE/                   # Update logs
-│   └── YYYY-MM-DD/          # Date-organized updates
 ├── ALPACA_trading/          # ALPACA paper trading integration
 │   ├── scripts/             # Paper trading scripts
 │   │   └── data/            # Data fetching utilities
@@ -239,33 +304,43 @@ trader/
     └── deprecated/           # Deprecated components
 ```
 
-## Key Components
+## Key HFT Components
 
 ### Data Processing
 - **Feature Engineering**: 200+ features with cross-sectional support
 - **Target Generation**: Barrier targets, excess returns, HFT forward returns
 - **Temporal Leakage Prevention**: Horizon-aware feature filtering
+- **Ultra-Low Latency**: Optimized data pipelines for HFT
 
 ### Model Training
 - **17+ Model Families**: LightGBM, XGBoost, MLP, Transformer, LSTM, CNN1D, VAE, GAN, NGBoost, and more
 - **Unified Training Interface**: Consistent API across all models
 - **Cross-Validation**: Purged time series splits to prevent leakage
+- **HFT Optimization**: Models optimized for sub-second inference
 
 ### Feature Selection
 - **IC-Based Ranking**: Information coefficient ranking
 - **Predictive Power**: Multi-model feature importance
 - **Cross-Sectional Support**: Multi-symbol feature engineering
+- **Real-Time Pruning**: Feature selection for low-latency inference
 
 ### Target Discovery
 - **Predictability Ranking**: Automated target evaluation
 - **Composite Scoring**: R², consistency, and importance weighting
 - **Leakage Detection**: Automatic temporal overlap detection
+- **HFT Targets**: Forward returns optimized for high-frequency trading
+
+### C++ Inference Engine
+- **Sub-Millisecond Latency**: C++ inference for ultra-low latency predictions
+- **Python Bindings**: Seamless integration with Python training pipeline
+- **Optimized Models**: ONNX and native C++ model support
+- **Benchmarking**: Performance benchmarks and profiling tools
 
 ## License
 
-This project is licensed under the **Academic Use Only License** - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **GNU Affero General Public License v3.0** - see the [LICENSE](LICENSE) file for details.
 
-**IMPORTANT**: This software is for **ACADEMIC, EDUCATIONAL, AND RESEARCH USE ONLY**. Commercial use, including trading securities, generating revenue, or any for-profit use, is **STRICTLY PROHIBITED**.
+**IMPORTANT**: This software is for **ACADEMIC, EDUCATIONAL, AND RESEARCH USE ONLY**. Commercial use, including trading securities, generating revenue, or any for-profit use, may be subject to license restrictions.
 
 ## Mathematical Foundations & Credits
 
@@ -291,7 +366,7 @@ This project is licensed under the **Academic Use Only License** - see the [LICE
   - Risk Metrics: William Sharpe, Burke, Magdon-Ismail & Atiya
   - And many more...
 
-## ️ Development & Acknowledgments
+## Development & Acknowledgments
 
 **Independent Development**: This project was developed entirely on personal hardware without assistance, funding, or resources from the University of Alabama at Birmingham (UAB) or any other institution. All development, research, and computational work was conducted independently.
 
@@ -299,12 +374,13 @@ This project is licensed under the **Academic Use Only License** - see the [LICE
 
 This is a research and development project. For questions or feedback, see [notes_from_creator.md](notes_from_creator.md).
 
-## ️ Important Notes
+## Important Notes
 
 - **ALPACA Paper Trading**: The ALPACA paper trading system is designed for paper trading only. Use Alpaca's paper trading API for safe testing.
 - **IBKR Execution Code**: The IBKR execution code is untested. See [notes_from_creator.md](notes_from_creator.md) for details.
 - **Temporal Leakage**: Always use `PurgedTimeSeriesSplit` for validation. Standard K-Fold is **fatal** for financial ML.
 - **Data Requirements**: Ensure proper data directory setup before running training scripts.
+- **HFT Latency**: The C++ inference engine is optimized for sub-millisecond latency. See [IBKR_trading/cpp_engine/README.md](IBKR_trading/cpp_engine/README.md) for performance details.
 
 ## Repository Structure & Gitignored Directories
 
@@ -361,6 +437,7 @@ The repository includes:
 - **Configuration examples** - Documented in INFORMATION/ directory
 - **Setup scripts** - Environment setup and verification
 - **IBKR_trading documentation** - Trading system documentation (code is untested)
+- **C++ inference engine** - Source code and build system
 
 ### Getting Started Without the Dataset
 
@@ -368,6 +445,7 @@ The repository includes:
 2. **Set up data directory** - Create `data/data_labeled/interval=5m/` structure
 3. **Process your data** - Use the `DATA_PROCESSING/` pipeline to generate features
 4. **Train models** - Use the `TRAINING/` framework with your processed data
+5. **Deploy C++ engine** - Build and deploy the C++ inference engine for low-latency predictions
 
 See `INFORMATION/04_DATA_PIPELINE.md` for detailed data requirements and processing steps.
 
@@ -377,8 +455,9 @@ See `INFORMATION/04_DATA_PIPELINE.md` for detailed data requirements and process
 - **Feature Ranking**: [scripts/ranking.md](scripts/ranking.md)
 - **Leakage Prevention**: [docs/VALIDATION_LEAK_AUDIT.md](docs/VALIDATION_LEAK_AUDIT.md)
 - **Training Guide**: [INFORMATION/05_MODEL_TRAINING.md](INFORMATION/05_MODEL_TRAINING.md)
+- **C++ Engine**: [IBKR_trading/cpp_engine/README.md](IBKR_trading/cpp_engine/README.md)
+- **HFT Performance**: [IBKR_trading/PERFORMANCE_OPTIMIZATION_PLAN.md](IBKR_trading/PERFORMANCE_OPTIMIZATION_PLAN.md)
 
 ---
 
 *Last Updated: Generated automatically from repository structure*
-
