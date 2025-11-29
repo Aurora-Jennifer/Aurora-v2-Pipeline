@@ -1,5 +1,4 @@
-
-Email: jtlewis204@gmail.com
+email: jtlewis@uab.edu
 
 # High-Frequency Trading (HFT) Machine Learning System
 
