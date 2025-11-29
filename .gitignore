@@ -17,7 +17,8 @@ CONFIG/
 catboost_info
 build_whitepaper.sh
 Aurora_v2_Whitepaper.pdf
-
+REFLECTION.md 
+MASTER_TEMPLATE.md
 # random junk
 __pycahce__/
 *.pay[cod]
