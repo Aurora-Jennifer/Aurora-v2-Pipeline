@@ -2,43 +2,51 @@
 
 **Independent Contractor | Machine Learning Engineering | Quantitative Research | High-Performance Systems**
 
+I build ML research pipelines, quantitative modeling systems, and HPC workflows for institutions that need high-performance engineering without hiring a full-time team.
+
+🔗 **Aurora-v2** (50k+ LOC Quant/ML System): This repository demonstrates production-ready ML pipelines, quantitative research frameworks, and high-performance trading systems.
+
 ---
 
 ## About
 
-I am an independent contractor specializing in machine learning pipelines, quantitative research systems, and high-performance computing infrastructure for financial and research organizations.
+I am an independent contractor specializing in **ML Systems + Quant Infrastructure + HPC Pipelines** for financial and research organizations. My work has been used in research environments, academic contexts, and internal experimentation by multiple developers and analysts.
 
-This repository contains open-source research platforms and production-ready trading systems that demonstrate my technical capabilities. **For organizations requiring custom development, enterprise integrations, or specialized consulting services, I provide contract-based solutions tailored to your needs.**
+**For organizations requiring custom development, enterprise integrations, or specialized consulting services, I provide contract-based solutions tailored to your needs.**
 
 ---
 
 ## Services for Organizations
 
+**Primary Specialization:** ML Systems + Quant Infrastructure + HPC Pipelines
+
+All other services extend from these core competencies.
+
 ### Core Expertise
 
-- **Machine Learning Pipeline Development**
-  - End-to-end ML infrastructure design and implementation
-  - Feature engineering and leakage-safe validation frameworks
-  - Multi-model ensemble systems and model zoo management
-  - GPU-accelerated training and inference workflows
+**Machine Learning Pipeline Development**
+- End-to-end ML infrastructure design and implementation
+- Feature engineering and leakage-safe validation frameworks
+- Multi-model ensemble systems and model zoo management
+- GPU-accelerated training and inference workflows
 
-- **Quantitative Research Systems**
-  - Financial modeling and backtesting frameworks
-  - Walk-forward validation and research tooling
-  - Data processing pipelines with strict quality controls
-  - Performance optimization for research workloads
+**Quantitative Research Systems**
+- Financial modeling and backtesting frameworks
+- Walk-forward validation and research tooling
+- Data processing pipelines with strict quality controls
+- Performance optimization for research workloads
 
-- **High-Performance Computing**
-  - C++ inference engine development and optimization
-  - HPC workflow design for GPU clusters and cloud infrastructure
-  - Latency-critical systems for HFT and real-time applications
-  - Infrastructure-specific optimizations
+**High-Performance Computing**
+- C++ inference engine development and optimization
+- HPC workflow design for GPU clusters and cloud infrastructure
+- Latency-critical systems for HFT and real-time applications
+- Infrastructure-specific optimizations
 
-- **Systems Architecture & Engineering**
-  - Hybrid C++/Python system design
-  - Enterprise-grade deployment and integration
-  - Compliance-focused configurations and governance
-  - Code review, audit, and optimization services
+**Systems Architecture & Engineering**
+- Hybrid C++/Python system design
+- Enterprise-grade deployment and integration
+- Compliance-focused configurations and governance
+- Code review, audit, and optimization services
 
 ### Engagement Model
 
@@ -46,6 +54,17 @@ This repository contains open-source research platforms and production-ready tra
 - **Defined deliverables** — Every project includes a formal Statement of Work (SOW)
 - **Flexible engagement** — Hourly, project-based, or retainer arrangements
 - **Organizational focus** — Specialized support for institutions, research organizations, and enterprises
+
+---
+
+## Why Work With Me
+
+- **Deep system-building background** — Production experience with large-scale ML and quant systems
+- **Fast delivery speed** — Efficient workflows and clear communication reduce project timelines
+- **Clear documentation** — Every deliverable includes comprehensive documentation and reproducible workflows
+- **Strong communication** — Defined scope, milestones, and regular updates throughout engagement
+- **Low onboarding cost** — Self-contained expertise reduces integration overhead
+- **Specialized domain knowledge** — Focused expertise in ML pipelines, quant research, and HPC optimization
 
 ---
 
@@ -66,7 +85,7 @@ This repository contains open-source research platforms and production-ready tra
 
 ### For Developers & Researchers
 
-This repository contains open-source research platforms and trading systems. See individual component READMEs for technical documentation:
+See individual component READMEs for technical documentation:
 
 - [`ALPACA_trading/README.md`](ALPACA_trading/README.md) — Paper trading service
 - [`IBKR_trading/README.md`](IBKR_trading/README.md) — Interactive Brokers integration
