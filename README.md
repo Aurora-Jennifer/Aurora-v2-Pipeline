@@ -1,4 +1,4 @@
-# Jennifer Lewis — ML & Quantitative Systems Consultant
+## Jennifer Lewis — ML & Quantitative Systems Consultant
 
 **Independent Contractor | Machine Learning Engineering | Quantitative Research | High-Performance Systems**
 
@@ -11,11 +11,7 @@ I build ML research pipelines, quantitative modeling systems, and HPC workflows 
 ## 📑 Table of Contents
 
 ### Consulting & Services
-- [Consulting Overview](CONSULTING.md) — Services and engagement process
-- [Consulting Policy](CONSULTING_POLICY.md) — Professional terms, rates, and policies
-- [Consulting Pricing](CONSULTING_PRICING.md) — Detailed pricing tiers and rate structure
-- [Master Consulting Agreement](MASTER_CONSULTING_AGREEMENT.md) — Standard agreement framework
-- [Statement of Work Template](STATEMENT_OF_WORK.md) — SOW template
+- Consulting overview, policies, pricing, and agreement templates are **available upon request via email**.
 
 ### Quick Start & Core Documentation
 - [Quick Start Guide](INFORMATION/01_QUICK_START.md) — Get started with the system
@@ -104,7 +100,7 @@ All other services extend from these core competencies.
 - **Remote contract work** — All engagements conducted remotely
 - **Defined deliverables** — Every project includes a formal Statement of Work (SOW)
 - **Flexible engagement** — Hourly, project-based, or retainer arrangements
-- **Rates** — Standard consulting starts at **$300/hr**, with higher rates for latency-critical, 24/7, or high-urgency work (see [`CONSULTING_POLICY.md`](CONSULTING_POLICY.md) and [`CONSULTING_PRICING.md`](CONSULTING_PRICING.md) for details)
+- **Rates** — **Current consulting rates and detailed pricing structures are available upon request via email**
 - **Organizational focus** — Specialized support for institutions, research organizations, and enterprises
 
 ---
@@ -124,16 +120,9 @@ All other services extend from these core competencies.
 
 ### For Organizations Seeking Consulting Services
 
-1. **Review consulting materials:**
-   - [`CONSULTING.md`](CONSULTING.md) — Overview of services and engagement process
-   - [`CONSULTING_POLICY.md`](CONSULTING_POLICY.md) — Professional terms, rates, and policies
-   - [`CONSULTING_PRICING.md`](CONSULTING_PRICING.md) — Detailed pricing tiers and rate structure
-   - [`MASTER_CONSULTING_AGREEMENT.md`](MASTER_CONSULTING_AGREEMENT.md) — Standard agreement framework
-   - [`STATEMENT_OF_WORK.md`](STATEMENT_OF_WORK.md) — SOW template
-
+1. **Request consulting materials:** Email me to receive the consulting overview, policies, pricing information, standard agreement framework, and SOW templates.
 2. **Contact:** jenn.lewis5789@gmail.com  
    **Subject:** Consulting Inquiry — [Your Organization Name]
-
 3. **Initial discussion:** We'll discuss your requirements, scope, and timeline to prepare a formal SOW.
 
 ### For Developers & Researchers
@@ -158,7 +147,7 @@ trader/
 ├── CONFIG/                  # Configuration management
 ├── docs/                    # Technical documentation
 ├── scripts/                 # Utility scripts and tools
-└── [consulting docs]        # CONSULTING.md, CONSULTING_POLICY.md, etc.
+└── [consulting docs]        # Consulting materials available upon request
 ```
 
 ---
@@ -177,11 +166,11 @@ trader/
 **Email:** jenn.lewis5789@gmail.com  
 **Subject:** Consulting Inquiry — [Your Organization Name]
 
-For custom development, enterprise integrations, or specialized consulting services, please reach out to discuss your requirements.
+For custom development, enterprise integrations, or specialized consulting services, please reach out to discuss your requirements. Detailed contracting documents and current rates are available upon request.
 
 ---
 
 ## License
 
-Open-source components are available under their respective licenses. Custom work and deliverables are governed by individual Statements of Work and the Master Consulting Agreement.
+Open-source components are available under their respective licenses. Custom work and deliverables are governed by individual Statements of Work and the Master Consulting Agreement (provided as part of the contracting materials on request).
 
