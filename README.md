@@ -57,7 +57,7 @@ Commercial licensing provides:
 - the ability to use Aurora within closed systems
 
 For licensing or enterprise use, contact:
-jenn.lewis5789@gmail.com
+jtlewis204@gmail.com
 Subject: Aurora Licensing Inquiry
 
 ---------------------------------------------------------------------
