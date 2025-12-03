@@ -65,6 +65,7 @@ Subject: Aurora Licensing Inquiry
 ## Consulting and Professional Services
 
 I work with organizations that require advanced ML, quantitative, or HPC infrastructure. Engagements are scoped through a Statement of Work (SOW) with clearly defined deliverables and timelines.
+For more information: https://github.com/Aurora-Jennifer/Contracting_Docs
 
 ### Core Areas of Expertise
 
