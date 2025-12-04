@@ -79,7 +79,7 @@ Starter (<20 engineers): $10,000 per year
 
 Professional (20–100 engineers): $25,000 per year
 
-Enterprise (>100 engineers): $100,000 per year
+Enterprise (>100 engineers): $150,000 per year
 
 Payment is due within 30 days of invoice unless otherwise agreed in writing.
 Failure to pay may result in suspension or termination of license rights.
