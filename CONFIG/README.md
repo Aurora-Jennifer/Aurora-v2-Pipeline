@@ -15,7 +15,7 @@ All configuration files for the trader project.
 - `feature_groups.yaml` - Feature family definitions for concept-based aggregation
 
 ### Legacy
-- `base.yaml` - Base engine configuration (Aurora ruleset)
+- `base.yaml` - Base engine configuration (Fox ML Infrastructure ruleset)
 
 ## Usage
 

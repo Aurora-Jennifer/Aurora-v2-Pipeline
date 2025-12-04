@@ -22,7 +22,7 @@ def main():
     print_notice()
     
     # Optional: Check for environment variable to suppress
-    if 'AURORA_SUPPRESS_LICENSE_WARNING' in os.environ:
+    if 'FOX_SUPPRESS_LICENSE_WARNING' in os.environ:
         return
 
 if __name__ == "__main__":

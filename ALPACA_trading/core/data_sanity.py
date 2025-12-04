@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 Data Sanity Layer
 Comprehensive data validation and repair for all market data sources.
-© 2025 Jennifer — Canary ID: aurora.lab:57c2a0f3
+© 2025 Fox ML Infrastructure — Canary ID: fox.lab:57c2a0f3
 """
 
 

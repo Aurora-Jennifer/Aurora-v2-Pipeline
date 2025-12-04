@@ -193,7 +193,7 @@ def main(argv: list[str] | None = None):
     if args.ntfy:
         fallbacks = int(meta.get("model_fallbacks", 0))
         abnormal = fallbacks > 0 or ("model_tripwire" in meta or "model_tripwire_turnover" in meta)
-        title = "Aurora: paper OK" if not abnormal else "Aurora: paper WARN"
+        title = "Fox: paper OK" if not abnormal else "Fox: paper WARN"
         body = {
             "run_id": run_id,
             "fallbacks": fallbacks,
