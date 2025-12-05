@@ -1,6 +1,6 @@
-# ALPACA Paper Trading Service Package
+# ALPACA Paper Trading Service
 
-This folder contains all files required for the Alpaca paper trading service.
+Alpaca paper trading service package.
 
 ## Structure
 
@@ -53,7 +53,7 @@ ALPACA_trading/
     └── [other paper configs]
 ```
 
-## Main Entry Points
+## Entry Points
 
 - `scripts/paper_runner.py` - Main paper trading runner
 - `core/engine/paper.py` - Core trading engine
@@ -61,7 +61,7 @@ ALPACA_trading/
 
 ## Configuration
 
-All configuration files are in the `config/` directory:
+Configuration files in `config/`:
 - `base.yaml` - Base configuration
 - `models.yaml` - Model registry
 - `paper_trading_config.json` - Paper trading settings
@@ -84,12 +84,12 @@ All configuration files are in the `config/` directory:
 
 ## Usage
 
-From the repo root:
+From repo root:
 ```bash
 python ALPACA_trading/scripts/paper_runner.py --symbols SPY,TSLA --profile risk_balanced
 ```
 
-Or using the CLI:
+Or using CLI:
 ```bash
 python ALPACA_trading/cli/paper.py [options]
 ```
@@ -98,5 +98,3 @@ python ALPACA_trading/cli/paper.py [options]
 
 - Some files are optional (marked in structure above)
 - Import paths may need adjustment if running from this folder directly
-- Original files remain in their original locations; these are copies
-

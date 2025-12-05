@@ -1,8 +1,8 @@
 # Deprecated Components - IBKR Trading System
 
-This folder contains deprecated components that have been replaced by the new live trading system.
+Deprecated components replaced by the new live trading system.
 
-## **Folder Structure**
+## Folder Structure
 
 ```
 deprecated/
@@ -21,9 +21,9 @@ deprecated/
     └── ibkr_live_exec_old.py
 ```
 
-## **What Was Replaced**
+## What Was Replaced
 
-### **Old Live Trading Components**
+### Old Live Trading Components
 These files have been replaced by enhanced versions in the new `live_trading/` directory:
 
 - `barrier_gate_old.py` → `live_trading/barrier_gate.py`
@@ -33,16 +33,16 @@ These files have been replaced by enhanced versions in the new `live_trading/` d
 - `position_sizer_old.py` → `live_trading/position_sizer.py`
 - `main_loop_old.py` → `live_trading/main_loop.py`
 
-### **Old System Components**
+### Old System Components
 These files have been integrated into the new system:
 
 - `ibkr_trading_system_old.py` → Integrated into `live_trading/main_loop.py`
 - `enhanced_decision_pipeline_old.py` → Integrated into `live_trading/main_loop.py`
 - `ibkr_live_exec_old.py` → Integrated into `live_trading/main_loop.py`
 
-## 🆕 **New System Benefits**
+## New System Benefits
 
-### **Enhanced Features**
+### Enhanced Features
 - Complete model zoo integration (20+ models)
 - Sequential mode support for CNN1D, LSTM, Transformer
 - Per-horizon model blending with OOF-trained weights
@@ -52,24 +52,24 @@ These files have been integrated into the new system:
 - Live rolling buffers for sequential models
 - Comprehensive error handling and graceful degradation
 
-### **Improved Architecture**
-- **Unified Prediction Engine**: Handles all model types
-- **Sophisticated Blending**: Per-horizon model blending
-- **Advanced Gating**: Barrier probability timing gates
-- **Cost-Aware Arbitration**: Realistic trading costs
-- **Risk Management**: Position sizing with caps and bands
-- **Live Integration**: Real-time inference with buffers
+### Improved Architecture
+- Unified Prediction Engine: Handles all model types
+- Sophisticated Blending: Per-horizon model blending
+- Advanced Gating: Barrier probability timing gates
+- Cost-Aware Arbitration: Realistic trading costs
+- Risk Management: Position sizing with caps and bands
+- Live Integration: Real-time inference with buffers
 
-## **Documentation**
+## Documentation
 
-- **Complete Documentation**: `LIVE_TRADING_INTEGRATION.md`
-- **Configuration**: `config/live_trading_config.yaml`
-- **Testing**: `tests/test_live_integration.py`
-- **Deprecation Details**: `DEPRECATION_NOTICE.md`
+- Complete Documentation: `LIVE_TRADING_INTEGRATION.md`
+- Configuration: `config/live_trading_config.yaml`
+- Testing: `tests/test_live_integration.py`
+- Deprecation Details: `DEPRECATION_NOTICE.md`
 
-## **Migration**
+## Migration
 
-### **For Developers**
+### For Developers
 The new system maintains backward compatibility while providing enhanced functionality:
 
 ```python
@@ -81,12 +81,12 @@ from live_trading.cost_arbitrator import CostArbitrator
 from live_trading.main_loop import LiveTradingSystem, LiveTradingManager
 ```
 
-### **Configuration**
+### Configuration
 - Old config files remain compatible
 - New comprehensive config: `config/live_trading_config.yaml`
 - Enhanced configuration options for all components
 
-## **Testing**
+## Testing
 
 Run the comprehensive test suite to verify the new system:
 
@@ -95,19 +95,17 @@ cd IBKR_trading
 python tests/test_live_integration.py
 ```
 
-## ️ **Important Notes**
+## Important Notes
 
-1. **Backward Compatibility**: Old APIs remain functional
-2. **Gradual Migration**: Can migrate components one by one
-3. **Enhanced Functionality**: New system provides significant improvements
-4. **Complete Testing**: Comprehensive test coverage
-5. **Production Ready**: Full error handling and monitoring
+1. Backward Compatibility: Old APIs remain functional
+2. Gradual Migration: Can migrate components one by one
+3. Enhanced Functionality: New system provides significant improvements
+4. Complete Testing: Comprehensive test coverage
+5. Production Ready: Full error handling and monitoring
 
-## **Next Steps**
+## Next Steps
 
-1. **Review New System**: Check `LIVE_TRADING_INTEGRATION.md`
-2. **Test Integration**: Run the test suite
-3. **Configure**: Use the new configuration file
-4. **Deploy**: Use the new `LiveTradingSystem` and `LiveTradingManager`
-
-The new system provides a complete, production-ready framework for using your entire trained model zoo in live trading!
+1. Review New System: Check `LIVE_TRADING_INTEGRATION.md`
+2. Test Integration: Run the test suite
+3. Configure: Use the new configuration file
+4. Deploy: Use the new `LiveTradingSystem` and `LiveTradingManager`

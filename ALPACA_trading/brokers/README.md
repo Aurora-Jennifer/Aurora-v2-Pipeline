@@ -1,13 +1,13 @@
 # Broker Integration
 
-This directory contains broker interface implementations for connecting to trading platforms.
+Broker interface implementations for connecting to trading platforms.
 
 ## Components
 
 ### `interface.py` - Broker Protocol
-Defines the abstract interface that all broker implementations must follow.
+Abstract interface that all broker implementations must follow.
 
-**Protocol Methods:**
+Protocol Methods:
 - `submit_order()` - Submit buy/sell orders
 - `cancel_order()` - Cancel existing orders
 - `get_positions()` - Get current positions
@@ -15,21 +15,21 @@ Defines the abstract interface that all broker implementations must follow.
 - `get_account_info()` - Get account information
 - `get_market_data()` - Get real-time market data
 
-**Purpose:** Provides a consistent interface regardless of the underlying broker API.
+Provides a consistent interface regardless of the underlying broker API.
 
 ### `paper.py` - Alpaca Paper Trading Broker
 Implementation of the broker interface for Alpaca Markets paper trading API.
 
-**Features:**
+Features:
 - Paper trading (no real money)
 - Order submission and cancellation
 - Position and account management
 - Market data retrieval
 - Real-time quote access
 
-**API:** Uses `alpaca-trade-api` or `alpaca-py` Python libraries.
+API: Uses `alpaca-trade-api` or `alpaca-py` Python libraries.
 
-**Configuration:**
+Configuration:
 - `ALPACA_API_KEY` - API key (from Alpaca dashboard)
 - `ALPACA_SECRET_KEY` - Secret key
 - `ALPACA_BASE_URL` - API base URL (default: paper trading endpoint)
@@ -37,12 +37,12 @@ Implementation of the broker interface for Alpaca Markets paper trading API.
 ### `data_provider.py` - Data Provider Interface
 Provides market data for backtesting and analysis.
 
-**Features:**
+Features:
 - Historical data retrieval
 - Real-time data streaming
 - Multiple data sources support
 
-**Current Implementation:** `IBKRDataProvider` - Provides data from IBKR (if configured)
+Current Implementation: `IBKRDataProvider` - Provides data from IBKR (if configured)
 
 ### `ibkr_broker.py` - IBKR Broker Integration
 Optional integration with Interactive Brokers (IBKR) for:
@@ -50,7 +50,7 @@ Optional integration with Interactive Brokers (IBKR) for:
 - Data access
 - Order execution
 
-**Note:** This is an optional component. The primary broker for ALPACA trading is the Alpaca paper broker.
+Note: Optional component. Primary broker for ALPACA trading is the Alpaca paper broker.
 
 ## Usage
 
@@ -79,9 +79,9 @@ positions = broker.get_positions()
 
 ## Broker Selection
 
-The trading engine automatically selects the appropriate broker based on configuration:
-- **Paper Trading**: Uses `PaperBroker` (Alpaca)
-- **Live Trading**: Would use `IBKRBroker` (if configured)
+Trading engine automatically selects broker based on configuration:
+- Paper Trading: Uses `PaperBroker` (Alpaca)
+- Live Trading: Uses `IBKRBroker` (if configured)
 
 ## Error Handling
 
@@ -97,4 +97,3 @@ Brokers can be tested in isolation:
 - Paper broker uses Alpaca's paper trading environment
 - No real money at risk
 - Full API functionality available
-

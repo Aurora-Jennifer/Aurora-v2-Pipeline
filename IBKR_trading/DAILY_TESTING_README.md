@@ -1,13 +1,13 @@
 # IBKR Daily Model Testing
 
-This setup allows you to test the IBKR trading stack with your current daily models before switching to intraday models.
+Test the IBKR trading stack with current daily models before switching to intraday models.
 
 ## Purpose
 
-- **Test the entire IBKR stack** with your existing daily models
-- **Validate all components** (rebalancer, rotation engine, execution, safety guards)
-- **Easy switching** to intraday models when they're trained
-- **No changes needed** to your existing daily models
+- Test the entire IBKR stack with existing daily models
+- Validate all components (rebalancer, rotation engine, execution, safety guards)
+- Easy switching to intraday models when they're trained
+- No changes needed to existing daily models
 
 ## Files Created
 
@@ -43,7 +43,7 @@ python IBKR_trading/switch_to_intraday.py switch
 python IBKR_trading/switch_to_intraday.py status
 ```
 
-## ️ Configuration
+## Configuration
 
 ### Daily Model Settings
 
@@ -78,17 +78,17 @@ rebalancing:
 
 ### Current Mode: Daily
 
-- **Horizons**: [1] (daily)
-- **Rebalancing**: 2x daily (09:35, 15:45)
-- **Position caps**: 5% max per name
-- **Features**: returns, volatility, volume, momentum, mean_reversion
+- Horizons: [1] (daily)
+- Rebalancing: 2x daily (09:35, 15:45)
+- Position caps: 5% max per name
+- Features: returns, volatility, volume, momentum, mean_reversion
 
 ### After Switch: Intraday
 
-- **Horizons**: [5, 10, 15, 30, 60] (5m, 10m, 15m, 30m, 60m)
-- **Rebalancing**: 5x intraday (09:35, 10:30, 12:00, 14:30, 15:50)
-- **Position caps**: 2% max per name
-- **Features**: + microstructure, barrier_targets
+- Horizons: [5, 10, 15, 30, 60] (5m, 10m, 15m, 30m, 60m)
+- Rebalancing: 5x intraday (09:35, 10:30, 12:00, 14:30, 15:50)
+- Position caps: 2% max per name
+- Features: + microstructure, barrier_targets
 
 ## Testing Process
 
@@ -107,19 +107,19 @@ target_weights = integration.run_rebalancing_cycle(symbols, horizons=[1])
 
 ### 2. Validation
 
-- **Model loading** - Your daily models load correctly
-- **Signal generation** - Signals are generated properly
-- **Rebalancing** - Portfolio rebalancing works
-- **Rotation** - Position rotation logic works
-- **Execution** - Order execution simulation works
-- **Safety guards** - Risk management works
+- Model loading - Daily models load correctly
+- Signal generation - Signals are generated properly
+- Rebalancing - Portfolio rebalancing works
+- Rotation - Position rotation logic works
+- Execution - Order execution simulation works
+- Safety guards - Risk management works
 
 ### 3. Performance Metrics
 
-- **Total return** - Portfolio performance
-- **Turnover** - Trading activity
-- **Risk metrics** - Volatility, drawdown
-- **Cost analysis** - Trading costs
+- Total return - Portfolio performance
+- Turnover - Trading activity
+- Risk metrics - Volatility, drawdown
+- Cost analysis - Trading costs
 
 ## Customization
 
@@ -163,26 +163,26 @@ def generate_daily_signals(self, models: dict, data: pd.DataFrame, symbols: list
 
 ### Daily Model Test
 
-- **Portfolio return**: Varies based on your models
-- **Turnover**: Should be reasonable (not too high)
-- **Risk metrics**: Within acceptable bounds
-- **Execution**: Orders should be placed correctly
+- Portfolio return: Varies based on your models
+- Turnover: Should be reasonable (not too high)
+- Risk metrics: Within acceptable bounds
+- Execution: Orders should be placed correctly
 
 ### Switching to Intraday
 
-- **More frequent rebalancing**: 5x vs 2x daily
-- **Smaller position sizes**: 2% vs 5% max per name
-- **More features**: microstructure, barrier_targets
-- **Higher frequency**: 5m vs 1d data
+- More frequent rebalancing: 5x vs 2x daily
+- Smaller position sizes: 2% vs 5% max per name
+- More features: microstructure, barrier_targets
+- Higher frequency: 5m vs 1d data
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **Model loading errors**: Update `load_daily_models()` with your actual model loading
-2. **Data loading errors**: Update `get_daily_data()` with your actual data loading
-3. **Signal generation errors**: Update `generate_daily_signals()` with your actual signal generation
-4. **Configuration errors**: Check `config/ibkr_daily_test.yaml` for correct paths
+1. Model loading errors: Update `load_daily_models()` with your actual model loading
+2. Data loading errors: Update `get_daily_data()` with your actual data loading
+3. Signal generation errors: Update `generate_daily_signals()` with your actual signal generation
+4. Configuration errors: Check `config/ibkr_daily_test.yaml` for correct paths
 
 ### Debug Mode
 
@@ -194,20 +194,16 @@ logging.getLogger().setLevel(logging.DEBUG)
 
 ## Next Steps
 
-1. **Run daily test** - Validate with your current models
-2. **Fix any issues** - Update model/data loading as needed
-3. **Train intraday models** - When ready, train your intraday models
-4. **Switch to intraday** - Use `switch_to_intraday.py`
-5. **Run intraday test** - Validate with intraday models
+1. Run daily test - Validate with your current models
+2. Fix any issues - Update model/data loading as needed
+3. Train intraday models - When ready, train your intraday models
+4. Switch to intraday - Use `switch_to_intraday.py`
+5. Run intraday test - Validate with intraday models
 
 ## Benefits
 
-- **Test everything** before intraday models are ready
-- **Validate the stack** with known working models
-- **Easy switching** when intraday models are trained
-- **No changes** to your existing daily models
-- **Full IBKR integration** ready to go
-
----
-
-**Ready to test? Run `./IBKR_trading/run_daily_test.sh`!**
+- Test everything before intraday models are ready
+- Validate the stack with known working models
+- Easy switching when intraday models are trained
+- No changes to your existing daily models
+- Full IBKR integration ready to go

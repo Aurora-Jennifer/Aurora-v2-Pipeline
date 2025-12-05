@@ -1,35 +1,35 @@
 # Machine Learning Integration
 
-This directory contains the ML model interface, registry, and runtime for integrating trained models into the trading system.
+ML model interface, registry, and runtime for integrating trained models into the trading system.
 
 ## Components
 
 ### `model_interface.py` - Model Interface
 Abstract interface that all ML models must implement for use in trading.
 
-**Interface Methods:**
+Interface Methods:
 - `predict()` - Generate predictions
 - `predict_proba()` - Generate probability predictions (for classification)
 - `get_feature_importance()` - Get feature importance scores
 - `get_model_info()` - Get model metadata
 
-**Purpose:** Provides a consistent interface regardless of model type (LightGBM, XGBoost, PyTorch, ONNX, etc.)
+Provides a consistent interface regardless of model type (LightGBM, XGBoost, PyTorch, ONNX, etc.).
 
 ### `registry.py` - Model Registry
 Manages model loading, caching, and versioning.
 
-**Features:**
-- **Model Loading**: Loads models from various formats (pickle, PyTorch, ONNX)
-- **SHA256 Verification**: Verifies model file integrity
-- **Caching**: Caches loaded models for performance
-- **Versioning**: Tracks model versions and metadata
+Features:
+- Model Loading: Loads models from various formats (pickle, PyTorch, ONNX)
+- SHA256 Verification: Verifies model file integrity
+- Caching: Caches loaded models for performance
+- Versioning: Tracks model versions and metadata
 
-**Supported Formats:**
+Supported Formats:
 - `pickle`: Python pickle files (LightGBM, XGBoost, sklearn)
 - `torch`: PyTorch model files
 - `onnx`: ONNX Runtime models
 
-**Usage:**
+Usage:
 ```python
 from ml.registry import load_model
 from ml.model_interface import ModelSpec
@@ -46,22 +46,22 @@ predictions = model.predict(features)
 ### `runtime.py` - Model Runtime
 Runtime environment for executing models in production.
 
-**Features:**
+Features:
 - Model inference execution
 - Batch prediction support
 - Performance monitoring
 - Error handling and fallbacks
 
-**Integration:** Connects models from the registry to the trading engine.
+Integration: Connects models from the registry to the trading engine.
 
 ## Model Integration Flow
 
-1. **Model Training** → Models trained in `TRAINING/` directory
-2. **Model Registration** → Models registered in `config/models.yaml`
-3. **Model Loading** → Registry loads models on startup
-4. **Feature Preparation** → Trading engine prepares features
-5. **Model Inference** → Runtime executes predictions
-6. **Signal Generation** → Predictions converted to trading signals
+1. Model Training → Models trained in `TRAINING/` directory
+2. Model Registration → Models registered in `config/models.yaml`
+3. Model Loading → Registry loads models on startup
+4. Feature Preparation → Trading engine prepares features
+5. Model Inference → Runtime executes predictions
+6. Signal Generation → Predictions converted to trading signals
 
 ## Configuration
 
@@ -86,10 +86,10 @@ Models must:
 
 ## Supported Model Types
 
-- **Gradient Boosting**: LightGBM, XGBoost, CatBoost
-- **Neural Networks**: PyTorch models, ONNX models
-- **Traditional ML**: scikit-learn models
-- **Custom Models**: Any model implementing the interface
+- Gradient Boosting: LightGBM, XGBoost, CatBoost
+- Neural Networks: PyTorch models, ONNX models
+- Traditional ML: scikit-learn models
+- Custom Models: Any model implementing the interface
 
 ## Performance Considerations
 
@@ -104,4 +104,3 @@ Models must:
 - Missing models trigger fallback behavior
 - Prediction errors are caught and logged
 - Invalid inputs are validated before inference
-

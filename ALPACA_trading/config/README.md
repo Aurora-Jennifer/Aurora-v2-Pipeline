@@ -1,6 +1,6 @@
 # Configuration Files
 
-This directory contains all configuration files for the ALPACA trading system.
+Configuration files for the ALPACA trading system.
 
 ## Configuration Files
 
@@ -11,7 +11,7 @@ Base configuration with default settings for:
 - Feature settings
 - Model settings
 
-**Purpose:** Provides defaults that can be overridden by other config files.
+Provides defaults that can be overridden by other config files.
 
 ### `models.yaml` - Model Registry Configuration
 Defines all available ML models:
@@ -20,7 +20,7 @@ Defines all available ML models:
 - Target columns
 - Task types (regression/classification)
 
-**Format:**
+Format:
 ```yaml
 models:
   - name: "model_name"
@@ -39,7 +39,7 @@ Main configuration for paper trading:
 - Broker settings
 - Notification settings
 
-**Key Settings:**
+Key Settings:
 - `symbols`: List of symbols to trade
 - `risk_profile`: Risk level (balanced, low, strict)
 - `strategy`: Strategy to use
@@ -55,7 +55,7 @@ Strict risk management configuration:
 - Tighter drawdown limits
 - More conservative strategy parameters
 
-**Use Case:** For testing with very conservative risk parameters.
+Use Case: Testing with very conservative risk parameters.
 
 ### `enhanced_paper_trading_config.json` - Enhanced Configuration
 Enhanced configuration with additional features:
@@ -74,7 +74,7 @@ Template for environment variables:
 - `ALPACA_BASE_URL` - API base URL (optional)
 - `DISCORD_WEBHOOK_URL` - Discord notifications (optional)
 
-**Usage:** Copy to `.env` and fill in your values.
+Usage: Copy to `.env` and fill in your values.
 
 ## Configuration Hierarchy
 
@@ -88,9 +88,9 @@ Configuration is loaded in this order (later overrides earlier):
 ## Risk Profiles
 
 Predefined risk profiles:
-- **risk_balanced**: Balanced risk/return
-- **risk_low**: Conservative, lower risk
-- **risk_strict**: Very conservative, strict limits
+- `risk_balanced`: Balanced risk/return
+- `risk_low`: Conservative, lower risk
+- `risk_strict`: Very conservative, strict limits
 
 ## Validation
 
@@ -102,8 +102,7 @@ All configuration files are validated on load:
 
 ## Security
 
-**Important:** Never commit actual API keys or secrets to version control.
+Never commit actual API keys or secrets to version control.
 - Use `paper-trading.env` template
 - Add `.env` to `.gitignore`
 - Use environment variables for sensitive data
-

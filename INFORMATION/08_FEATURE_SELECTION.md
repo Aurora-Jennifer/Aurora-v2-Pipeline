@@ -2,17 +2,13 @@
 
 Comprehensive guide to feature selection for predictive modeling.
 
----
-
 ## Overview
 
 Feature selection is critical for:
-- **Reducing overfitting** by eliminating noise
-- **Faster training** with fewer dimensions
-- **Better interpretability** by focusing on what matters
-- **Improved generalization** to new data
-
----
+- Reducing overfitting by eliminating noise
+- Faster training with fewer dimensions
+- Better interpretability by focusing on what matters
+- Improved generalization to new data
 
 ## Quick Start
 
@@ -31,7 +27,7 @@ python scripts/select_features.py \
   --top-n 60
 ```
 
-**Output:**
+Output:
 ```
 DATA_PROCESSING/data/features/
 ├── selected_features.txt              # Use this in training!
@@ -41,14 +37,14 @@ DATA_PROCESSING/data/features/
 
 ### 2. Aggregate by Feature Concepts
 
-Instead of individual features, see which **concepts** (RSI, momentum, volatility) are most important:
+Instead of individual features, see which concepts (RSI, momentum, volatility) are most important:
 
 ```bash
 python scripts/aggregate_feature_groups.py \
   --input DATA_PROCESSING/data/features/feature_importance_summary.csv
 ```
 
-**Example Output:**
+Example Output:
 ```
 Top Feature Concept Groups:
 1. returns_zscore     Score: 639,012  (5 features)
@@ -58,12 +54,12 @@ Top Feature Concept Groups:
 5. returns_ordinal    Score: 157,939  (5 features)
 ```
 
-**Why This Matters:**
+Why This Matters:
 - Related features (like `ret_zscore_5m`, `ret_zscore_10m`, `ret_zscore_15m`) split their importance
-- Grouping reveals that **"returns_zscore"** as a concept is most predictive
+- Grouping reveals that "returns_zscore" as a concept is most predictive
 - You can then select the best 1-2 representatives from each top group
 
-### 3. Target-Specific Feature Sets (Most Powerful)
+### 3. Target-Specific Feature Sets
 
 Different targets need different features. Run selection for all your important targets:
 
@@ -78,7 +74,7 @@ python scripts/run_multi_target_selection.py --symbols AAPL,MSFT,GOOGL
 python scripts/run_multi_target_selection.py --targets peak_60m,valley_60m
 ```
 
-**Available Targets:**
+Available Targets:
 - `peak_60m`: Upward barrier hits (long signals)
 - `valley_60m`: Downward barrier hits (short signals)
 - `swing_high_15m`: Short-term reversal highs
@@ -87,7 +83,7 @@ python scripts/run_multi_target_selection.py --targets peak_60m,valley_60m
 - `mdd_15m`: Max drawdown (stop loss sizing)
 - `first_touch_60m`: Direction prediction
 
-**Output Structure:**
+Output Structure:
 ```
 DATA_PROCESSING/data/features/
 ├── peak_60m/
@@ -101,31 +97,27 @@ DATA_PROCESSING/data/features/
 └── multi_target_summary.json
 ```
 
----
-
 ## How It Works
 
 ### Algorithm
 
-1. **Per-Symbol Training**: Train a LightGBM model for **each symbol** independently
-2. **Extract Importance**: Get feature importance (gain) from each model
-3. **Aggregate Across Universe**: Average/sum importance across all symbols
-4. **Rank & Select**: Select top N features by aggregated score
+1. Per-Symbol Training: Train a LightGBM model for each symbol independently
+2. Extract Importance: Get feature importance (gain) from each model
+3. Aggregate Across Universe: Average/sum importance across all symbols
+4. Rank & Select: Select top N features by aggregated score
 
 ### Why Per-Symbol?
 
 Training on each symbol separately prevents:
-- **Dominant symbol bias** (AAPL/MSFT dominating the signal)
-- **Scale differences** (high-price vs low-price stocks)
-- **Sector-specific patterns** (tech vs energy)
+- Dominant symbol bias (AAPL/MSFT dominating the signal)
+- Scale differences (high-price vs low-price stocks)
+- Sector-specific patterns (tech vs energy)
 
-It finds features that are **universally predictive** across your universe.
-
----
+It finds features that are universally predictive across your universe.
 
 ## Configuration
 
-All feature selection parameters are now centralized in config files. **No hardcoded values!**
+All feature selection parameters are centralized in config files. No hardcoded values.
 
 ### Feature Selection Config (`CONFIG/feature_selection_config.yaml`)
 
@@ -158,7 +150,7 @@ lightgbm:
   # ... and more
 ```
 
-**To customize:** Edit `CONFIG/feature_selection_config.yaml` or use `--config your_config.yaml`
+To customize: Edit `CONFIG/feature_selection_config.yaml` or use `--config your_config.yaml`
 
 ### Target Configs (`CONFIG/target_configs.yaml`)
 
@@ -180,7 +172,7 @@ targets:
     enabled: true
 ```
 
-**To enable/disable targets:** Edit `enabled: true/false` in the config.
+To enable/disable targets: Edit `enabled: true/false` in the config.
 
 ### Feature Groups (`CONFIG/feature_groups.yaml`)
 
@@ -223,21 +215,19 @@ targets:
     enabled: true
 ```
 
-**No code changes needed!**
-
----
+No code changes needed.
 
 ## Best Practices
 
 ### 1. Start with Concept Groups
 
-**Don't do this:**
+Don't do this:
 ```python
 # Blindly use top 60 individual features
 X = df[selected_features]  # Might have 5 RSI variants, 0 volume features
 ```
 
-**Do this:**
+Do this:
 ```python
 # 1. Aggregate by groups
 python scripts/aggregate_feature_groups.py --input <csv>
@@ -254,7 +244,7 @@ python scripts/aggregate_feature_groups.py --input <csv>
 
 ### 2. Use Target-Specific Features
 
-**Don't do this:**
+Don't do this:
 ```python
 # Use same features for all models
 features = load_features("selected_features.txt")
@@ -262,7 +252,7 @@ peak_model.train(X[features], y_peak)
 valley_model.train(X[features], y_valley)  # Wrong!
 ```
 
-**Do this:**
+Do this:
 ```python
 # Use specialized features for each target
 peak_features = load_features("features/peak_60m/selected_features.txt")
@@ -274,7 +264,7 @@ valley_model.train(X[valley_features], y_valley)
 
 ### 3. Handle Timescale Redundancy
 
-If you have features at multiple timescales, **don't select all of them**:
+If you have features at multiple timescales, don't select all of them:
 
 ```python
 # Bad: All 5 timescales of same concept
@@ -284,8 +274,6 @@ If you have features at multiple timescales, **don't select all of them**:
 # Good: Select 2-3 diverse timescales
 ['ret_zscore_5m', 'ret_zscore_30m']  # Short + medium term
 ```
-
----
 
 ## Usage in Training
 
@@ -313,11 +301,9 @@ model.train(X_train, y_train)
 # Check that all selected features exist in your data
 missing_features = set(selected_features) - set(X_train.columns)
 if missing_features:
-    print(f"️  Missing features: {missing_features}")
+    print(f"Missing features: {missing_features}")
     selected_features = [f for f in selected_features if f in X_train.columns]
 ```
-
----
 
 ## Advanced Options
 
@@ -346,7 +332,7 @@ python scripts/select_features.py --num-workers 1
 
 ### Custom LightGBM Config
 
-**Option 1: Edit the main config**
+Option 1: Edit the main config
 
 ```bash
 # Edit CONFIG/feature_selection_config.yaml
@@ -358,7 +344,7 @@ lightgbm:
   learning_rate: 0.03    # Decrease from 0.05 for better accuracy
 ```
 
-**Option 2: Create a custom config**
+Option 2: Create a custom config
 
 ```yaml
 # my_fast_config.yaml
@@ -371,8 +357,6 @@ lightgbm:
 python scripts/select_features.py --config my_fast_config.yaml
 ```
 
----
-
 ## Interpreting Results
 
 ### Feature Importance Summary CSV
@@ -384,9 +368,9 @@ ret_zscore_15m,182412.45,3,100.0
 mfe_share_60m,181874.33,3,100.0
 ```
 
-- **score**: Aggregated importance (higher = more predictive)
-- **frequency**: How many symbols had this feature in top N
-- **frequency_pct**: Percentage of symbols (100% = universal)
+- score: Aggregated importance (higher = more predictive)
+- frequency: How many symbols had this feature in top N
+- frequency_pct: Percentage of symbols (100% = universal)
 
 ### Grouped Importance CSV
 
@@ -397,20 +381,18 @@ excursion,314073,10,31407,16.7,mfe_share_60m
 time_to_hit,274600,9,30511,15.0,tth_60m_0.8
 ```
 
-- **score**: Total importance for this concept
-- **num_features**: How many features in this group
-- **avg_feature_score**: Average per feature (high = consistently important)
-- **top_feature**: Best representative from this group
-
----
+- score: Total importance for this concept
+- num_features: How many features in this group
+- avg_feature_score: Average per feature (high = consistently important)
+- top_feature: Best representative from this group
 
 ## Troubleshooting
 
 ### Issue: "No feature importances collected"
 
-**Cause**: Target column not found or all data is NaN
+Cause: Target column not found or all data is NaN
 
-**Fix**:
+Fix:
 ```bash
 # Check available targets
 python -c "import pandas as pd; df = pd.read_parquet('data/data_labeled/interval=5m/symbol=AAPL/AAPL.parquet'); print([c for c in df.columns if c.startswith('y_')])"
@@ -421,18 +403,16 @@ python scripts/select_features.py --target-column y_will_peak_60m_0.8
 
 ### Issue: "pandas dtypes must be int, float or bool"
 
-**Cause**: Object dtype columns in data (like `symbol`, `interval`)
+Cause: Object dtype columns in data (like `symbol`, `interval`)
 
-**Fix**: Already handled automatically by the script. If you see this, check the error details.
+Fix: Already handled automatically by the script. If you see this, check the error details.
 
 ### Issue: Feature selection is slow
 
-**Tip**: Test on a few symbols first:
+Tip: Test on a few symbols first:
 ```bash
 python scripts/select_features.py --symbols AAPL,MSFT,GOOGL --top-n 60
 ```
-
----
 
 ## Example Workflow
 
@@ -484,8 +464,6 @@ lgbm_valley.train(X[valley_features], y_valley)
 # Expect: Faster training, less overfitting, better performance
 ```
 
----
-
 ## Key Insights from Your Data
 
 From the test run (3 symbols, 60 features):
@@ -498,28 +476,21 @@ From the test run (3 symbols, 60 features):
 5. `ret_zscore_10m` (127,246) - Standardized 10-min return
 
 ### Top 5 Concept Groups
-1. **returns_zscore** (639,012) - Standardized returns at various timescales
-2. **excursion** (314,073) - Max favorable/adverse movement metrics
-3. **time_to_hit** (274,600) - Barrier crossing times
-4. **time_metrics** (262,684) - Time in profit/drawdown
-5. **returns_ordinal** (157,939) - Rank-based returns
+1. returns_zscore (639,012) - Standardized returns at various timescales
+2. excursion (314,073) - Max favorable/adverse movement metrics
+3. time_to_hit (274,600) - Barrier crossing times
+4. time_metrics (262,684) - Time in profit/drawdown
+5. returns_ordinal (157,939) - Rank-based returns
 
-**Insight**: Your most predictive features are:
-- **Relative returns** (z-scored, ordinal) rather than raw returns
-- **Path-dependent metrics** (time in profit, excursion shares)
-- **Barrier dynamics** (time-to-hit, hit direction)
+Insight: Your most predictive features are:
+- Relative returns (z-scored, ordinal) rather than raw returns
+- Path-dependent metrics (time in profit, excursion shares)
+- Barrier dynamics (time-to-hit, hit direction)
 
-**Recommendation**: Focus on these concepts and reduce generic technical indicators (RSI, MACD) which ranked low.
-
----
+Recommendation: Focus on these concepts and reduce generic technical indicators (RSI, MACD) which ranked low.
 
 ## References
 
-- **LightGBM Feature Importance**: Uses "gain" (total reduction in loss)
-- **Aggregation Strategy**: Per-symbol training avoids dominant stock bias
-- **Supervised Selection**: Target-based ranking ensures predictive power
-
----
-
-**Created**: 2025-11-12
-**Last Updated**: 2025-11-12
+- LightGBM Feature Importance: Uses "gain" (total reduction in loss)
+- Aggregation Strategy: Per-symbol training avoids dominant stock bias
+- Supervised Selection: Target-based ranking ensures predictive power

@@ -1,17 +1,13 @@
 # Column Reference
 
-**Complete documentation of columns in labeled datasets.**
-
----
+Documentation of columns in labeled datasets.
 
 ## Column Categories
 
-1. **OHLCV** - Base market data
-2. **Features** - Engineered features (~200+)
-3. **Targets** - Prediction labels
-4. **Metadata** - Timestamps, identifiers
-
----
+1. OHLCV - Base market data
+2. Features - Engineered features (~200+)
+3. Targets - Prediction labels
+4. Metadata - Timestamps, identifiers
 
 ## 1. OHLCV (Base Data)
 
@@ -31,8 +27,6 @@
 | `datetime` | datetime | Human-readable timestamp |
 | `symbol` | string | Ticker symbol |
 | `interval` | string | Bar interval (e.g., "5m") |
-
----
 
 ## 2. Features
 
@@ -158,8 +152,6 @@
 | `rsi_x_mom` | RSI × Momentum |
 | `volume_x_price` | Volume × Price change |
 
----
-
 ## 3. Targets (Labels)
 
 ### A. Barrier Targets
@@ -208,8 +200,6 @@
 | `fwd_ret_60m` | float | 60-minute forward return | % |
 | `fwd_ret_120m` | float | 120-minute forward return | % |
 
----
-
 ## 4. Metadata
 
 ### System Columns
@@ -220,8 +210,6 @@
 | `session` | string | Trading session |
 | `processed_at` | datetime | Processing timestamp |
 | `version` | string | Pipeline version |
-
----
 
 ## Column Naming Conventions
 
@@ -242,12 +230,10 @@
 - `_5`, `_10`, `_14`, `_20`, `_50`, `_200` - Lookback windows
 
 ### Special Naming
-- **Cross-sectional:** Prefix with `rank_` or `zscore_`
-- **Interactions:** Use `_x_` separator (e.g., `ret_x_vol`)
-- **Regime:** Prefix with `regime_`
-- **Latent:** Prefix with `latent_` (from VAE/autoencoder)
-
----
+- Cross-sectional: Prefix with `rank_` or `zscore_`
+- Interactions: Use `_x_` separator (e.g., `ret_x_vol`)
+- Regime: Prefix with `regime_`
+- Latent: Prefix with `latent_` (from VAE/autoencoder)
 
 ## Data Types
 
@@ -261,14 +247,12 @@
 | `bool` | Binary flags | `is_market_open` |
 | `string` | Text | `symbol`, `interval` |
 
----
-
 ## Missing Values
 
 ### Expected NaN Behavior
-- **First N bars:** Features with lookback windows will have NaN
-- **Warmup period:** Models require `min_history_bars` before prediction
-- **Sparse features:** Some cross-sectional features may be NaN for illiquid symbols
+- First N bars: Features with lookback windows will have NaN
+- Warmup period: Models require `min_history_bars` before prediction
+- Sparse features: Some cross-sectional features may be NaN for illiquid symbols
 
 ### Handling
 ```python
@@ -279,8 +263,6 @@ df_clean = df.dropna().iloc[min_bars:]
 # Or impute
 df_filled = df.fillna(method='ffill').fillna(0)
 ```
-
----
 
 ## Column Validation
 
@@ -308,8 +290,6 @@ assert (df['rsi_14'] >= 0).all() and (df['rsi_14'] <= 100).all()
 assert (df['volume'] >= 0).all()
 ```
 
----
-
 ## Feature Selection
 
 ### By Category
@@ -336,11 +316,8 @@ importance = trainer.get_feature_importance()
 top_features = importance.head(50).index.tolist()
 ```
 
----
+## Related Documentation
 
-## See Also
-
-- **04_DATA_PIPELINE.md** - How columns are generated
-- **05_MODEL_TRAINING.md** - How to use columns in training
-- **DATA_PROCESSING/** - Feature engineering code
-
+- [04_DATA_PIPELINE.md](04_DATA_PIPELINE.md) - Column generation
+- [05_MODEL_TRAINING.md](05_MODEL_TRAINING.md) - Using columns in training
+- `DATA_PROCESSING/` - Feature engineering code

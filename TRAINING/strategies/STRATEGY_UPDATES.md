@@ -2,21 +2,19 @@
 
 ## Overview
 
-This document summarizes the updates made to the training strategies to fix overfitting and implement proper regularization.
-
----
+Updates made to the training strategies to fix overfitting and implement proper regularization.
 
 ## Changes Made
 
 ### 1. SingleTaskStrategy (`single_task.py`)
 
 #### Updated: `_create_lightgbm_model()`
-- **Before**: Minimal parameters, no regularization
+- Before: Minimal parameters, no regularization
   ```python
   lgb.LGBMRegressor(n_estimators=100, random_state=42, verbose=-1)
   ```
 
-- **After**: Spec 2 high regularization defaults
+- After: Spec 2 high regularization defaults
   ```python
   lgb.LGBMRegressor(
       num_leaves=96,              # 64-128 range
@@ -35,8 +33,8 @@ This document summarizes the updates made to the training strategies to fix over
   ```
 
 #### Updated: `_create_xgboost_model()`
-- **Before**: Minimal parameters
-- **After**: Spec 2 regularization + gamma parameter
+- Before: Minimal parameters
+- After: Spec 2 regularization + gamma parameter
   ```python
   xgb.XGBRegressor(
       max_depth=7,                # 5-8 range
@@ -54,8 +52,8 @@ This document summarizes the updates made to the training strategies to fix over
   ```
 
 #### Updated: `train()` method
-- **Added**: Automatic early stopping detection
-- **Process**:
+- Added: Automatic early stopping detection
+- Process:
  1. Check if model supports `eval_set` parameter
  2. If yes: split data into train/val
  3. Train with early stopping (50 rounds default)
@@ -73,13 +71,11 @@ if 'eval_set' in model.fit.__code__.co_varnames:
     logger.info(f"Early stopping at iteration {model.best_iteration_}")
 ```
 
----
-
 ### 2. MultiTaskStrategy (`multi_task.py`)
 
 #### Fixed: Dropout Activation
-- **Before**: Risk of `training=False` disabling Dropout
-- **After**: Explicit train()/eval() mode switching
+- Before: Risk of `training=False` disabling Dropout
+- After: Explicit train()/eval() mode switching
 
 ```python
 # Training: Dropout ACTIVE
@@ -94,8 +90,8 @@ with torch.no_grad():
 ```
 
 #### Added: Early Stopping
-- **Before**: Trained for full `n_epochs` (could overfit)
-- **After**: Early stopping with patience
+- Before: Trained for full `n_epochs` (could overfit)
+- After: Early stopping with patience
 
 ```python
 best_loss = float('inf')
@@ -118,8 +114,6 @@ for epoch in range(n_epochs):
         restore_best_model(best_model_state)
         break
 ```
-
----
 
 ## Configuration Support
 
@@ -144,8 +138,6 @@ config = {
     'patience': 10,  # For neural networks
 }
 ```
-
----
 
 ## Usage Examples
 
@@ -205,13 +197,11 @@ results = strategy.train(X, y_dict, feature_names)
 # - Learn shared representation for correlated targets
 ```
 
----
-
 ## Benefits
 
 ### 1. Reduced Overfitting
-- **Tree models**: Regularization parameters prevent trees from memorizing training data
-- **Neural networks**: Active dropout + early stopping improve generalization
+- Tree models: Regularization parameters prevent trees from memorizing training data
+- Neural networks: Active dropout + early stopping improve generalization
 
 ### 2. Faster Training
 - Early stopping saves time by not training full epochs/iterations
@@ -226,8 +216,6 @@ results = strategy.train(X, y_dict, feature_names)
 - Strategies auto-detect if models support early stopping
 - No manual intervention required
 - Falls back gracefully for models without early stopping support
-
----
 
 ## Verification
 
@@ -255,8 +243,6 @@ if hasattr(model, 'best_iteration_'):
     # Good: Should stop well before n_estimators
 ```
 
----
-
 ## Migration Guide
 
 ### From Old Code
@@ -280,40 +266,33 @@ strategy.train(X, y_dict, feature_names)
 # Models now use Spec 2 parameters automatically
 ```
 
----
-
 ## Files Modified
 
 1. `TRAINING/strategies/single_task.py`
- - `_create_lightgbm_model()`: Added Spec 2 regularization
- - `_create_xgboost_model()`: Added Spec 2 regularization + gamma
- - `train()`: Added automatic early stopping detection
+   - `_create_lightgbm_model()`: Added Spec 2 regularization
+   - `_create_xgboost_model()`: Added Spec 2 regularization + gamma
+   - `train()`: Added automatic early stopping detection
 
 2. `TRAINING/strategies/multi_task.py`
- - `_train_multi_task_model()`: Added early stopping with patience
- - Ensured Dropout is active during training, disabled during inference
- - Added best model state saving and restoration
+   - `_train_multi_task_model()`: Added early stopping with patience
+   - Ensured Dropout is active during training, disabled during inference
+   - Added best model state saving and restoration
 
 3. `TRAINING/config/first_batch_specs.yaml` (NEW)
- - Complete configuration with all recommended parameters
+   - Complete configuration with all recommended parameters
 
 4. `TRAINING/TRAINING_OPTIMIZATION_GUIDE.md` (NEW)
- - Comprehensive guide for training optimization
-
----
+   - Comprehensive guide for training optimization
 
 ## Next Steps
 
-1. **Test with your data**: Run training with the new configurations
-2. **Monitor metrics**: Compare train vs validation scores
-3. **Tune if needed**: Adjust parameters in `first_batch_specs.yaml`
-4. **Implement two-stage pipeline**: VAE/GMM → LightGBM/XGBoost
+1. Test with your data: Run training with the new configurations
+2. Monitor metrics: Compare train vs validation scores
+3. Tune if needed: Adjust parameters in `first_batch_specs.yaml`
+4. Implement two-stage pipeline: VAE/GMM → LightGBM/XGBoost
 
----
+## Related Documentation
 
-## Questions?
-
-- Check `TRAINING_OPTIMIZATION_GUIDE.md` for detailed explanations
-- Review `FIRST_BATCH_SPECS_IMPLEMENTATION.md` for trainer-level changes
-- See `first_batch_specs.yaml` for parameter recommendations
-
+- `TRAINING_OPTIMIZATION_GUIDE.md`: Detailed explanations
+- `FIRST_BATCH_SPECS_IMPLEMENTATION.md`: Trainer-level changes
+- `first_batch_specs.yaml`: Parameter recommendations

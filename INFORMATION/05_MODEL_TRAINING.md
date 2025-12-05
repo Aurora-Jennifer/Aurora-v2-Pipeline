@@ -1,8 +1,6 @@
-# Model Training Process
+# Model Training
 
-**Complete guide to training models on labeled data.**
-
----
+Training models on labeled data.
 
 ## Training Overview
 
@@ -22,11 +20,9 @@ Labeled Data
 Trained Model
 ```
 
----
-
 ## Available Models
 
-### Core Models (Spec 1/2/3)
+### Core Models
 
 **LightGBM** - Gradient boosting (highly regularized)
 ```python
@@ -119,17 +115,16 @@ trainer = QuantileLightGBMTrainer(config)
 
 ### Advanced Models
 
-**ChangePoint** - Change point detection
-**FTRLProximal** - Follow-the-regularized-leader
-**RewardBased** - Reward-weighted regression
+**ChangePoint** - Change point detection  
+**FTRLProximal** - Follow-the-regularized-leader  
+**RewardBased** - Reward-weighted regression  
 **MetaLearning** - Meta-learning ensemble
-
----
 
 ## Training Strategies
 
-### Strategy 1: Single Target Training
-**Use Case:** One model per target variable
+### Single Target Training
+
+One model per target variable.
 
 ```python
 from TRAINING.strategies import SingleTaskStrategy
@@ -139,7 +134,6 @@ strategy = SingleTaskStrategy(
     model_config=load_model_config("lightgbm", variant="conservative")
 )
 
-# Train for single target
 model = strategy.train(
     X_train=X_train,
     y_train=y_train['y_will_peak'],
@@ -148,8 +142,9 @@ model = strategy.train(
 )
 ```
 
-### Strategy 2: Multi-Task Learning
-**Use Case:** Correlated targets (TTH, MDD, MFE)
+### Multi-Task Learning
+
+Correlated targets (TTH, MDD, MFE).
 
 ```python
 from TRAINING.strategies import MultiTaskStrategy
@@ -160,7 +155,6 @@ strategy = MultiTaskStrategy(
     loss_weights=[1.0, 0.5, 0.5]
 )
 
-# Train all targets together
 model = strategy.train(
     X_train=X_train,
     y_train=y_train[["TTH", "MDD", "MFE"]],
@@ -169,8 +163,9 @@ model = strategy.train(
 )
 ```
 
-### Strategy 3: Cascade Training
-**Use Case:** Sequential dependencies between targets
+### Cascade Training
+
+Sequential dependencies between targets.
 
 ```python
 from TRAINING.strategies import CascadeStrategy
@@ -179,15 +174,13 @@ strategy = CascadeStrategy(
     models=["lightgbm", "xgboost", "ensemble"]
 )
 
-# Train sequentially, each using previous predictions
 final_model = strategy.train(X_train, y_train, X_val, y_val)
 ```
-
----
 
 ## Configuration Management
 
 ### Using Variants
+
 ```python
 # Conservative (least overfitting)
 config = load_model_config("lightgbm", variant="conservative")
@@ -200,8 +193,8 @@ config = load_model_config("mlp", variant="aggressive")
 ```
 
 ### Runtime Overrides
+
 ```python
-# Override specific parameters
 config = load_model_config("lightgbm", overrides={
     "n_estimators": 2000,
     "learning_rate": 0.01,
@@ -211,21 +204,19 @@ config = load_model_config("lightgbm", overrides={
 ```
 
 ### Environment Variables
+
 ```bash
-# Set default variant
 export MODEL_VARIANT=conservative
 
 # Then in Python
 trainer = LightGBMTrainer()  # Automatically uses conservative
 ```
 
----
-
 ## Training Pipeline
 
 ### Phase 1: Feature Engineering
+
 ```bash
-# Build features with VAE for dimensionality reduction
 python TRAINING/EXPERIMENTS/phase1_features/build_vae_features.py \
     --input-dir DATA_PROCESSING/data/labeled/ \
     --output-dir TRAINING/EXPERIMENTS/phase1_features/output/ \
@@ -233,8 +224,8 @@ python TRAINING/EXPERIMENTS/phase1_features/build_vae_features.py \
 ```
 
 ### Phase 2: Core Model Training
+
 ```bash
-# Train core models (LightGBM, XGBoost, Ensemble)
 bash TRAINING/train_all_symbols.sh \
     --phase core \
     --config CONFIG/model_config/lightgbm.yaml \
@@ -242,21 +233,17 @@ bash TRAINING/train_all_symbols.sh \
 ```
 
 ### Phase 3: Sequential/Advanced Models
+
 ```bash
-# Train sequential models (LSTM, Transformer, NGBoost)
 bash TRAINING/train_all_symbols.sh \
     --phase sequential \
     --models lstm,transformer,ngboost
 ```
 
----
-
 ## Walk-Forward Validation
 
-### Purpose
-Simulate real trading conditions by training on past data and testing on future data.
+Simulates real trading conditions by training on past data and testing on future data.
 
-### Implementation
 ```python
 from TRAINING.walkforward import WalkForwardEngine
 
@@ -276,31 +263,28 @@ results = engine.run(
 ```
 
 ### Metrics Tracked
-- **Sharpe Ratio** - Risk-adjusted returns
-- **Max Drawdown** - Worst peak-to-trough decline
-- **Hit Rate** - Percentage of correct predictions
-- **Profit Factor** - Gross profit / Gross loss
-- **Win/Loss Ratio** - Average win / Average loss
 
----
+- Sharpe Ratio: Risk-adjusted returns
+- Max Drawdown: Worst peak-to-trough decline
+- Hit Rate: Percentage of correct predictions
+- Profit Factor: Gross profit / Gross loss
+- Win/Loss Ratio: Average win / Average loss
 
 ## Feature Selection
 
 ### Importance-Based Selection
+
 ```python
-# Train initial model
 trainer = LightGBMTrainer()
 trainer.train(X_train, y_train)
 
-# Get feature importance
 importance = trainer.get_feature_importance()
-
-# Select top N features
 top_features = importance.head(60).index.tolist()
 X_train_selected = X_train[top_features]
 ```
 
 ### Recursive Feature Elimination
+
 ```python
 from sklearn.feature_selection import RFECV
 
@@ -313,11 +297,10 @@ selector = RFECV(
 X_train_selected = selector.fit_transform(X_train, y_train)
 ```
 
----
-
 ## Hyperparameter Tuning
 
-### Manual Tuning (Recommended)
+### Manual Tuning
+
 Edit config files in `CONFIG/model_config/`:
 
 ```yaml
@@ -335,7 +318,8 @@ Load and use:
 config = load_model_config("lightgbm", variant="my_experiment")
 ```
 
-### Grid Search (Automated)
+### Grid Search
+
 ```python
 from sklearn.model_selection import GridSearchCV
 
@@ -353,8 +337,6 @@ grid = GridSearchCV(
 )
 grid.fit(X_train, y_train)
 ```
-
----
 
 ## Training Checklist
 
@@ -378,14 +360,13 @@ grid.fit(X_train, y_train)
 - [ ] Predictions validated
 - [ ] Config saved with results
 
----
-
 ## Common Issues
 
 ### Overfitting
-**Symptoms:** High train accuracy, low validation accuracy
 
-**Solutions:**
+Symptoms: High train accuracy, low validation accuracy
+
+Solutions:
 1. Use `conservative` variant
 2. Increase regularization (`reg_lambda`, `reg_alpha`)
 3. Reduce model complexity (`max_depth`, `num_leaves`)
@@ -393,9 +374,10 @@ grid.fit(X_train, y_train)
 5. Add more dropout (neural networks)
 
 ### Underfitting
-**Symptoms:** Low train and validation accuracy
 
-**Solutions:**
+Symptoms: Low train and validation accuracy
+
+Solutions:
 1. Use `aggressive` variant
 2. Increase model complexity
 3. Add more features
@@ -403,30 +385,29 @@ grid.fit(X_train, y_train)
 5. Train longer
 
 ### Memory Errors
-**Solutions:**
+
+Solutions:
 1. Reduce `batch_size`
 2. Use sequential training
 3. Enable gradient checkpointing (neural networks)
 4. Use streaming feature builder
 
 ### Slow Training
-**Solutions:**
+
+Solutions:
 1. Reduce `n_estimators`
 2. Increase `learning_rate`
 3. Use `aggressive` variant
 4. Enable GPU (neural networks)
 5. Parallelize across symbols
 
----
-
 ## Evaluation & Diagnostics
 
 ### Model Evaluation
+
 ```python
-# Predictions
 y_pred = trainer.predict(X_val)
 
-# Metrics
 from sklearn.metrics import mean_squared_error, r2_score, classification_report
 
 mse = mean_squared_error(y_val, y_pred)
@@ -437,16 +418,17 @@ report = classification_report(y_val, y_pred)
 ```
 
 ### Feature Importance
+
 ```python
 importance = trainer.get_feature_importance(target="y_will_peak")
-print(importance.head(20))  # Top 20 features
+print(importance.head(20))
 ```
 
 ### Learning Curves
+
 ```python
 import matplotlib.pyplot as plt
 
-# Plot training history (if available)
 history = trainer.model.evals_result()
 plt.plot(history['validation_0']['rmse'], label='Train')
 plt.plot(history['validation_1']['rmse'], label='Val')
@@ -454,48 +436,30 @@ plt.legend()
 plt.show()
 ```
 
----
-
 ## Saving & Loading Models
 
 ### Save Model
+
 ```python
 import joblib
 
-# Save model
 joblib.dump(trainer.model, "models/lightgbm_AAPL_2025-11-13.pkl")
 
-# Save config
 import json
 with open("models/lightgbm_AAPL_2025-11-13_config.json", "w") as f:
     json.dump(trainer.config, f, indent=2)
 ```
 
 ### Load Model
-```python
-# Load model
-model = joblib.load("models/lightgbm_AAPL_2025-11-13.pkl")
 
-# Make predictions
+```python
+model = joblib.load("models/lightgbm_AAPL_2025-11-13.pkl")
 y_pred = model.predict(X_new)
 ```
 
----
+## Related Documentation
 
-## Next Steps
-
-1. **Start with LightGBM/XGBoost** - Most reliable, fastest
-2. **Use conservative variant** - Prevents overfitting
-3. **Enable early stopping** - Saves time, prevents overfitting
-4. **Track feature importance** - Understand what drives predictions
-5. **Validate with walk-forward** - Simulate real trading conditions
-
----
-
-## See Also
-
-- **01_QUICK_START.md** - Quick config reference
-- **04_DATA_PIPELINE.md** - Data preparation
-- **06_COLUMN_REFERENCE.md** - Feature descriptions
-- **CONFIG/** - All configuration files
-
+- [01_QUICK_START.md](01_QUICK_START.md) - Config reference
+- [04_DATA_PIPELINE.md](04_DATA_PIPELINE.md) - Data preparation
+- [06_COLUMN_REFERENCE.md](06_COLUMN_REFERENCE.md) - Feature descriptions
+- `CONFIG/` - Configuration files

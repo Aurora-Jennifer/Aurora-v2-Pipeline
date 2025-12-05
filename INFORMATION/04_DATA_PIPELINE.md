@@ -1,8 +1,6 @@
-# Data Pipeline: Raw Data → Labeled Data
+# Data Pipeline
 
-**Complete workflow from raw market data to ML-ready labeled datasets.**
-
----
+Workflow from raw market data to ML-ready labeled datasets.
 
 ## Pipeline Overview
 
@@ -18,8 +16,6 @@ Raw Market Data
 Labeled Dataset → Ready for model training
 ```
 
----
-
 ## Stage 1: Raw Data Acquisition
 
 ### Data Location
@@ -33,10 +29,10 @@ data/
 ```
 
 ### Expected Format
-- **Timeframe:** 5-minute bars
-- **Columns:** `ts`, `open`, `high`, `low`, `close`, `volume`
-- **Timezone:** UTC timestamps
-- **Coverage:** NYSE Regular Trading Hours (RTH) only
+- Timeframe: 5-minute bars
+- Columns: `ts`, `open`, `high`, `low`, `close`, `volume`
+- Timezone: UTC timestamps
+- Coverage: NYSE Regular Trading Hours (RTH) only
 
 ### Quality Checks
 ```python
@@ -49,13 +45,11 @@ df_clean = normalize_interval(df, interval="5m")
 assert_bars_per_day(df_clean, interval="5m", min_full_day_frac=0.90)
 ```
 
----
-
 ## Stage 2: Feature Engineering
 
 ### Available Feature Builders
 
-#### 1. Simple Features (~50 features)
+#### Simple Features (~50 features)
 ```python
 from DATA_PROCESSING.features import SimpleFeatureComputer
 
@@ -64,7 +58,7 @@ feature_names = computer.get_all_features()
 # Returns, momentum, volatility, basic technical indicators
 ```
 
-#### 2. Comprehensive Features (200+ features)
+#### Comprehensive Features (200+ features)
 ```python
 from DATA_PROCESSING.features import ComprehensiveFeatureBuilder
 
@@ -76,7 +70,7 @@ features = builder.build_features(
 )
 ```
 
-#### 3. Streaming Builder (Memory-Efficient)
+#### Streaming Builder (Memory-Efficient)
 ```python
 # For large datasets that don't fit in memory
 # Uses Polars lazy API for efficient streaming
@@ -103,14 +97,12 @@ features = builder.build_features(
 - Interaction features
 - Custom composite indicators
 
----
-
 ## Stage 3: Target Generation
 
 ### Target Types
 
-#### A. Barrier Targets (First-Passage Labels)
-**Purpose:** Predict which barrier (up/down) will be hit first
+#### Barrier Targets (First-Passage Labels)
+Predict which barrier (up/down) will be hit first.
 
 ```python
 from DATA_PROCESSING.targets import compute_barrier_targets
@@ -131,14 +123,8 @@ targets = compute_barrier_targets(
 # - p_down: Probability of hitting down barrier first
 ```
 
-**Use Cases:**
-- Limit order placement
-- Stop-loss optimization
-- Entry/exit timing
-- Meta-labeling
-
-#### B. Excess Return Targets (Market-Adjusted)
-**Purpose:** Predict future returns adjusted for market exposure
+#### Excess Return Targets (Market-Adjusted)
+Predict future returns adjusted for market exposure.
 
 ```python
 from DATA_PROCESSING.targets import future_excess_return, classify_excess_return
@@ -158,13 +144,8 @@ labels = classify_excess_return(
 # Returns: {-1: SELL, 0: HOLD, +1: BUY}
 ```
 
-**Use Cases:**
-- Long/short portfolio construction
-- Market-neutral strategies
-- Alpha generation
-
-#### C. HFT Forward Returns (Short-Horizon)
-**Purpose:** Generate targets for high-frequency trading
+#### HFT Forward Returns (Short-Horizon)
+Generate targets for high-frequency trading.
 
 ```python
 from DATA_PROCESSING.targets import hft_forward
@@ -181,13 +162,6 @@ df_with_targets = hft_forward.add_hft_targets(
 # - fwd_ret_60m
 # - fwd_ret_120m
 ```
-
-**Use Cases:**
-- Intraday trading
-- Scalping strategies
-- Market microstructure research
-
----
 
 ## Stage 4: Data Quality & Validation
 
@@ -221,8 +195,6 @@ mem.check_memory("Before processing")
 mem.check_memory("After processing")
 mem.force_cleanup()  # If needed
 ```
-
----
 
 ## Complete Pipeline Example
 
@@ -265,8 +237,6 @@ df_labeled.write_parquet("DATA_PROCESSING/data/labeled/AAPL_labeled.parquet")
 mem.check_memory("Complete")
 ```
 
----
-
 ## Batch Processing
 
 ### Smart Barrier Pipeline (Resumable)
@@ -280,13 +250,11 @@ python DATA_PROCESSING/pipeline/barrier_pipeline.py \
     --parallel-jobs 4
 ```
 
-**Features:**
+Features:
 - Automatic resumption (checks what's already processed)
 - Progress tracking
 - Parallel processing
 - Error recovery
-
----
 
 ## Output Schema
 
@@ -307,8 +275,6 @@ python DATA_PROCESSING/pipeline/barrier_pipeline.py \
 - Excess Returns: `excess_ret_5d`, `y_class`
 - HFT: `fwd_ret_15m`, `fwd_ret_30m`, `fwd_ret_60m`
 
----
-
 ## Storage Organization
 
 ```
@@ -318,39 +284,20 @@ DATA_PROCESSING/data/
 └── labeled/          # Complete dataset with targets
 ```
 
-**Best Practice:** Keep intermediate stages to allow reprocessing with different target definitions.
-
----
-
-## Next Steps
-
-1. **Verify data quality** - Check for gaps, outliers, missing bars
-2. **Run feature engineering** - Use appropriate builder for dataset size
-3. **Generate targets** - Choose target type based on strategy
-4. **Validate output** - Check schema and value ranges
-5. **Proceed to training** - See `05_MODEL_TRAINING.md`
-
----
+Keep intermediate stages to allow reprocessing with different target definitions.
 
 ## Troubleshooting
 
-**Problem:** Memory errors during feature engineering
-**Solution:** Use `streaming_builder.py` with Polars lazy API
+**Memory errors during feature engineering**: Use `streaming_builder.py` with Polars lazy API
 
-**Problem:** Missing bars in session data
-**Solution:** Use `normalize_interval()` to enforce grid and remove partial days
+**Missing bars in session data**: Use `normalize_interval()` to enforce grid and remove partial days
 
-**Problem:** Duplicate timestamps
-**Solution:** Check for timezone issues, use `unique()` after normalization
+**Duplicate timestamps**: Check for timezone issues, use `unique()` after normalization
 
-**Problem:** Target labels imbalanced
-**Solution:** Adjust `barrier_size` or `min_touch_prob` parameters
+**Target labels imbalanced**: Adjust `barrier_size` or `min_touch_prob` parameters
 
----
+## Related Documentation
 
-## See Also
-
-- **05_MODEL_TRAINING.md** - How to train models on labeled data
-- **06_COLUMN_REFERENCE.md** - Complete column documentation
-- **DATA_PROCESSING/README.md** - Module documentation
-
+- [05_MODEL_TRAINING.md](05_MODEL_TRAINING.md) - Training models on labeled data
+- [06_COLUMN_REFERENCE.md](06_COLUMN_REFERENCE.md) - Column documentation
+- `DATA_PROCESSING/README.md` - Module documentation

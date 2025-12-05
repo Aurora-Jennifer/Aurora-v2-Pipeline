@@ -4,8 +4,6 @@
 
 A complete, production-ready 3-phase training workflow that addresses all optimization issues.
 
----
-
 ## Folder Structure Created
 
 ```
@@ -16,9 +14,9 @@ TRAINING/EXPERIMENTS/
 ├── IMPLEMENTATION_SUMMARY.md          # This file
 │
 ├── phase1_feature_engineering/
-│   ├── run_phase1.py                  #  COMPLETE - Feature selection script
-│   ├── feature_selection_config.yaml  #  COMPLETE - Configuration
-│   └── README.md                      #  COMPLETE - Phase 1 docs
+│   ├── run_phase1.py                  # COMPLETE - Feature selection script
+│   ├── feature_selection_config.yaml  # COMPLETE - Configuration
+│   └── README.md                      # COMPLETE - Phase 1 docs
 │
 ├── phase2_core_models/
 │   ├── README.md                      # TODO - Create when ready
@@ -34,8 +32,6 @@ TRAINING/EXPERIMENTS/
 └── logs/                              # All logs go here
 ```
 
----
-
 ## What Works Right Now
 
 ### Phase 1: Feature Engineering & Selection (COMPLETE)
@@ -46,7 +42,7 @@ TRAINING/EXPERIMENTS/
 - Saves artifacts to `metadata/`
 - Complete documentation
 
-**Usage:**
+Usage:
 ```bash
 cd TRAINING/EXPERIMENTS
 python phase1_feature_engineering/run_phase1.py \
@@ -62,23 +58,21 @@ python phase1_feature_engineering/run_phase1.py \
 - Summary at completion
 - Executable and ready to use
 
-**Usage:**
+Usage:
 ```bash
 cd TRAINING/EXPERIMENTS
 ./run_all_phases.sh
 ```
 
----
-
 ## What Needs Customization
 
 ### 1. Data Loading in Phase 1
 
-**File**: `phase1_feature_engineering/run_phase1.py`
-**Function**: `load_data()`
-**Line**: ~44
+File: `phase1_feature_engineering/run_phase1.py`
+Function: `load_data()`
+Line: ~44
 
-**What to do:**
+What to do:
 Replace the placeholder with your actual data loading code:
 
 ```python
@@ -102,9 +96,9 @@ def load_data(data_dir):
 
 ### 2. Phase 2 Script (TODO)
 
-**File**: `phase2_core_models/run_phase2.py` (needs to be created)
+File: `phase2_core_models/run_phase2.py` (needs to be created)
 
-**Template structure:**
+Template structure:
 ```python
 # Load Phase 1 artifacts
 with open(f"{metadata_dir}/top_50_features.json") as f:
@@ -127,14 +121,12 @@ strategy.train(X_final, y_dict, final_feature_names)
 
 ### 3. Phase 3 Script (TODO)
 
-**File**: `phase3_sequential_models/run_phase3.py` (needs to be created)
+File: `phase3_sequential_models/run_phase3.py` (needs to be created)
 
-**Similar to Phase 2**, but:
+Similar to Phase 2, but:
 - Create sequences from transformed features
 - Use sequential models (LSTM, Transformer, CNN1D)
 - May need different target sets
-
----
 
 ## How to Adapt Your Existing `train_all_symbols.sh`
 
@@ -157,12 +149,12 @@ strategy.train(X_final, y_dict, final_feature_names)
 
 ### Migration Steps:
 
-1. **Keep your old `train_all_symbols.sh` as backup**
+1. Keep your old `train_all_symbols.sh` as backup
    ```bash
    mv train_all_symbols.sh train_all_symbols.sh.backup
    ```
 
-2. **Update your `main.py` to accept `--metadata-dir` flag**
+2. Update your `main.py` to accept `--metadata-dir` flag
    ```python
    parser.add_argument('--metadata-dir', help='Directory with Phase 1 artifacts')
 
@@ -173,12 +165,10 @@ strategy.train(X_final, y_dict, final_feature_names)
        # Transform data using feature_list
    ```
 
-3. **Adapt Phase 2/3 scripts from your existing train logic**
- - Copy your data loading code to `run_phase2.py` / `run_phase3.py`
- - Add feature transformation step
- - Keep the rest of your training logic
-
----
+3. Adapt Phase 2/3 scripts from your existing train logic
+   - Copy your data loading code to `run_phase2.py` / `run_phase3.py`
+   - Add feature transformation step
+   - Keep the rest of your training logic
 
 ## Expected Workflow
 
@@ -220,8 +210,6 @@ python phase1_feature_engineering/run_phase1.py ...
 python phase2_core_models/run_phase2.py ...
 ```
 
----
-
 ## Configuration Points
 
 ### Phase 1 Config (`feature_selection_config.yaml`)
@@ -245,13 +233,11 @@ feature_engineering:
 DATA_DIR="${DATA_DIR:-/path/to/your/data}"  # MODIFY THIS
 ```
 
----
-
 ## Testing Checklist
 
 Before running on full dataset:
 
-1. **Test Phase 1 on small data**
+1. Test Phase 1 on small data
    ```bash
    # Use a small subset of data first
    python phase1_feature_engineering/run_phase1.py \
@@ -260,7 +246,7 @@ Before running on full dataset:
        --output-dir metadata
    ```
 
-2. **Verify Phase 1 outputs**
+2. Verify Phase 1 outputs
    ```bash
    ls metadata/
    # Should see:
@@ -271,28 +257,24 @@ Before running on full dataset:
    # - phase1_summary.json
    ```
 
-3. **Review feature selection**
+3. Review feature selection
    ```bash
    head -20 metadata/feature_importance_report.csv
    cat metadata/top_50_features.json | python -m json.tool
    ```
 
-4. **Check feature reduction**
+4. Check feature reduction
    ```bash
    cat metadata/phase1_summary.json
    # Should show: 421 → 61 features (or similar)
    ```
 
----
-
 ## Next Steps
 
-1. **Immediate**: Customize `load_data()` in `run_phase1.py`
-2. **Short-term**: Test Phase 1 on your data
-3. **Medium-term**: Create Phase 2 script based on template
-4. **Long-term**: Create Phase 3 script for sequential models
-
----
+1. Immediate: Customize `load_data()` in `run_phase1.py`
+2. Short-term: Test Phase 1 on your data
+3. Medium-term: Create Phase 2 script based on template
+4. Long-term: Create Phase 3 script for sequential models
 
 ## Support
 
@@ -303,26 +285,23 @@ All documentation is in place:
 - Parent folder: `../TRAINING_OPTIMIZATION_GUIDE.md`
 - Parent folder: `../FEATURE_SELECTION_GUIDE.md`
 
----
-
 ## Summary
 
-**What's Complete:**
+What's Complete:
 - Full Phase 1 implementation (feature selection + engineering)
 - Master script for running all phases
 - Comprehensive documentation
 - Configuration templates
 - Integration with existing code (no breaking changes)
 
-**What's Next:**
+What's Next:
 - Customize `load_data()` for your data format
 - Test Phase 1 on your data
 - Create Phase 2/3 scripts based on your existing training code
 - Run full pipeline and compare with old results
 
-**Expected Impact:**
+Expected Impact:
 - 50-70% faster training
 - Better generalization (less overfitting)
 - Easier to experiment with different feature sets
 - More maintainable codebase
-

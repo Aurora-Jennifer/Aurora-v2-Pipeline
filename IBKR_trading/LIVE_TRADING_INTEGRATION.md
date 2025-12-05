@@ -1,19 +1,18 @@
 # Live Trading Integration - Complete Model Zoo
-## Production-Ready Multi-Horizon, Multi-Strategy Trading System
 
-### **Overview**
+Production-ready multi-horizon, multi-strategy trading system.
 
-This document outlines the integration of the complete trained model zoo (20+ models across 3 strategies) into a production-ready live trading system for IBKR. The system handles:
+## Overview
 
-- **All Model Types**: Tabular (LightGBM, XGBoost, MLP) + Sequential (CNN1D, LSTM, Transformer) + Multi-task
-- **All Horizons**: 5m, 10m, 15m, 30m, 60m, 120m, 1d, 5d, 20d
-- **All Strategies**: Single-task, Multi-task, Cascade
-- **Barrier Models**: Peak/valley classifiers for timing gates
-- **Live Integration**: Real-time inference with rolling buffers
+Integration of the complete trained model zoo (20+ models across 3 strategies) into a production-ready live trading system for IBKR. The system handles:
 
----
+- All Model Types: Tabular (LightGBM, XGBoost, MLP) + Sequential (CNN1D, LSTM, Transformer) + Multi-task
+- All Horizons: 5m, 10m, 15m, 30m, 60m, 120m, 1d, 5d, 20d
+- All Strategies: Single-task, Multi-task, Cascade
+- Barrier Models: Peak/valley classifiers for timing gates
+- Live Integration: Real-time inference with rolling buffers
 
-## ️ **System Architecture**
+## System Architecture
 
 ```
 Live Trading Stack
@@ -41,11 +40,9 @@ Live Trading Stack
     └── Execution
 ```
 
----
+## Model Integration Map
 
-## **Model Integration Map**
-
-### **Per-Horizon Model Collection**
+### Per-Horizon Model Collection
 
 For each horizon `h ∈ {5m, 10m, 15m, 30m, 60m, 120m, 1d, 5d, 20d}`:
 
@@ -73,13 +70,11 @@ For each horizon `h ∈ {5m, 10m, 15m, 30m, 60m, 120m, 1d, 5d, 20d}`:
 | Transformer | Cascade | (N, T, F) | |
 | **Barrier Models** | | | |
 | Peak Classifier | All strategies | (N, F) or (N, T, F) | |
-| Valley Classifier | All strategies | (N, F) or (N, F) | |
+| Valley Classifier | All strategies | (N, F) or (N, T, F) | |
 
----
+## Implementation Components
 
-## **Implementation Components**
-
-### **1. Model Prediction Engine**
+### 1. Model Prediction Engine
 
 ```python
 # IBKR_trading/live_trading/model_predictor.py
@@ -152,7 +147,7 @@ class ModelPredictor:
         return predictions
 ```
 
-### **2. Per-Horizon Blending**
+### 2. Per-Horizon Blending
 
 ```python
 # IBKR_trading/live_trading/horizon_blender.py
@@ -196,7 +191,7 @@ class HorizonBlender:
         return self.config.get('blend_weights', {})
 ```
 
-### **3. Barrier Gating System**
+### 3. Barrier Gating System
 
 ```python
 # IBKR_trading/live_trading/barrier_gate.py
@@ -229,7 +224,7 @@ class BarrierGate:
         return gated_alpha
 ```
 
-### **4. Cost Model & Horizon Arbitration**
+### 4. Cost Model & Horizon Arbitration
 
 ```python
 # IBKR_trading/live_trading/cost_arbitrator.py
@@ -326,7 +321,7 @@ class CostModel:
         return costs
 ```
 
-### **5. Position Sizing Engine**
+### 5. Position Sizing Engine
 
 ```python
 # IBKR_trading/live_trading/position_sizer.py
@@ -435,9 +430,7 @@ class PositionSizer:
         return w_final
 ```
 
----
-
-## **Main Live Trading Loop**
+## Main Live Trading Loop
 
 ```python
 # IBKR_trading/live_trading/main_loop.py
@@ -506,9 +499,7 @@ class LiveTradingSystem:
         return {symbol: 0.5 for symbol in market_data['symbols']}
 ```
 
----
-
-## ️ **Configuration**
+## Configuration
 
 ```yaml
 # IBKR_trading/config/live_trading_config.yaml
@@ -551,9 +542,7 @@ live_trading:
     ridge_lambda: 0.01
 ```
 
----
-
-## **Testing & Validation**
+## Testing & Validation
 
 ```python
 # IBKR_trading/tests/test_live_integration.py
@@ -583,35 +572,29 @@ def test_live_integration():
     assert all(abs(w) <= 0.05 for w in target_weights.values())
     assert abs(sum(target_weights.values())) <= 0.1  # Roughly market neutral
 
-    print(" Live integration test passed")
+    print("Live integration test passed")
 ```
 
----
+## Expected Performance
 
-## **Expected Performance**
+### Model Coverage
+- 20+ Models: All trained models across all strategies
+- 5+ Horizons: Multi-timeframe alpha generation
+- Barrier Gating: Timing risk attenuation
+- Cost Awareness: Realistic trading costs
+- Risk Management: Position caps and no-trade bands
 
-### **Model Coverage**
-- **20+ Models**: All trained models across all strategies
-- **5+ Horizons**: Multi-timeframe alpha generation
-- **Barrier Gating**: Timing risk attenuation
-- **Cost Awareness**: Realistic trading costs
-- **Risk Management**: Position caps and no-trade bands
+### System Benefits
+- Comprehensive: Uses all available models and strategies
+- Robust: Handles missing models gracefully
+- Scalable: Works with any number of symbols
+- Production-Ready: Real-time inference with proper error handling
+- Deterministic: Reproducible results with proper seeding
 
-### **System Benefits**
-- **Comprehensive**: Uses all available models and strategies
-- **Robust**: Handles missing models gracefully
-- **Scalable**: Works with any number of symbols
-- **Production-Ready**: Real-time inference with proper error handling
-- **Deterministic**: Reproducible results with proper seeding
+## Next Steps
 
----
-
-## **Next Steps**
-
-1. **Implement Components**: Create the Python files for each component
-2. **Load Models**: Integrate with your trained model zoo
-3. **Configure Weights**: Set up blend weights for each horizon
-4. **Test Integration**: Run comprehensive tests
-5. **Deploy Live**: Connect to IBKR API for live trading
-
-This system provides a complete, production-ready framework for using your entire trained model zoo in live trading!
+1. Implement Components: Create the Python files for each component
+2. Load Models: Integrate with your trained model zoo
+3. Configure Weights: Set up blend weights for each horizon
+4. Test Integration: Run comprehensive tests
+5. Deploy Live: Connect to IBKR API for live trading

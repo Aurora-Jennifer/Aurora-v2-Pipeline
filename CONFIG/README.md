@@ -1,13 +1,13 @@
 # Configuration Directory
 
-All configuration files for the trader project.
+Configuration files for the trader project.
 
 ## Files
 
 ### Model Configurations
 - `model_config/*.yaml` - Per-model hyperparameters for TRAINING module
- - 17 model types (LightGBM, XGBoost, Ensemble, MultiTask, MLP, etc.)
- - Variants: conservative, balanced, aggressive
+- 17 model types (LightGBM, XGBoost, Ensemble, MultiTask, MLP, etc.)
+- Variants: conservative, balanced, aggressive
 
 ### Feature Selection
 - `feature_selection_config.yaml` - LightGBM params, defaults, data filtering for feature selection
@@ -56,11 +56,11 @@ enabled_targets = {
 
 ## Best Practices
 
-1. **Never hardcode values** - Always use config files
-2. **Version control configs** - Track changes in git
-3. **Document changes** - Add comments explaining why values changed
-4. **Test changes** - Run on small dataset before full production
-5. **Create variants** - Don't modify defaults, create new variant configs
+1. Never hardcode values - Always use config files
+2. Version control configs - Track changes in git
+3. Document changes - Add comments explaining why values changed
+4. Test changes - Run on small dataset before full production
+5. Create variants - Don't modify defaults, create new variant configs
 
 ## Creating Custom Configs
 

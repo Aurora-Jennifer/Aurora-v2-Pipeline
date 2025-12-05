@@ -1,8 +1,6 @@
 # Configuration Reference
 
-**Complete guide to all configuration files and parameters.**
-
----
+Configuration files and parameters.
 
 ## Directory Structure
 
@@ -33,8 +31,6 @@ CONFIG/
     └── family_config.yaml
 ```
 
----
-
 ## Config Loader API
 
 ### Loading Configs
@@ -60,8 +56,6 @@ training_cfg = load_training_config("first_batch_specs")
 - `get_available_model_configs()` - List all available model configs
 - `get_available_training_configs()` - List all available training configs
 
----
-
 ## Environment Variables
 
 ```bash
@@ -71,8 +65,6 @@ export MODEL_VARIANT=conservative
 # Override specific config paths
 export MODEL_CONFIG_DIR=/custom/path/to/configs
 ```
-
----
 
 ## Configuration File Format
 
@@ -95,8 +87,6 @@ variants:
   aggressive:
     param1: aggressive_value
 ```
-
----
 
 ## Key Parameters by Model Family
 
@@ -132,8 +122,6 @@ variants:
 - `loss_weights` - Weights for each task loss (default: [1.0, 0.5, 0.5])
 - `target_names` - Task names (default: ["TTH", "MDD", "MFE"])
 
----
-
 ## Backward Compatibility
 
 All trainers maintain backward compatibility:
@@ -141,15 +129,9 @@ All trainers maintain backward compatibility:
 - If `config_loader` import fails, uses hardcoded defaults
 - Old parameter names are supported (e.g., `hidden` → `hidden_layers` for MLP)
 
----
-
 ## Editing Configs
 
-To change model parameters:
-
-1. **Edit the YAML file** in `CONFIG/model_config/`
-2. Save the file
-3. Re-run your training - no code changes needed!
+Edit YAML files in `CONFIG/model_config/`. Save and re-run training. No code changes needed.
 
 Example (`CONFIG/model_config/lightgbm.yaml`):
 ```yaml
@@ -158,8 +140,6 @@ default:
   learning_rate: 0.02       # Changed from 0.03
   max_depth: 6              # Changed from 5
 ```
-
----
 
 ## Creating Custom Variants
 
@@ -182,4 +162,3 @@ Load it:
 ```python
 config = load_model_config("lightgbm", variant="my_experiment")
 ```
-

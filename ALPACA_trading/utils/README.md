@@ -1,6 +1,6 @@
 # Utility Functions
 
-This directory contains utility functions and helpers for the ALPACA trading system.
+Utility functions and helpers for the ALPACA trading system.
 
 ## Components
 
@@ -11,13 +11,13 @@ Runtime utilities for operations and monitoring:
 - Performance profiling
 - Error tracking
 
-**Features:**
+Features:
 - Memory usage monitoring
 - CPU usage tracking
 - Disk space checks
 - Network connectivity checks
 
-**Usage:** Used internally by the trading engine for system monitoring.
+Used internally by the trading engine for system monitoring.
 
 ## Integration
 
@@ -33,4 +33,3 @@ Additional utilities can be added here for:
 - Performance optimization
 - Debugging tools
 - Development helpers
-

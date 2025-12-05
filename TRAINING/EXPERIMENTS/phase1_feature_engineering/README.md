@@ -7,9 +7,7 @@ Reduce feature dimensionality from 421 to ~50-60 features by:
 2. Creating 10 latent features using VAE
 3. Creating 1 regime feature using GMM
 
-This dramatically reduces overfitting and speeds up training in Phases 2-3.
-
----
+Reduces overfitting and speeds up training in Phases 2-3.
 
 ## Quick Start
 
@@ -20,9 +18,7 @@ python run_phase1.py \
     --output-dir ../metadata
 ```
 
----
-
-## What It Does
+## Process
 
 ### Step 1: Feature Selection
 - Trains LightGBM on `fwd_ret_5m` target
@@ -39,8 +35,6 @@ python run_phase1.py \
 - Trains Gaussian Mixture Model on first 5 features
 - Creates 3 regime labels (e.g., low/mid/high volatility)
 - Saves `gmm_model.joblib`
-
----
 
 ## Configuration
 
@@ -61,19 +55,15 @@ feature_engineering:
     n_components: 3           # Try 2, 3, or 4 regimes
 ```
 
----
-
 ## Outputs
 
 All saved to `metadata/`:
 
-1. **top_50_features.json**: List of selected feature names
-2. **feature_importance_report.csv**: Full importance rankings
-3. **vae_encoder.joblib**: Trained VAE encoder (if enabled)
-4. **gmm_model.joblib**: Trained GMM model (if enabled)
-5. **phase1_summary.json**: Summary statistics
-
----
+1. `top_50_features.json`: List of selected feature names
+2. `feature_importance_report.csv`: Full importance rankings
+3. `vae_encoder.joblib`: Trained VAE encoder (if enabled)
+4. `gmm_model.joblib`: Trained GMM model (if enabled)
+5. `phase1_summary.json`: Summary statistics
 
 ## Customization
 
@@ -98,26 +88,22 @@ def load_data(data_dir):
     return X, y_dict, feature_names
 ```
 
----
-
 ## Troubleshooting
 
-**Issue**: Feature importance all zeros
+Issue: Feature importance all zeros
 - Check for NaN values in features or target
 - Verify LightGBM is training (check logs)
 - Try a different target that has more signal
 
-**Issue**: VAE training fails
+Issue: VAE training fails
 - Reduce `latent_dim` from 10 to 5
 - Increase `n_epochs`
 - Check for Inf/NaN in features
 
-**Issue**: GMM gives strange regimes
+Issue: GMM gives strange regimes
 - Try different `n_components` (2, 3, or 4)
 - Use different features for GMM training
 - Check feature distributions
-
----
 
 ## Next Steps
 
@@ -138,4 +124,3 @@ After Phase 1 completes:
    cd ../phase2_core_models
    python run_phase2.py --metadata-dir ../metadata ...
    ```
-

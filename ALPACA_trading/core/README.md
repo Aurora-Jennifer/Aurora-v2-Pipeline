@@ -1,18 +1,18 @@
 # Core Trading Engine Components
 
-This directory contains the core components of the ALPACA paper trading system.
+Core components of the ALPACA paper trading system.
 
 ## Components
 
 ### `paper.py` - Core Paper Trading Engine
-The main trading engine that orchestrates all trading operations. Handles:
+Main trading engine orchestrating all trading operations. Handles:
 - Trading state management
 - Order execution coordination
 - Integration with brokers, strategies, and ML models
 - Regime detection and adaptive feature reweighting
 - Performance tracking and logging
 
-**Key Features:**
+Features:
 - Regime-aware trading with automatic strategy selection
 - Adaptive feature reweighting based on market conditions
 - Integration with Discord notifications
@@ -21,21 +21,21 @@ The main trading engine that orchestrates all trading operations. Handles:
 ### `regime_detector.py` - Market Regime Detection
 Detects current market regime (trending, choppy, volatile) to adapt trading strategies.
 
-**Regimes:**
-- **Trending**: Strong directional movement
-- **Choppy**: Sideways/range-bound movement
-- **Volatile**: High volatility, uncertain direction
+Regimes:
+- Trending: Strong directional movement
+- Choppy: Sideways/range-bound movement
+- Volatile: High volatility, uncertain direction
 
-**Usage:** Used by strategies to adjust parameters and signal weights based on market conditions.
+Used by strategies to adjust parameters and signal weights based on market conditions.
 
 ### `strategy_selector.py` - Strategy Selection Logic
-Selects the appropriate trading strategy based on:
+Selects trading strategy based on:
 - Current market regime
 - Historical performance
 - Risk parameters
 - Market conditions
 
-**Strategies Supported:**
+Strategies Supported:
 - Regime-aware ensemble
 - Trend-following
 - Mean-reversion
@@ -49,19 +49,19 @@ Tracks and calculates trading performance metrics:
 - Win rate
 - Growth targets
 
-**Features:**
+Features:
 - Real-time performance monitoring
 - Historical performance analysis
 - Growth target calculation
 
 ### `risk/guardrails.py` - Risk Management Guardrails
-Optional risk management system that enforces:
+Optional risk management system enforcing:
 - Position size limits
 - Maximum drawdown limits
 - Daily loss limits
 - Exposure limits
 
-**Safety Features:**
+Safety Features:
 - Automatic position reduction on risk violations
 - Circuit breakers for extreme market conditions
 - Real-time risk monitoring
@@ -79,7 +79,7 @@ Validates incoming market data for:
 - Data quality checks
 - Timestamp validation
 
-**Purpose:** Ensures data quality before making trading decisions.
+Ensures data quality before making trading decisions.
 
 ### `feature_reweighter.py` - Adaptive Feature Reweighting
 Dynamically adjusts feature weights based on:
@@ -87,7 +87,7 @@ Dynamically adjusts feature weights based on:
 - Market regime
 - Feature importance over time
 
-**Components:**
+Components:
 - `FeatureReweighter`: Base reweighting logic
 - `AdaptiveFeatureEngine`: Advanced adaptive reweighting
 
@@ -98,7 +98,7 @@ Sends notifications for:
 - Error alerts
 - System status updates
 
-**Supported Channels:**
+Supported Channels:
 - Discord (via webhooks)
 - Extensible to other channels
 
@@ -119,19 +119,18 @@ Common utility functions for:
 ## Integration
 
 All core components work together through the `PaperTradingEngine`:
-1. **Regime Detection** → Identifies market conditions
-2. **Strategy Selection** → Chooses appropriate strategy
-3. **Feature Reweighting** → Adjusts feature weights
-4. **Data Validation** → Ensures data quality
-5. **Order Execution** → Executes trades via broker
-6. **Performance Tracking** → Monitors results
-7. **Risk Management** → Enforces guardrails
-8. **Logging & Notifications** → Records and alerts
+1. Regime Detection → Identifies market conditions
+2. Strategy Selection → Chooses appropriate strategy
+3. Feature Reweighting → Adjusts feature weights
+4. Data Validation → Ensures data quality
+5. Order Execution → Executes trades via broker
+6. Performance Tracking → Monitors results
+7. Risk Management → Enforces guardrails
+8. Logging & Notifications → Records and alerts
 
 ## Configuration
 
-Core components are configured via:
+Core components configured via:
 - `config/base.yaml` - Base configuration
 - `config/paper_trading_config.json` - Paper trading settings
 - Environment variables for sensitive data
-

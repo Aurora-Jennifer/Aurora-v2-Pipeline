@@ -1,25 +1,25 @@
 # Command-Line Interface
 
-This directory contains the CLI interface for interacting with the ALPACA trading system.
+CLI interface for interacting with the ALPACA trading system.
 
 ## Components
 
 ### `paper.py` - Paper Trading CLI
 Command-line interface for paper trading operations.
 
-**Features:**
+Features:
 - Interactive command interface
 - Trade execution commands
 - Position management
 - Performance monitoring
 - Configuration management
 
-**Usage:**
+Usage:
 ```bash
 python ALPACA_trading/cli/paper.py [command] [options]
 ```
 
-**Commands:**
+Commands:
 - `start` - Start paper trading
 - `stop` - Stop paper trading
 - `status` - Show current status
@@ -27,7 +27,7 @@ python ALPACA_trading/cli/paper.py [command] [options]
 - `performance` - Show performance metrics
 - `config` - Manage configuration
 
-**Example:**
+Example:
 ```bash
 # Start trading
 python ALPACA_trading/cli/paper.py start --symbols SPY,TSLA
@@ -41,7 +41,7 @@ python ALPACA_trading/cli/paper.py positions
 
 ## Interactive Mode
 
-The CLI supports interactive mode:
+CLI supports interactive mode:
 ```bash
 python ALPACA_trading/cli/paper.py
 # Enters interactive shell
@@ -53,7 +53,7 @@ python ALPACA_trading/cli/paper.py
 
 ## Integration
 
-The CLI interfaces with:
+CLI interfaces with:
 - `scripts/paper_runner.py` - Trading execution
 - `core/paper.py` - Trading engine
 - `brokers/paper.py` - Broker operations
@@ -65,4 +65,3 @@ CLI uses configuration from:
 - `config/paper_trading_config.json`
 - Environment variables
 - Command-line arguments (override config)
-

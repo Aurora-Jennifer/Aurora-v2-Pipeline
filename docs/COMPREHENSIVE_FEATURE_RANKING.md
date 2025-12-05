@@ -2,34 +2,32 @@
 
 ## Overview
 
-The comprehensive feature ranking system combines **target-dependent** (predictive) and **target-independent** (data quality) metrics to identify features with the best "edge" across multiple dimensions.
+The comprehensive feature ranking system combines target-dependent (predictive) and target-independent (data quality) metrics to identify features with the best "edge" across multiple dimensions.
 
 ## Two Types of Edge
 
 ### 1. Target-Dependent Edge (Predictive Power)
 
-**What it measures**: How well a feature predicts the target variable.
+What it measures: How well a feature predicts the target variable.
 
-**Metrics**:
-- **Model Importance**: Feature importance from trained models (LightGBM, XGBoost, Random Forest, Neural Networks)
-- **Cross-Model Consensus**: Fraction of models that agree the feature is important
-- **Consistency**: Stability of importance across different symbols
+Metrics:
+- Model Importance: Feature importance from trained models (LightGBM, XGBoost, Random Forest, Neural Networks)
+- Cross-Model Consensus: Fraction of models that agree the feature is important
+- Consistency: Stability of importance across different symbols
 
-**Why it matters**: Features with high predictive edge directly contribute to model performance.
+Why it matters: Features with high predictive edge directly contribute to model performance.
 
 ### 2. Target-Independent Edge (Data Quality)
 
-**What it measures**: Intrinsic quality and information content of the feature.
+What it measures: Intrinsic quality and information content of the feature.
 
-**Metrics**:
-- **Completeness**: Low missing value rate (more complete = better)
-- **Variance**: High variance = more informative (zero variance = useless)
-- **Distribution Quality**: Skewness and kurtosis (normal-like distributions are often preferred)
-- **Redundancy**: Low correlation with other features (high correlation = redundant)
+Metrics:
+- Completeness: Low missing value rate (more complete = better)
+- Variance: High variance = more informative (zero variance = useless)
+- Distribution Quality: Skewness and kurtosis (normal-like distributions are often preferred)
+- Redundancy: Low correlation with other features (high correlation = redundant)
 
-**Why it matters**: High-quality features are more stable, require less imputation, and provide unique information.
-
----
+Why it matters: High-quality features are more stable, require less imputation, and provide unique information.
 
 ## Composite Edge Score
 
@@ -42,14 +40,12 @@ Composite Edge =
   (-0.20) × Redundancy Penalty
 ```
 
-**Interpretation**:
-- **0.8-1.0**: Exceptional features (high predictive power + high quality + low redundancy)
-- **0.6-0.8**: Excellent features
-- **0.4-0.6**: Good features
-- **0.2-0.4**: Decent features (may need improvement)
-- **< 0.2**: Weak features (consider excluding)
-
----
+Interpretation:
+- 0.8-1.0: Exceptional features (high predictive power + high quality + low redundancy)
+- 0.6-0.8: Excellent features
+- 0.4-0.6: Good features
+- 0.2-0.4: Decent features (may need improvement)
+- < 0.2: Weak features (consider excluding)
 
 ## Usage
 
@@ -67,9 +63,9 @@ python scripts/rank_features_comprehensive.py \
 ```
 
 This is useful for:
-- **Initial feature audit**: Find features with data quality issues
-- **Feature engineering**: Identify which features need cleaning/imputation
-- **Multicollinearity detection**: Find redundant features
+- Initial feature audit: Find features with data quality issues
+- Feature engineering: Identify which features need cleaning/imputation
+- Multicollinearity detection: Find redundant features
 
 ### With Target (Full Ranking)
 
@@ -83,11 +79,9 @@ python scripts/rank_features_comprehensive.py \
 ```
 
 This provides:
-- **Predictive ranking**: Which features best predict the target
-- **Quality ranking**: Which features have best data quality
-- **Composite ranking**: Best overall features considering both
-
----
+- Predictive ranking: Which features best predict the target
+- Quality ranking: Which features have best data quality
+- Composite ranking: Best overall features considering both
 
 ## Output Files
 
@@ -119,8 +113,6 @@ Markdown report with:
 - Metrics explanation
 - Summary statistics
 
----
-
 ## Example Workflow
 
 ### Step 1: Initial Quality Audit
@@ -132,7 +124,7 @@ python scripts/rank_features_comprehensive.py \
   --output-dir results/quality_audit
 ```
 
-**Action items**:
+Action items:
 - Identify features with > 50% missing values
 - Find features with zero/near-zero variance
 - Detect highly correlated feature pairs (|r| > 0.9)
@@ -147,7 +139,7 @@ python scripts/rank_features_comprehensive.py \
   --output-dir results/peak_60m_features
 ```
 
-**Action items**:
+Action items:
 - Select top 50-100 features by composite edge
 - Verify predictive edge > 0.3 (good predictive power)
 - Verify quality edge > 0.5 (good data quality)
@@ -156,59 +148,55 @@ python scripts/rank_features_comprehensive.py \
 ### Step 3: Feature Selection
 
 Use the rankings to:
-1. **Keep**: Top features with high composite edge
-2. **Remove**: Features with high redundancy (max_correlation > 0.9)
-3. **Improve**: Features with low quality edge (missing data, low variance)
-
----
+1. Keep: Top features with high composite edge
+2. Remove: Features with high redundancy (max_correlation > 0.9)
+3. Improve: Features with low quality edge (missing data, low variance)
 
 ## Interpreting Results
 
 ### High Predictive Edge, Low Quality Edge
 
-**Example**: `feature_A` has predictive_edge=0.8, quality_edge=0.2
+Example: `feature_A` has predictive_edge=0.8, quality_edge=0.2
 
-**Meaning**: Feature is very predictive but has data quality issues (missing values, low variance).
+Meaning: Feature is very predictive but has data quality issues (missing values, low variance).
 
-**Action**:
+Action:
 - Keep the feature
 - Improve data quality (imputation, feature engineering)
 - Consider creating a cleaned version
 
 ### Low Predictive Edge, High Quality Edge
 
-**Example**: `feature_B` has predictive_edge=0.2, quality_edge=0.9
+Example: `feature_B` has predictive_edge=0.2, quality_edge=0.9
 
-**Meaning**: Feature has excellent data quality but low predictive power.
+Meaning: Feature has excellent data quality but low predictive power.
 
-**Action**:
+Action:
 - Keep for now (good data quality is valuable)
 - Consider feature engineering (interactions, transformations)
 - May be useful as a control/context feature
 
 ### High Redundancy
 
-**Example**: `feature_C` has max_correlation=0.95 with `feature_D`
+Example: `feature_C` has max_correlation=0.95 with `feature_D`
 
-**Meaning**: Features are nearly identical (redundant).
+Meaning: Features are nearly identical (redundant).
 
-**Action**:
+Action:
 - Keep the one with higher composite edge
 - Remove the other
 - Or create a single combined feature
 
 ### High Composite Edge
 
-**Example**: `feature_E` has composite_edge=0.85
+Example: `feature_E` has composite_edge=0.85
 
-**Meaning**: Excellent feature with high predictive power, good quality, and low redundancy.
+Meaning: Excellent feature with high predictive power, good quality, and low redundancy.
 
-**Action**:
-- **Definitely keep** in your feature set
+Action:
+- Definitely keep in your feature set
 - Consider using as a primary feature in models
 - Monitor for stability over time
-
----
 
 ## Advanced Configuration
 
@@ -229,17 +217,15 @@ model_families:
   - neural_network
 ```
 
----
-
 ## Integration with Multi-Model Feature Selection
 
 The comprehensive ranking complements the existing `multi_model_feature_selection.py`:
 
-1. **Comprehensive Ranking**: Use for initial feature audit and quality assessment
-2. **Multi-Model Selection**: Use for target-specific feature selection with multiple models
-3. **Combine Results**: Use both rankings to make final feature selection decisions
+1. Comprehensive Ranking: Use for initial feature audit and quality assessment
+2. Multi-Model Selection: Use for target-specific feature selection with multiple models
+3. Combine Results: Use both rankings to make final feature selection decisions
 
-**Example**:
+Example:
 ```bash
 # Step 1: Comprehensive ranking (quality + predictive)
 python scripts/rank_features_comprehensive.py \
@@ -256,54 +242,46 @@ python scripts/multi_model_feature_selection.py \
 # - Use multi-model ranking to select top predictive features
 ```
 
----
-
 ## Best Practices
 
-1. **Start with quality audit**: Run without target first to identify data issues
-2. **Rank per target**: Different targets may need different features
-3. **Check redundancy**: Remove highly correlated features (|r| > 0.9)
-4. **Balance metrics**: Don't ignore quality for predictive power (or vice versa)
-5. **Validate stability**: Re-run rankings periodically to check for drift
-
----
+1. Start with quality audit: Run without target first to identify data issues
+2. Rank per target: Different targets may need different features
+3. Check redundancy: Remove highly correlated features (|r| > 0.9)
+4. Balance metrics: Don't ignore quality for predictive power (or vice versa)
+5. Validate stability: Re-run rankings periodically to check for drift
 
 ## Troubleshooting
 
 ### "No safe features found"
 
-**Cause**: All features filtered out by leakage detection.
+Cause: All features filtered out by leakage detection.
 
-**Fix**: Check `CONFIG/excluded_features.yaml` - may be too restrictive.
+Fix: Check `CONFIG/excluded_features.yaml` - may be too restrictive.
 
 ### "All features have low composite edge"
 
-**Cause**: Either data quality is poor or target is hard to predict.
+Cause: Either data quality is poor or target is hard to predict.
 
-**Fix**:
+Fix:
 - Check data quality metrics (missing rates, variance)
 - Verify target is not degenerate (single class)
 - Consider feature engineering
 
 ### "High redundancy scores"
 
-**Cause**: Many features are highly correlated.
+Cause: Many features are highly correlated.
 
-**Fix**:
+Fix:
 - Use rankings to identify redundant pairs
 - Keep one feature per highly correlated group
 - Consider dimensionality reduction (PCA, feature selection)
 
----
-
 ## Summary
 
 The comprehensive feature ranking system provides:
+- Predictive Edge: Which features best predict your target
+- Quality Edge: Which features have best data quality
+- Redundancy Detection: Which features are redundant
+- Composite Ranking: Best overall features considering all factors
 
- **Predictive Edge**: Which features best predict your target
- **Quality Edge**: Which features have best data quality
- **Redundancy Detection**: Which features are redundant
- **Composite Ranking**: Best overall features considering all factors
-
-Use it to make informed feature selection decisions!
-
+Use it to make informed feature selection decisions.

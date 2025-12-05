@@ -1,10 +1,6 @@
 # Operations Guide - 3-Phase Training Workflow
 
-## Overview
-
-This guide provides **step-by-step instructions** for running the optimized 3-phase training workflow.
-
----
+Step-by-step instructions for running the optimized 3-phase training workflow.
 
 ## Prerequisites
 
@@ -14,25 +10,23 @@ This guide provides **step-by-step instructions** for running the optimized 3-ph
 cd /home/Jennifer/trader/TRAINING
 
 # Verify required packages
-python -c "import lightgbm, xgboost, sklearn, numpy, pandas; print(' All packages available')"
+python -c "import lightgbm, xgboost, sklearn, numpy, pandas; print('All packages available')"
 
 # Create output directories if they don't exist
 mkdir -p EXPERIMENTS/{metadata,logs,output}
 ```
 
 ### 2. Data Preparation
-- Ensure your data files are in the correct location
+- Ensure data files are in the correct location
 - Data should have ~421 features
 - Targets should be properly labeled (e.g., `fwd_ret_5m`, `mdd_5m_0.001`, etc.)
-
----
 
 ## Phase 1: Feature Engineering & Selection
 
 ### Purpose
-**Reduce dimensionality from 421 features to ~50-60 features**
+Reduce dimensionality from 421 features to ~50-60 features.
 
-### What It Does
+### Process
 1. Loads all 421 features
 2. Trains LightGBM on `fwd_ret_5m` to get feature importance
 3. Selects top 50 most important features
@@ -99,28 +93,26 @@ head -20 metadata/feature_importance_report.csv
 
 ### Troubleshooting
 
-**Issue**: `FileNotFoundError: No such file or directory`
+Issue: `FileNotFoundError: No such file or directory`
 - Check `--data-dir` path is correct
 - Ensure data files exist and are readable
 
-**Issue**: `No feature importance available`
+Issue: `No feature importance available`
 - Verify target exists in data
 - Check for NaN values in features/target
 - Ensure LightGBM training succeeded (check logs)
 
-**Issue**: `VAE training fails`
+Issue: `VAE training fails`
 - Reduce `latent_dim` from 10 to 5
 - Check for NaN/Inf values in selected features
 - Increase `n_epochs` if needed
 
----
-
 ## Phase 2: Core Model Training
 
 ### Purpose
-**Train LightGBM, MultiTask, and Ensemble models on selected features**
+Train LightGBM, MultiTask, and Ensemble models on selected features.
 
-### What It Does
+### Process
 1. Loads Phase 1 artifacts (top features, VAE, GMM)
 2. Transforms 421 features → 61 features (50 + 10 VAE + 1 GMM)
 3. Trains models with proper regularization and early stopping
@@ -202,28 +194,26 @@ cat output/core_models/validation_scores.csv
 
 ### Troubleshooting
 
-**Issue**: `Metadata not found`
+Issue: `Metadata not found`
 - Ensure Phase 1 completed successfully
 - Check `--metadata-dir` path
 
-**Issue**: `Models still overfitting`
+Issue: `Models still overfitting`
 - Reduce `n_features` in Phase 1 to 30-40
 - Increase regularization (`reg_alpha`, `reg_lambda`)
 - Reduce `max_depth` to 6-7
 
-**Issue**: `MultiTask training slow`
+Issue: `MultiTask training slow`
 - Reduce `hidden_dim` to 128
 - Reduce `n_epochs` to 50
 - Use GPU if available
 
----
-
 ## Phase 3: Sequential Model Training
 
 ### Purpose
-**Train LSTM, Transformer, and CNN1D models on selected features**
+Train LSTM, Transformer, and CNN1D models on selected features.
 
-### What It Does
+### Process
 1. Loads Phase 1 artifacts
 2. Transforms features to sequences for sequential models
 3. Trains sequential models with reduced dimensionality
@@ -294,22 +284,20 @@ head -20 output/sequential_models/training_history.csv
 
 ### Troubleshooting
 
-**Issue**: `Sequential models training too slow`
+Issue: `Sequential models training too slow`
 - Reduce `lookback_T` from 60 to 30
 - Reduce `hidden_dim` to 64
 - Use fewer `num_layers` (1 instead of 2)
 
-**Issue**: `Out of memory`
+Issue: `Out of memory`
 - Reduce `batch_size` to 16 or 32
 - Reduce `lookback_T`
 - Train on subset of data first
 
-**Issue**: `Models not learning`
+Issue: `Models not learning`
 - Check for NaN values in sequences
 - Verify `lookback_T` is appropriate for your data frequency
 - Increase learning rate slightly
-
----
 
 ## Running All Phases Together
 
@@ -320,26 +308,6 @@ head -20 output/sequential_models/training_history.csv
 
 cd EXPERIMENTS
 
-# Colors and formatting
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
-
-print_header() {
-    echo -e "${BLUE}=================================================${NC}"
-    echo -e "${BLUE}$1${NC}"
-    echo -e "${BLUE}=================================================${NC}"
-}
-
-print_success() {
-    echo -e "${GREEN}$1${NC}"
-}
-
-print_error() {
-    echo -e "${RED}$1${NC}"
-}
-
 # Configuration
 DATA_DIR="/path/to/your/data"
 LOG_DIR="logs"
@@ -349,11 +317,7 @@ OUTPUT_DIR="output"
 # Create directories
 mkdir -p $LOG_DIR $METADATA_DIR $OUTPUT_DIR
 
-# ===========================================================================
-# PHASE 1: Feature Engineering & Selection
-# ===========================================================================
-print_header " PHASE 1: Feature Engineering & Selection"
-
+# Phase 1: Feature Engineering & Selection
 python phase1_feature_engineering/run_phase1.py \
     --data-dir $DATA_DIR \
     --config phase1_feature_engineering/feature_selection_config.yaml \
@@ -361,18 +325,7 @@ python phase1_feature_engineering/run_phase1.py \
     --log-dir $LOG_DIR \
     2>&1 | tee $LOG_DIR/phase1_$(date +%Y%m%d_%H%M%S).log
 
-if [ $? -eq 0 ]; then
-    print_success " Phase 1 completed successfully"
-else
-    print_error " Phase 1 failed. Check logs."
-    exit 1
-fi
-
-# ===========================================================================
-# PHASE 2: Core Model Training
-# ===========================================================================
-print_header " PHASE 2: Core Model Training"
-
+# Phase 2: Core Model Training
 python phase2_core_models/run_phase2.py \
     --data-dir $DATA_DIR \
     --metadata-dir $METADATA_DIR \
@@ -381,18 +334,7 @@ python phase2_core_models/run_phase2.py \
     --log-dir $LOG_DIR \
     2>&1 | tee $LOG_DIR/phase2_$(date +%Y%m%d_%H%M%S).log
 
-if [ $? -eq 0 ]; then
-    print_success " Phase 2 completed successfully"
-else
-    print_error " Phase 2 failed. Check logs."
-    exit 1
-fi
-
-# ===========================================================================
-# PHASE 3: Sequential Model Training
-# ===========================================================================
-print_header " PHASE 3: Sequential Model Training"
-
+# Phase 3: Sequential Model Training
 python phase3_sequential_models/run_phase3.py \
     --data-dir $DATA_DIR \
     --metadata-dir $METADATA_DIR \
@@ -400,24 +342,6 @@ python phase3_sequential_models/run_phase3.py \
     --output-dir $OUTPUT_DIR/sequential_models \
     --log-dir $LOG_DIR \
     2>&1 | tee $LOG_DIR/phase3_$(date +%Y%m%d_%H%M%S).log
-
-if [ $? -eq 0 ]; then
-    print_success " Phase 3 completed successfully"
-else
-    print_error " Phase 3 failed. Check logs."
-    exit 1
-fi
-
-# ===========================================================================
-# SUMMARY
-# ===========================================================================
-print_header " ALL PHASES COMPLETED"
-
-echo "Results:"
-echo "  - Feature metadata: $METADATA_DIR"
-echo "  - Core models: $OUTPUT_DIR/core_models"
-echo "  - Sequential models: $OUTPUT_DIR/sequential_models"
-echo "  - Logs: $LOG_DIR"
 ```
 
 ### Usage
@@ -428,8 +352,6 @@ chmod +x run_all_phases.sh
 # Run all phases
 ./run_all_phases.sh
 ```
-
----
 
 ## Monitoring Progress
 
@@ -453,8 +375,6 @@ find output/ -name "*.joblib" | wc -l
 # View last training summary
 cat output/core_models/training_summary.json | python -m json.tool
 ```
-
----
 
 ## Common Workflows
 
@@ -491,31 +411,27 @@ python phase1_feature_engineering/run_phase1.py ...
 python phase2_core_models/run_phase2.py ...
 ```
 
----
-
 ## Performance Benchmarks
 
 ### Expected Timings (Approximate)
 
-**Hardware**: CPU-only, 12 cores, 32GB RAM
+Hardware: CPU-only, 12 cores, 32GB RAM
 
 | Phase | Time | Bottleneck |
 |-------|------|------------|
 | Phase 1 | 15-30 min | Feature importance calculation |
 | Phase 2 | 30-60 min | LightGBM training |
 | Phase 3 | 60-120 min | LSTM training |
-| **Total** | **2-3 hours** | |
+| Total | 2-3 hours | |
 
-**Hardware**: GPU-enabled, 12 cores, 32GB RAM, RTX 3080
+Hardware: GPU-enabled, 12 cores, 32GB RAM, RTX 3080
 
 | Phase | Time | Bottleneck |
 |-------|------|------------|
 | Phase 1 | 15-30 min | Feature importance (CPU-bound) |
 | Phase 2 | 20-40 min | LightGBM (CPU-bound) |
 | Phase 3 | 20-30 min | LSTM (GPU-accelerated) |
-| **Total** | **1-2 hours** | |
-
----
+| Total | 1-2 hours | |
 
 ## Validation Checklist
 
@@ -538,25 +454,7 @@ After each phase:
 - [ ] Training history shows learning (loss decreasing)
 - [ ] Early stopping triggered appropriately
 
----
+## Related Documentation
 
-## Next Steps
-
-1. **First Run**: Execute `./run_all_phases.sh` and verify outputs
-2. **Analyze Results**: Review logs and validation scores
-3. **Tune Configs**: Adjust hyperparameters based on results
-4. **Iterate**: Re-run phases as needed
-5. **Deploy**: Use best models in production
-
----
-
-## Support
-
-For issues:
-1. Check logs in `logs/` directory
-2. Review phase-specific README files
-3. Consult troubleshooting sections above
-4. Check parent documentation:
- - `../TRAINING_OPTIMIZATION_GUIDE.md`
- - `../FEATURE_SELECTION_GUIDE.md`
-
+- `../TRAINING_OPTIMIZATION_GUIDE.md`: Optimization guide
+- `../FEATURE_SELECTION_GUIDE.md`: Feature selection guide

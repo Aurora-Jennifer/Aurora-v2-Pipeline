@@ -1,20 +1,20 @@
 # Scripts
 
-This directory contains executable scripts for running the ALPACA trading system.
+Executable scripts for running the ALPACA trading system.
 
 ## Components
 
 ### `paper_runner.py` - Main Paper Trading Runner
-The main entry point for running paper trading.
+Main entry point for running paper trading.
 
-**Features:**
+Features:
 - Command-line interface
 - Configuration loading
 - Trading engine initialization
 - Continuous trading loop
 - Error handling and recovery
 
-**Usage:**
+Usage:
 ```bash
 python ALPACA_trading/scripts/paper_runner.py \
     --symbols SPY,TSLA,AAPL \
@@ -22,7 +22,7 @@ python ALPACA_trading/scripts/paper_runner.py \
     --config config/paper_trading_config.json
 ```
 
-**Arguments:**
+Arguments:
 - `--symbols`: Comma-separated list of symbols to trade
 - `--profile`: Risk profile (risk_balanced, risk_low, risk_strict)
 - `--config`: Configuration file path
@@ -31,13 +31,13 @@ python ALPACA_trading/scripts/paper_runner.py \
 ### `data/alpaca_batch.py` - Batch Data Fetching
 Fetches historical data from Alpaca API in batches.
 
-**Features:**
+Features:
 - Batch data retrieval
 - Multiple symbols support
 - Date range specification
 - Data validation
 
-**Usage:**
+Usage:
 ```python
 from scripts.data.alpaca_batch import fetch_batch_data
 
@@ -55,7 +55,7 @@ Optimized version with:
 - Rate limit handling
 - Error recovery
 
-**Performance:** Faster than standard batch fetching for large symbol lists.
+Performance: Faster than standard batch fetching for large symbol lists.
 
 ## Script Execution
 
@@ -91,4 +91,3 @@ All scripts include:
 - Automatic retry logic
 - Detailed error logging
 - Recovery mechanisms
-

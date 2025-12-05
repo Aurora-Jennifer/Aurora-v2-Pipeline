@@ -22,7 +22,7 @@ def strip_targets(cols, all_targets=None):
     """
 ```
 
-**Features:**
+Features:
 - Uses explicit `all_targets` set for precise filtering when available
 - Falls back to heuristics for backward compatibility
 - Excludes `symbol` and `timestamp` from features
@@ -43,7 +43,7 @@ def collapse_identical_duplicate_columns(df):
     """
 ```
 
-**Features:**
+Features:
 - Detects and handles duplicate column names
 - Collapses identical duplicates safely
 - Raises clear error for conflicting duplicates (root cause of tolist() crashes)
@@ -51,10 +51,10 @@ def collapse_identical_duplicate_columns(df):
 
 ### 3. Updated `prepare_training_data_cross_sectional()` Function
 
-**New Parameters:**
+New Parameters:
 - Added `all_targets: set = None` parameter for precise target filtering
 
-**Enhanced Logic:**
+Enhanced Logic:
 - Uses `strip_targets(common_features, all_targets)` for precise filtering
 - Applies `collapse_identical_duplicate_columns()` to handle duplicates safely
 - Validates training contract: `X = features only`, `y = exactly one target`
@@ -62,7 +62,7 @@ def collapse_identical_duplicate_columns(df):
 
 ### 4. Updated `targets_for_interval()` Function
 
-**New Return Format:**
+New Return Format:
 ```python
 def targets_for_interval(...) -> tuple[List[str], set]:
     """
@@ -71,14 +71,14 @@ def targets_for_interval(...) -> tuple[List[str], set]:
     """
 ```
 
-**Features:**
+Features:
 - Returns both target list and complete target set
 - Enables precise filtering in downstream functions
 - Maintains backward compatibility
 
 ### 5. Updated Function Calls
 
-**Enhanced Parameter Passing:**
+Enhanced Parameter Passing:
 - `train_models_for_interval()` now accepts `all_targets` parameter
 - `prepare_training_data_cross_sectional()` receives `all_targets` for precise filtering
 - Main training loop discovers and passes `all_targets` to all functions
@@ -87,11 +87,11 @@ def targets_for_interval(...) -> tuple[List[str], set]:
 
 ### Canonical Per-Target Contract
 
-For each target **T** you train:
+For each target T you train:
 
-1. **X (features):** Only engineered features (no labels), plus metadata (`symbol`/`timestamp` not in `X`)
-2. **y (label):** Exactly the **one** target column **T**
-3. **Exclude:** All other targets from `X`
+1. X (features): Only engineered features (no labels), plus metadata (`symbol`/`timestamp` not in `X`)
+2. y (label): Exactly the one target column T
+3. Exclude: All other targets from `X`
 
 ### Safe Pattern Implementation
 
@@ -99,93 +99,117 @@ For each target **T** you train:
 # 1) Strip ALL targets from features
 features = [c for c in features_all if c not in ALL_TARGETS and c not in ("symbol","timestamp")]
 
-# 2) Subset and collapse dupes safely
-df_sub = df.loc[:, list(dict.fromkeys(features + [target_name]))]
-df_sub = collapse_identical_duplicate_columns(df_sub)
+# 2) For each target T:
+X = df[features]  # Only features, no targets
+y = df[T]        # Only this target
 
-# 3) Pick y as single Series and build X
-y = df_sub[target_name].astype("float32")
-X = df_sub[features]
-
-# 4) Final sanity check
-assert target_name not in X.columns
-assert y.ndim == 1 and len(X) == len(y)
+# 3) Validate contract
+assert T not in X.columns, f"Target {T} leaked into features!"
+assert all(t not in X.columns for t in ALL_TARGETS), "Other targets leaked!"
 ```
 
 ## Benefits
 
-### Prevents tolist() Crashes
-- Eliminates `AttributeError: 'DataFrame' object has no attribute 'tolist'`
-- Handles ambiguous target columns gracefully
-- Provides clear error messages for debugging
+### 1. Prevents Target Leakage
+- Explicit target set prevents accidental inclusion
+- Heuristic fallback maintains backward compatibility
+- Clear error messages when leakage detected
 
-### Enforces Clean Separation
-- Features contain only engineered features
-- Targets contain exactly one target column
-- No target leakage into feature matrix
+### 2. Handles Duplicate Columns
+- Identical duplicates collapsed safely
+- Conflicting duplicates raise clear errors
+- Prevents tolist() crashes from duplicate column names
 
-### Handles Duplicate Columns
-- Detects and collapses identical duplicates
-- Raises clear errors for conflicting duplicates
-- Prevents silent data corruption
+### 3. Clean Separation
+- Features and targets clearly separated
+- Metadata columns excluded from features
+- Training contract enforced at runtime
 
-### Maintains Backward Compatibility
-- Existing code continues to work
-- Heuristic fallback when `all_targets` not provided
-- Gradual migration path
+## Usage
 
-## Usage Examples
+### Automatic (Recommended)
+The training pipeline automatically applies safe patterns:
 
-### Basic Usage (Backward Compatible)
 ```python
-# Works with existing code
-X, y, symbols, groups, ts_index, feat_cols = prepare_training_data_cross_sectional(
-    mtf_data, target, common_features, min_cs, max_samples_per_symbol
+# Main training loop handles everything
+train_models_for_interval(
+    interval="5m",
+    data_dir="data/data_labeled/interval=5m",
+    # all_targets discovered automatically
 )
 ```
 
-### Enhanced Usage (With Target Filtering)
+### Manual (Advanced)
 ```python
-# With precise target filtering
-X, y, symbols, groups, ts_index, feat_cols = prepare_training_data_cross_sectional(
-    mtf_data, target, common_features, min_cs, max_samples_per_symbol, all_targets
+# Discover all targets
+target_list, all_targets = targets_for_interval("5m", data_dir)
+
+# Prepare data with explicit target set
+X, y = prepare_training_data_cross_sectional(
+    df,
+    target="y_will_peak_60m_0.8",
+    all_targets=all_targets  # Explicit filtering
 )
 ```
 
-## Exception Handling
+## Validation
 
-### Multi-Task Models
-- Explicitly designed to handle multiple targets
-- Treats multiple targets as labels, not features
-- Maintains clean separation
+### Runtime Checks
+The system validates the training contract:
 
-### Stacking/Auxiliary Targets
-- Only if leakage-safe (e.g., lagged barrier probabilities)
-- Must be clearly named (e.g., `aux_peak5m_lag1`)
-- Not included in `ALL_TARGETS` set
+```python
+# Check 1: Target not in features
+assert target not in X.columns, f"Target {target} leaked into features!"
 
-### Meta-Learning
-- Different model type
-- Does not pollute base learners
-- Maintains clean feature/target separation
+# Check 2: No other targets in features
+leaked = [t for t in all_targets if t in X.columns]
+assert not leaked, f"Other targets leaked: {leaked}"
+
+# Check 3: No metadata in features
+assert "symbol" not in X.columns, "Metadata 'symbol' in features!"
+assert "timestamp" not in X.columns, "Metadata 'timestamp' in features!"
+```
+
+## Error Messages
+
+### Duplicate Column Error
+```
+ValueError: Conflicting duplicate columns detected:
+  - Column 'feature_A' appears 2 times with different values
+  - Column 'feature_B' appears 3 times with different values
+  
+Action: Check data processing pipeline for duplicate column creation.
+```
+
+### Target Leakage Error
+```
+ValueError: Target 'y_will_peak_60m_0.8' found in feature matrix!
+This indicates target leakage. Check feature selection logic.
+```
+
+## Files Modified
+
+- `TRAINING/utils/data_preprocessor.py` - Enhanced `strip_targets()` and new `collapse_identical_duplicate_columns()`
+- `TRAINING/utils/target_resolver.py` - Updated `targets_for_interval()` return format
+- `TRAINING/train_with_strategies.py` - Main loop passes `all_targets` to all functions
+- `TRAINING/strategies/single_task.py` - Uses `all_targets` for precise filtering
 
 ## Testing
 
-The implementation has been tested with:
-- All 10 active model families
-- 160 total models across all families
-- Problematic barrier targets (mdd_*, mfe_*)
-- Forward return targets (fwd_ret_*)
-- No tolist() crashes
-- Clear error reporting for ambiguous targets
+### Unit Tests
+```bash
+cd TRAINING
+python -m pytest tests/test_safe_target_pattern.py
+```
 
-## Conclusion
+### Integration Tests
+```bash
+# Run full training with validation
+python train_with_strategies.py \
+  --data-dir data/data_labeled/interval=5m \
+  --validate-target-separation
+```
 
-This implementation provides a robust, safe pattern for per-target training that:
-- Prevents the original tolist() crashes
-- Enforces clean feature/target separation
-- Handles duplicate columns gracefully
-- Maintains backward compatibility
-- Provides clear error messages for debugging
+## Status
 
-The pattern is production-ready and works across all model families in the training pipeline.
+Implementation complete. All training functions now enforce the safe target pattern contract.

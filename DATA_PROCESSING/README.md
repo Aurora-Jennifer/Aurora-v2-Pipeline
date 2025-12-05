@@ -1,8 +1,6 @@
 # DATA_PROCESSING Module
 
-**Comprehensive data processing pipeline for market data feature engineering and target generation.**
-
----
+Data processing pipeline for market data feature engineering and target generation.
 
 ## Directory Structure
 
@@ -34,8 +32,6 @@ DATA_PROCESSING/
     ├── processed/         # Processed features
     └── labeled/           # Data with targets
 ```
-
----
 
 ## Quick Start
 
@@ -87,45 +83,41 @@ mem_mgr.check_memory("Before processing")
 log_mgr = CentralLoggingManager(config_path="config/logging_config.yaml")
 ```
 
----
-
 ## Module Purposes
 
 ### features/
-**Purpose:** Transform raw market data into engineered features for ML models.
+Transform raw market data into engineered features for ML models.
 
-**Key features:**
+Key features:
 - Technical indicators (200+)
 - Momentum and volatility features
 - Cross-sectional rankings
 - Memory-efficient streaming computation
 
 ### targets/
-**Purpose:** Generate prediction targets and labels for model training.
+Generate prediction targets and labels for model training.
 
-**Target types:**
-- **Barrier targets:** Will price hit upper/lower barrier first?
-- **Excess returns:** Future returns adjusted for market beta
-- **HFT targets:** Short-horizon forward returns (15m-120m)
+Target types:
+- Barrier targets: Will price hit upper/lower barrier first?
+- Excess returns: Future returns adjusted for market beta
+- HFT targets: Short-horizon forward returns (15m-120m)
 
 ### pipeline/
-**Purpose:** End-to-end processing workflows for production data.
+End-to-end processing workflows for production data.
 
-**Key pipelines:**
+Key pipelines:
 - Session normalization (RTH only, grid-aligned)
 - Smart barrier processing (resumable, parallel)
 
 ### utils/
-**Purpose:** Common utilities shared across all processing modules.
+Common utilities shared across all processing modules.
 
-**Components:**
+Components:
 - Memory management and monitoring
 - Centralized logging configuration
 - Schema validation
 - I/O helpers (Polars lazy loading)
 - Exchange calendar bootstrap
-
----
 
 ## Data Flow
 
@@ -143,17 +135,13 @@ Labeled Data (data/labeled/)
 Ready for model training (TRAINING/)
 ```
 
----
-
 ## Best Practices
 
-1. **Memory Management:** Use `MemoryManager` for large datasets
-2. **Streaming:** Use `streaming_builder.py` for datasets that don't fit in memory
-3. **Schema Validation:** Always validate schema before processing
-4. **Logging:** Use `CentralLoggingManager` for consistent logging
-5. **Normalization:** Always normalize session data before feature engineering
-
----
+1. Memory Management: Use `MemoryManager` for large datasets
+2. Streaming: Use `streaming_builder.py` for datasets that don't fit in memory
+3. Schema Validation: Always validate schema before processing
+4. Logging: Use `CentralLoggingManager` for consistent logging
+5. Normalization: Always normalize session data before feature engineering
 
 ## Dependencies
 
@@ -164,11 +152,8 @@ Ready for model training (TRAINING/)
 - `yaml` - Configuration loading
 - `psutil` - Memory monitoring
 
----
+## Related Documentation
 
-## See Also
-
-- **TRAINING/** - Model training using processed features
-- **CONFIG/** - Centralized configuration files
-- **INFORMATION/** - Project documentation
-
+- `TRAINING/` - Model training using processed features
+- `CONFIG/` - Centralized configuration files
+- `INFORMATION/` - Project documentation

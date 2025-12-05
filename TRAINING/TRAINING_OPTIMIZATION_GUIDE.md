@@ -1,10 +1,6 @@
 # Training Optimization Guide
 
-## Overview
-
-This document provides actionable guidance for optimizing your model training pipeline. It addresses the critical issues of **overfitting** in tree models and **inactive regularization** in neural networks.
-
----
+Actionable guidance for optimizing the model training pipeline. Addresses overfitting in tree models and inactive regularization in neural networks.
 
 ## Problem 1: Overfitting in Tree Models
 
@@ -17,7 +13,7 @@ This document provides actionable guidance for optimizing your model training pi
 
 ### Solution: Spec 2 High Regularization
 
-The trainer files (`lightgbm_trainer.py`, `xgboost_trainer.py`) now use **Spec 2** defaults:
+Trainer files (`lightgbm_trainer.py`, `xgboost_trainer.py`) use Spec 2 defaults:
 
 #### LightGBM
 ```python
@@ -50,8 +46,6 @@ The trainer files (`lightgbm_trainer.py`, `xgboost_trainer.py`) now use **Spec 2
     'early_stopping_rounds': 50,   # Stop when no improvement
 }
 ```
-
----
 
 ## Problem 2: Inactive Dropout in Neural Networks
 
@@ -95,13 +89,11 @@ callbacks = [
 model.fit(X, y, validation_data=(X_val, y_val), callbacks=callbacks)
 ```
 
----
-
 ## Problem 3: Early Stopping Not Applied
 
 ### Solution: Auto-detect and Apply
 
-The `single_task.py` strategy now automatically detects if models support early stopping:
+The `single_task.py` strategy automatically detects if models support early stopping:
 
 ```python
 # Auto-detect early stopping support
@@ -121,24 +113,22 @@ else:
     model.fit(X, y)
 ```
 
----
-
 ## Two-Stage Pipeline Architecture
 
 ### Stage 1: Feature Engineering
 
-**Models**: `VAE`, `GMMRegime`, `ChangePoint`
+Models: `VAE`, `GMMRegime`, `ChangePoint`
 
-**Purpose**: Create new, informative features
+Purpose: Create new, informative features
 
-**Process**:
-1. Train on **X only** (your 421 features) or price series
+Process:
+1. Train on X only (your 421 features) or price series
 2. Extract outputs:
- - `VAE`: Latent features (e.g., 20 compressed features)
- - `GMMRegime`: Regime labels (e.g., `regime=0,1,2,3`)
- - `ChangePoint`: Changepoint features (e.g., `days_since_last_break`)
+   - `VAE`: Latent features (e.g., 20 compressed features)
+   - `GMMRegime`: Regime labels (e.g., `regime=0,1,2,3`)
+   - `ChangePoint`: Changepoint features (e.g., `days_since_last_break`)
 
-**Example**:
+Example:
 ```python
 # Stage 1: Feature Engineering
 vae = VAETrainer(config)
@@ -156,18 +146,18 @@ X_enriched = np.column_stack([X, vae_features, regime_labels])
 
 ### Stage 2: Prediction
 
-**Models**: `LightGBM`, `XGBoost`, `MultiTask`, `Ensemble`
+Models: `LightGBM`, `XGBoost`, `MultiTask`, `Ensemble`
 
-**Purpose**: Predict targets (TTH, MDD, MFE, returns)
+Purpose: Predict targets (TTH, MDD, MFE, returns)
 
-**Process**:
-1. Use **X_enriched** (original + engineered features)
+Process:
+1. Use X_enriched (original + engineered features)
 2. Train prediction models using strategies:
- - `SingleTaskStrategy`: Separate model per target
- - `MultiTaskStrategy`: One model for correlated targets
- - `CascadeStrategy`: Barrier models + return models
+   - `SingleTaskStrategy`: Separate model per target
+   - `MultiTaskStrategy`: One model for correlated targets
+   - `CascadeStrategy`: Barrier models + return models
 
-**Example**:
+Example:
 ```python
 # Stage 2: Prediction
 from strategies.single_task import SingleTaskStrategy
@@ -183,8 +173,6 @@ strategy = MultiTaskStrategy(config)
 results = strategy.train(X_enriched, y_multi, feature_names)
 ```
 
----
-
 ## Model-to-Strategy Mapping
 
 | Model Family | Strategy | Purpose |
@@ -193,11 +181,9 @@ results = strategy.train(X_enriched, y_multi, feature_names)
 | `MultiTask`, `MLP` | `MultiTaskStrategy` | Shared encoder for correlated targets |
 | `Ensemble`, `MetaLearning` | `SingleTaskStrategy` | Robust predictions via stacking |
 | `QuantileLightGBM`, `NGBoost` | `SingleTaskStrategy` | Probabilistic predictions (ranges) |
-| `VAE`, `GMMRegime`, `ChangePoint` | **Stage 1 only** | Feature engineering |
+| `VAE`, `GMMRegime`, `ChangePoint` | Stage 1 only | Feature engineering |
 | `CascadeStrategy` | Special use case | Barrier models + return models |
-| `RewardBased`, `FTRL`, `GAN` | **R&D projects** | Advanced, separate frameworks |
-
----
+| `RewardBased`, `FTRL`, `GAN` | R&D projects | Advanced, separate frameworks |
 
 ## Configuration Examples
 
@@ -262,41 +248,6 @@ strategy = SingleTaskStrategy(config)
 results = strategy.train(X_enriched, y_dict, feature_names)
 ```
 
----
-
-## Immediate Action Items
-
-### Completed
-1. **LightGBM/XGBoost trainers**: Updated with Spec 2 regularization
-2. **MultiTask trainer**: Multiple output heads for correlated targets
-3. **Ensemble trainer**: StackingRegressor with proper CV
-4. **Single-task strategy**: Auto-detect early stopping
-5. **Multi-task strategy**: Active dropout + early stopping
-
-### Next Steps
-
-1. **Test the new configurations**:
-   ```bash
-   python train_with_strategies.py --strategy single_task --config config/first_batch_specs.yaml
-   ```
-
-2. **Implement two-stage pipeline**:
- - Create `train_stage1_features.py` for VAE/GMM/ChangePoint
- - Create `train_stage2_predictions.py` for LightGBM/XGBoost/MultiTask
-
-3. **Train quantile models** for prediction ranges:
-   ```python
-   # Train two models: lower and upper bounds
-   config_lower = {'alpha': 0.05}  # 5th percentile
-   config_upper = {'alpha': 0.95}  # 95th percentile
-   ```
-
-4. **Tune hyperparameters** using cross-validation:
- - `final_estimator_alpha` in Ensemble (1.0-10.0 range)
- - `loss_weights` in MultiTask (balance target importance)
-
----
-
 ## Verification
 
 ### Check 1: Overfitting Fixed
@@ -326,24 +277,10 @@ model.eval()   # Should disable Dropout
 print(model.encoder.training)  # Should be False
 ```
 
----
-
 ## References
 
-- **Spec 1**: Multi-task Learning (MTL) with multiple output heads
-- **Spec 2**: High Regularization for Gradient Boosted Trees
-- **Spec 3**: Stacking Regressor with Cross-Validation
-- **Configuration**: `TRAINING/config/first_batch_specs.yaml`
-- **Implementation Summary**: `TRAINING/FIRST_BATCH_SPECS_IMPLEMENTATION.md`
-
----
-
-## Support
-
-If you encounter issues:
-
-1. Check logs for early stopping messages
-2. Verify model parameters with `model.get_params()`
-3. Test on small dataset first
-4. Enable verbose logging: `logging.basicConfig(level=logging.DEBUG)`
-
+- Spec 1: Multi-task Learning (MTL) with multiple output heads
+- Spec 2: High Regularization for Gradient Boosted Trees
+- Spec 3: Stacking Regressor with Cross-Validation
+- Configuration: `TRAINING/config/first_batch_specs.yaml`
+- Implementation Summary: `TRAINING/FIRST_BATCH_SPECS_IMPLEMENTATION.md`

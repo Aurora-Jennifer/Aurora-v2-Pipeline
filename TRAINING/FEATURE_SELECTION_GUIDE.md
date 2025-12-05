@@ -1,17 +1,13 @@
 # Feature Selection Guide
 
-## Overview
+Feature selection methodology and implementation.
 
-Your approach is **excellent** and addresses the core issues! Here's the status and how to implement it.
-
----
-
-## Already Implemented (Steps 1 & 2)
+## Implementation Status
 
 ### Step 1: SingleTaskStrategy with Early Stopping
-**Location**: `TRAINING/strategies/single_task.py`
+Location: `TRAINING/strategies/single_task.py`
 
-The validation split and early stopping are **already working**:
+Validation split and early stopping implemented:
 
 ```python
 # Automatic validation split and early stopping
@@ -24,7 +20,7 @@ model.fit(
 logger.info(f"Early stopping at iteration {model.best_iteration_}")
 ```
 
-**Configuration** (from `first_batch_specs.yaml`):
+Configuration (from `first_batch_specs.yaml`):
 ```yaml
 lightgbm:
   max_depth: 8              # Prevents deep, overfit trees
@@ -38,9 +34,9 @@ lightgbm:
 ```
 
 ### Step 2: MultiTaskStrategy with Active Dropout
-**Location**: `TRAINING/strategies/multi_task.py`
+Location: `TRAINING/strategies/multi_task.py`
 
-Dropout is **active during training, disabled during inference**:
+Dropout active during training, disabled during inference:
 
 ```python
 # Training: Dropout ACTIVE
@@ -54,7 +50,7 @@ with torch.no_grad():
     predictions = self.shared_model(X_test)  # All units active
 ```
 
-**Early stopping** is also implemented:
+Early stopping implemented:
 ```python
 patience = 10
 if patience_counter >= patience:
@@ -63,11 +59,9 @@ if patience_counter >= patience:
     break
 ```
 
----
+## Step 3: Feature Selection
 
-## 🆕 Step 3: Feature Selection (NEW)
-
-### Quick Start: Reduce from 421 to 50 Features
+### Reduce from 421 to 50 Features
 
 ```python
 from strategies.single_task import SingleTaskStrategy
@@ -114,11 +108,9 @@ X_selected, selected_features, strategy = feature_selection_workflow(
 # Now use X_selected for all models
 ```
 
----
+## Step 4: Simplified Workflow
 
-## Step 4: Simplified Workflow (RECOMMENDED)
-
-### Phase 1: Core Predictors (Start Here)
+### Phase 1: Core Predictors
 
 ```python
 # 1. Feature selection (reduce 421 → 50)
@@ -178,9 +170,9 @@ strategy_mtl = MultiTaskStrategy(config_mtl)
 results_mtl = strategy_mtl.train(X_final, y_correlated, features_final)
 ```
 
-### Phase 2: Advanced Models (After Phase 1 works)
+### Phase 2: Advanced Models
 
-**Only proceed here once Phase 1 is working well.**
+Proceed after Phase 1 is working.
 
 ```python
 # Ensemble (uses LightGBM as a base)
@@ -205,20 +197,17 @@ q95.train(X_final, y_dict['fwd_ret_5m'])
 # Prediction range: [q05.predict(X), q95.predict(X)]
 ```
 
-### Phase 3: Feature Engineering (Later)
+### Phase 3: Feature Engineering
 
-**Park these until Phases 1-2 are solid:**
-
-- `VAE`: Too complex, needs research
-- `GAN`: Too complex, needs research
-- `NGBoost`: Slow, use after LightGBM works
-- `FTRL`, `RewardBased`: Specialized, different framework
-
----
+Defer until Phases 1-2 are solid:
+- VAE: Complex, requires research
+- GAN: Complex, requires research
+- NGBoost: Slow, use after LightGBM works
+- FTRL, RewardBased: Specialized, different framework
 
 ## Backward Compatibility
 
-**All existing functionality is preserved!**
+All existing functionality preserved.
 
 ### Option 1: Use with ALL features (existing behavior)
 ```python
@@ -226,7 +215,7 @@ strategy = SingleTaskStrategy(config)
 strategy.train(X, y_dict, feature_names)  # Works as before
 ```
 
-### Option 2: Use with SELECTED features (new)
+### Option 2: Use with SELECTED features
 ```python
 # Feature selection is OPTIONAL
 X_selected, selected_features, strategy = feature_selection_workflow(...)
@@ -240,8 +229,6 @@ selected_indices = [0, 5, 10, ...]  # Your choice
 X_manual = X[:, selected_indices]
 strategy.train(X_manual, y_dict, [feature_names[i] for i in selected_indices])
 ```
-
----
 
 ## Verification Checklist
 
@@ -288,79 +275,26 @@ print(model.encoder.training)  # Should be False
 # - Model complexity reduced (fewer overfitting risks)
 ```
 
----
-
-## Immediate Action Plan
-
-### Day 1: Feature Selection
-```bash
-# 1. Run feature selection workflow
-python examples/feature_selection_workflow.py
-
-# 2. Review feature_importance_report.csv
-# See which features are most important
-
-# 3. Save selected features for reuse
-```
-
-### Day 2: Core Models
-```python
-# 1. Train LightGBM on selected features
-# 2. Train MultiTask on correlated targets only
-# 3. Compare with baseline (all features)
-```
-
-### Day 3: Validation & Tuning
-```python
-# 1. Check train vs validation scores
-# 2. Verify early stopping is working
-# 3. Tune hyperparameters if needed
-```
-
----
-
-## New Files Created
+## Implementation Files
 
 1. `TRAINING/utils/feature_selection.py`
- - `select_top_features()`: Select top N features by importance
- - `get_feature_importance_from_strategy()`: Extract importance from trained model
- - `create_feature_report()`: Generate CSV report with rankings
- - `auto_select_features()`: End-to-end feature selection
+   - `select_top_features()`: Select top N features by importance
+   - `get_feature_importance_from_strategy()`: Extract importance from trained model
+   - `create_feature_report()`: Generate CSV report with rankings
+   - `auto_select_features()`: End-to-end feature selection
 
 2. `TRAINING/examples/feature_selection_workflow.py`
- - Complete workflow demonstrating Steps 3-4
- - Shows how to reduce from 421 to 50 features
- - Includes optional GMM regime feature
+   - Complete workflow demonstrating Steps 3-4
+   - Shows how to reduce from 421 to 50 features
+   - Includes optional GMM regime feature
 
 3. `TRAINING/strategies/base.py` (enhanced)
- - `get_feature_importance()`: Now supports all targets or specific target
- - Returns dict mapping targets to importance arrays
-
----
-
-## Summary
-
-**Your approach is PERFECT!** Here's what we've done:
-
- **Step 1 (Fixed)**: SingleTaskStrategy now uses validation split + early stopping
- **Step 2 (Fixed)**: MultiTaskStrategy now uses active dropout + early stopping
- **Step 3 (NEW)**: Feature selection utilities created
- **Step 4 (NEW)**: Complete workflow example provided
-
-**No existing functionality was broken!** Everything is additive and optional.
-
-**Next steps**:
-1. Run `examples/feature_selection_workflow.py` to reduce features
-2. Train LightGBM on selected features
-3. Train MultiTask on correlated targets only
-4. Park complex models (VAE, GAN, etc.) until basics work perfectly
-
----
+   - `get_feature_importance()`: Now supports all targets or specific target
+   - Returns dict mapping targets to importance arrays
 
 ## Related Documentation
 
-- `TRAINING_OPTIMIZATION_GUIDE.md`: Complete optimization guide
+- `TRAINING_OPTIMIZATION_GUIDE.md`: Optimization guide
 - `FIRST_BATCH_SPECS_IMPLEMENTATION.md`: Trainer-level changes
 - `first_batch_specs.yaml`: Recommended hyperparameters
 - `STRATEGY_UPDATES.md`: Strategy-level changes
-

@@ -2,28 +2,28 @@
 
 ## Testing Strategy Overview
 
-### **Phase 1: C++ Component Validation (Today)**
-- **C++ Build Testing** - Ensure all C++ components compile
-- **Python Bindings** - Test Python-C++ integration
-- **Performance Benchmarking** - Compare C++ vs Python performance
-- **Memory Leak Testing** - Ensure no memory leaks
+### Phase 1: C++ Component Validation
+- C++ Build Testing - Ensure all C++ components compile
+- Python Bindings - Test Python-C++ integration
+- Performance Benchmarking - Compare C++ vs Python performance
+- Memory Leak Testing - Ensure no memory leaks
 
-### **Phase 2: IBKR Integration Testing (Tomorrow)**
-- **IBKR Connection** - Test connection to TWS/Gateway
-- **Market Data Streaming** - Test real-time data
-- **Order Placement** - Test order execution
-- **Position Tracking** - Test portfolio management
-- **Risk Management** - Test safety guards
+### Phase 2: IBKR Integration Testing
+- IBKR Connection - Test connection to TWS/Gateway
+- Market Data Streaming - Test real-time data
+- Order Placement - Test order execution
+- Position Tracking - Test portfolio management
+- Risk Management - Test safety guards
 
-### **Phase 3: Model Compatibility Testing**
-- **Alpaca Model Copying** - Copy existing models to IBKR
-- **Model Validation** - Ensure models work in IBKR environment
-- **Performance Comparison** - Compare Alpaca vs IBKR performance
-- **Side-by-Side Testing** - Run both systems in parallel
+### Phase 3: Model Compatibility Testing
+- Alpaca Model Copying - Copy existing models to IBKR
+- Model Validation - Ensure models work in IBKR environment
+- Performance Comparison - Compare Alpaca vs IBKR performance
+- Side-by-Side Testing - Run both systems in parallel
 
 ## Testing Commands
 
-### **Today (C++ Testing)**
+### C++ Testing
 
 ```bash
 # 1. Build C++ components
@@ -37,7 +37,7 @@ python IBKR_trading/test_cpp_components.py
 ./IBKR_trading/run_comprehensive_test.sh
 ```
 
-### **Tomorrow (IBKR Testing)**
+### IBKR Testing
 
 ```bash
 # 1. Start Alpaca (keep running for comparison)
@@ -58,28 +58,28 @@ python IBKR_trading/run_parallel_test.py --duration 2h
 
 ## Expected Results
 
-### **C++ Components**
-- **Performance**: 2-5x faster than Python equivalent
-- **Memory**: No memory leaks after 24h continuous running
-- **Accuracy**: Identical results to Python version
-- **Stability**: No crashes with edge cases
+### C++ Components
+- Performance: 2-5x faster than Python equivalent
+- Memory: No memory leaks after 24h continuous running
+- Accuracy: Identical results to Python version
+- Stability: No crashes with edge cases
 
-### **IBKR Integration**
-- **Connection**: Stable connection to IBKR
-- **Data**: Real-time market data streaming
-- **Orders**: Orders execute correctly
-- **Risk**: All risk controls work
-- **Performance**: Matches or exceeds Alpaca performance
+### IBKR Integration
+- Connection: Stable connection to IBKR
+- Data: Real-time market data streaming
+- Orders: Orders execute correctly
+- Risk: All risk controls work
+- Performance: Matches or exceeds Alpaca performance
 
-### **Model Compatibility**
-- **Accuracy**: Identical predictions to Alpaca
-- **Speed**: Faster inference than Python
-- **Memory**: Lower memory usage
-- **Stability**: No crashes during inference
+### Model Compatibility
+- Accuracy: Identical predictions to Alpaca
+- Speed: Faster inference than Python
+- Memory: Lower memory usage
+- Stability: No crashes during inference
 
 ## Troubleshooting Guide
 
-### **C++ Build Issues**
+### C++ Build Issues
 ```bash
 # Check if build directory exists
 ls -la IBKR_trading/cpp_engine/build/
@@ -90,7 +90,7 @@ rm -rf build/
 ./build.sh
 ```
 
-### **IBKR Connection Issues**
+### IBKR Connection Issues
 ```bash
 # Check if IBKR TWS/Gateway is running
 netstat -an | grep 7497
@@ -99,7 +99,7 @@ netstat -an | grep 7497
 tail -f ~/IBKR/TWS/logs/tws.log
 ```
 
-### **Model Loading Issues**
+### Model Loading Issues
 ```bash
 # Check model directory
 ls -la IBKR_trading/models/daily_models/
@@ -110,27 +110,27 @@ python IBKR_trading/validate_models.py
 
 ## Success Criteria
 
-### **C++ Components **
+### C++ Components
 - [ ] C++ builds successfully
 - [ ] Python bindings work
 - [ ] Performance is 2-5x faster than Python
 - [ ] No memory leaks
 - [ ] Handles edge cases (empty data, NaN, etc.)
 
-### **IBKR Integration **
+### IBKR Integration
 - [ ] Connects to IBKR TWS/Gateway
 - [ ] Market data streaming works
 - [ ] Order placement works
 - [ ] Position tracking works
 - [ ] Risk management works
 
-### **Model Compatibility **
+### Model Compatibility
 - [ ] Models load correctly
 - [ ] Features are compatible
 - [ ] Predictions are identical
 - [ ] Performance is maintained
 
-### **Risk Management **
+### Risk Management
 - [ ] Position limits enforced
 - [ ] Drawdown controls work
 - [ ] Kill switches work
@@ -138,57 +138,38 @@ python IBKR_trading/validate_models.py
 
 ## Risk Mitigation
 
-### **Backup Strategy**
+### Backup Strategy
 - Keep Alpaca running as backup
 - Copy all models before testing
 - Save configuration backups
 - Log all test results
 
-### **Rollback Plan**
+### Rollback Plan
 - If IBKR fails, fall back to Alpaca
 - If C++ components fail, use Python fallback
 - If models incompatible, use original models
 - If performance degrades, revert changes
 
-## Testing Schedule
-
-### **Today (C++ Testing)**
-- [ ] 09:00 - Build C++ components
-- [ ] 10:00 - Test C++ components
-- [ ] 11:00 - Benchmark performance
-- [ ] 12:00 - Test memory usage
-- [ ] 13:00 - Fix any issues
-- [ ] 14:00 - Final C++ validation
-
-### **Tomorrow (IBKR Testing)**
-- [ ] 09:00 - Start Alpaca (keep running)
-- [ ] 09:30 - Copy models to IBKR
-- [ ] 10:00 - Test IBKR connection
-- [ ] 10:30 - Run parallel testing
-- [ ] 12:00 - Compare results
-- [ ] 13:00 - Fix any issues
-- [ ] 14:00 - Final IBKR validation
-
 ## Expected Outcomes
 
-### **C++ Components**
-- **2-5x performance improvement**
-- **Lower memory usage**
-- **Identical accuracy**
-- **Production ready**
+### C++ Components
+- 2-5x performance improvement
+- Lower memory usage
+- Identical accuracy
+- Production ready
 
-### **IBKR Integration**
-- **Stable connection**
-- **Real-time data**
-- **Correct order execution**
-- **Risk management working**
-- **Performance matching Alpaca**
+### IBKR Integration
+- Stable connection
+- Real-time data
+- Correct order execution
+- Risk management working
+- Performance matching Alpaca
 
-### **Overall System**
-- **Ready for production**
-- **Faster than current setup**
-- **More robust risk management**
-- **Better execution quality**
+### Overall System
+- Ready for production
+- Faster than current setup
+- More robust risk management
+- Better execution quality
 
 ## Test Files Created
 
@@ -201,14 +182,10 @@ python IBKR_trading/validate_models.py
 
 ## Next Steps
 
-1. **Run C++ tests today** - Validate all C++ components
-2. **Start Alpaca tomorrow** - Keep running for comparison
-3. **Copy models** - Transfer your existing models
-4. **Test IBKR connection** - Ensure stable connection
-5. **Run parallel testing** - Compare Alpaca vs IBKR
-6. **Validate results** - Ensure performance matches
-7. **Go live** - Switch to IBKR when ready
-
----
-
-**Ready to start testing? Run `./IBKR_trading/run_comprehensive_test.sh`!**
+1. Run C++ tests - Validate all C++ components
+2. Start Alpaca - Keep running for comparison
+3. Copy models - Transfer your existing models
+4. Test IBKR connection - Ensure stable connection
+5. Run parallel testing - Compare Alpaca vs IBKR
+6. Validate results - Ensure performance matches
+7. Go live - Switch to IBKR when ready

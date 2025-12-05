@@ -1,8 +1,8 @@
-# Quick Start Guide - EXPERIMENTS
+# EXPERIMENTS Quick Start
 
-## Get Started in 5 Minutes
+## Setup
 
-### Step 1: Customize Data Loading (2 minutes)
+### Step 1: Customize Data Loading
 
 Edit `phase1_feature_engineering/run_phase1.py`, line ~44:
 
@@ -21,13 +21,13 @@ def load_data(data_dir):
     return X, y_dict, feature_names
 ```
 
-### Step 2: Prepare Your Data (1 minute)
+### Step 2: Prepare Data
 
 ```bash
 # Data directory already created at /home/Jennifer/trader/data
 # Place your data there, or use environment variable to override
 
-# Option 1: Use default location (already set)
+# Option 1: Use default location
 cd /home/Jennifer/trader/data
 # Place your data files here
 
@@ -35,7 +35,7 @@ cd /home/Jennifer/trader/data
 export DATA_DIR=/path/to/your/custom/data/location
 ```
 
-### Step 3: Run Phase 1 (2 minutes to start)
+### Step 3: Run Phase 1
 
 ```bash
 # Test on small sample first
@@ -44,8 +44,6 @@ python phase1_feature_engineering/run_phase1.py \
     --config phase1_feature_engineering/feature_selection_config.yaml \
     --output-dir metadata
 ```
-
----
 
 ## Expected Output
 
@@ -67,11 +65,9 @@ cat metadata/phase1_summary.json
 head -20 metadata/feature_importance_report.csv
 ```
 
----
+## Workflow Comparison
 
-## What Changed vs Old Workflow
-
-### Before (SLOW, OVERFITS)
+### Previous Workflow
 ```bash
 # Train on ALL 421 features
 ./train_all_symbols.sh
@@ -79,7 +75,7 @@ head -20 metadata/feature_importance_report.csv
   └─ Phase 2: Sequential (421 features) → Takes 4 hours, overfits
 ```
 
-### After (FAST, GENERALIZES)
+### Current Workflow
 ```bash
 # Train on SELECTED features
 ./run_all_phases.sh
@@ -88,11 +84,9 @@ head -20 metadata/feature_importance_report.csv
   └─ Phase 3: Sequential (61 features) → Takes 1 hour, no overfitting
 ```
 
-**Result**: 8 hours → 2.5 hours, better accuracy!
+Result: 8 hours → 2.5 hours, better accuracy.
 
----
-
-## Command Cheat Sheet
+## Command Reference
 
 ### Run Everything
 ```bash
@@ -128,9 +122,7 @@ ls metadata/
 ls output/core_models/
 ```
 
----
-
-## Quick Configuration Changes
+## Configuration Changes
 
 ### Try Different Feature Counts
 
@@ -157,9 +149,7 @@ feature_selection:
   primary_target: fwd_ret_10m  # Use different target
 ```
 
----
-
-## Quick Troubleshooting
+## Troubleshooting
 
 | Problem | Solution |
 |---------|----------|
@@ -168,34 +158,14 @@ feature_selection:
 | `VAE training fails` | Set `vae: enabled: false` in config |
 | `Phase 2/3 not found` | Create scripts or skip (Phase 1 works standalone) |
 
----
+## Related Documentation
 
-## More Documentation
+- Overview: `README.md`
+- Detailed Guide: `OPERATIONS_GUIDE.md`
+- Implementation: `IMPLEMENTATION_SUMMARY.md`
+- Phase 1: `phase1_feature_engineering/README.md`
 
-- **Overview**: `README.md`
-- **Detailed Guide**: `OPERATIONS_GUIDE.md`
-- **Implementation**: `IMPLEMENTATION_SUMMARY.md`
-- **Phase 1**: `phase1_feature_engineering/README.md`
-
----
-
-## Understanding the Changes
-
-### Why This is Better
-
-**Old Approach Problems:**
-1. Used all 421 features → overfitting
-2. No early stopping → waste time
-3. Inactive dropout → neural nets don't learn
-4. Poor hyperparameters → trees overfit
-
-**New Approach Solutions:**
-1. Select 50 best features → less overfitting
-2. Early stopping enabled → save time
-3. Active dropout fixed → neural nets learn
-4. Spec 2 hyperparameters → trees generalize
-
-### Key Improvements
+## Performance Comparison
 
 | Metric | Before | After |
 |--------|--------|-------|
@@ -204,50 +174,12 @@ feature_selection:
 | Train vs Val gap | 0.40 (bad) | 0.04 (good) |
 | Overfitting | Yes | No |
 
----
-
 ## Success Criteria
 
-You'll know it's working when:
+Workflow is working when:
 
-1. **Phase 1 completes** and creates metadata files
-2. **Feature report** shows declining importance
-3. **Train vs validation scores** are close (gap < 0.1)
-4. **Training is faster** than before
-5. **Models generalize** better on unseen data
-
----
-
-## Your Next 30 Minutes
-
-```bash
-# Minute 0-5: Setup
-cd TRAINING/EXPERIMENTS
-vim phase1_feature_engineering/run_phase1.py  # Edit load_data()
-export DATA_DIR=/path/to/your/data
-
-# Minute 5-10: Test data loading
-python -c "
-import sys
-sys.path.insert(0, 'phase1_feature_engineering')
-from run_phase1 import load_data
-X, y_dict, feature_names = load_data('$DATA_DIR')
-print(f'Loaded: {X.shape[0]} samples, {X.shape[1]} features')
-print(f'Targets: {list(y_dict.keys())}')
-"
-
-# Minute 10-30: Run Phase 1
-python phase1_feature_engineering/run_phase1.py \
-    --data-dir $DATA_DIR \
-    --config phase1_feature_engineering/feature_selection_config.yaml \
-    --output-dir metadata \
-    --log-dir logs
-
-# After 30 min (Phase 1 completes):
-ls metadata/
-cat metadata/phase1_summary.json
-head -20 metadata/feature_importance_report.csv
-```
-
-**You're ready! **
-
+1. Phase 1 completes and creates metadata files
+2. Feature report shows declining importance
+3. Train vs validation scores are close (gap < 0.1)
+4. Training is faster than before
+5. Models generalize better on unseen data

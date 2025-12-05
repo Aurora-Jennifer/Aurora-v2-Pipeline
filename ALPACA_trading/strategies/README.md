@@ -1,19 +1,19 @@
 # Trading Strategies
 
-This directory contains trading strategy implementations.
+Trading strategy implementations.
 
 ## Components
 
 ### `factory.py` - Strategy Factory
 Factory pattern for creating strategy instances based on configuration.
 
-**Supported Strategies:**
+Supported Strategies:
 - `regime_aware_ensemble` - Regime-aware ensemble strategy
 - `trend_following` - Trend-following strategy
 - `mean_reversion` - Mean-reversion strategy
 - Custom strategies (extensible)
 
-**Usage:**
+Usage:
 ```python
 from strategies.factory import strategy_factory
 
@@ -24,31 +24,31 @@ strategy = strategy_factory.create(
 ```
 
 ### `regime_aware_ensemble.py` - Regime-Aware Ensemble Strategy
-Advanced strategy that blends multiple signals with regime-specific weighting.
+Strategy that blends multiple signals with regime-specific weighting.
 
-**Key Features:**
-- **Regime Detection**: Adapts to trending, choppy, or volatile markets
-- **Signal Blending**: Combines trend-following and mean-reversion signals
-- **Dynamic Weighting**: Adjusts weights based on recent performance (IC, Sharpe)
-- **Lookback Adaptation**: Adjusts feature lookback periods by regime
+Key Features:
+- Regime Detection: Adapts to trending, choppy, or volatile markets
+- Signal Blending: Combines trend-following and mean-reversion signals
+- Dynamic Weighting: Adjusts weights based on recent performance (IC, Sharpe)
+- Lookback Adaptation: Adjusts feature lookback periods by regime
 
-**Parameters:**
+Parameters:
 - `combination_method`: How to combine signals (rolling_ic, sharpe, ridge, voting)
 - `confidence_threshold`: Minimum confidence to trade
 - `use_regime_switching`: Enable/disable regime-based adaptation
 - `trend_following_weight`: Weight for trend signals
 - `mean_reversion_weight`: Weight for mean-reversion signals
 
-**Regime Adjustments:**
-- **Trending Markets**: Longer lookback, higher trend weight
-- **Choppy Markets**: Shorter lookback, higher mean-reversion weight
-- **Volatile Markets**: Shortest lookback, balanced weights
+Regime Adjustments:
+- Trending Markets: Longer lookback, higher trend weight
+- Choppy Markets: Shorter lookback, higher mean-reversion weight
+- Volatile Markets: Shortest lookback, balanced weights
 
-**Signal Combination Methods:**
-1. **rolling_ic**: Weight by rolling Information Coefficient
-2. **sharpe**: Weight by rolling Sharpe ratio
-3. **ridge**: Ridge regression-based combination
-4. **voting**: Simple voting mechanism
+Signal Combination Methods:
+1. `rolling_ic`: Weight by rolling Information Coefficient
+2. `sharpe`: Weight by rolling Sharpe ratio
+3. `ridge`: Ridge regression-based combination
+4. `voting`: Simple voting mechanism
 
 ## Strategy Interface
 
@@ -61,9 +61,9 @@ All strategies implement the `BaseStrategy` interface:
 ## Integration
 
 Strategies are integrated into the trading engine via:
-1. **Strategy Factory** - Creates strategy instances
-2. **Strategy Selector** - Selects strategy based on regime
-3. **Paper Trading Engine** - Executes strategy signals
+1. Strategy Factory - Creates strategy instances
+2. Strategy Selector - Selects strategy based on regime
+3. Paper Trading Engine - Executes strategy signals
 
 ## Configuration
 
@@ -74,10 +74,10 @@ Strategies are configured in:
 ## Performance
 
 Strategies are evaluated on:
-- **Information Coefficient (IC)**: Signal quality
-- **Sharpe Ratio**: Risk-adjusted returns
-- **Win Rate**: Percentage of profitable trades
-- **Maximum Drawdown**: Worst peak-to-trough decline
+- Information Coefficient (IC): Signal quality
+- Sharpe Ratio: Risk-adjusted returns
+- Win Rate: Percentage of profitable trades
+- Maximum Drawdown: Worst peak-to-trough decline
 
 ## Extending Strategies
 
@@ -86,4 +86,3 @@ To add a new strategy:
 2. Implement required methods
 3. Register in `factory.py`
 4. Add configuration parameters
-

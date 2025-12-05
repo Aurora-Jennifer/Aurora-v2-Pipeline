@@ -72,7 +72,11 @@ For licensing inquiries:
 **jenn.lewis5789@gmail.com**  
 Subject: **Fox Infrastructure Licensing Inquiry**
 
-See the [`legal/`](legal/) directory for complete licensing documentation.
+See:
+- [`DUAL_LICENSE.md`](DUAL_LICENSE.md) - Dual licensing overview
+- [`COMMERCIAL_LICENSE.md`](COMMERCIAL_LICENSE.md) - Commercial license terms
+- [`LICENSE`](LICENSE) - AGPL-3.0 license text
+- [`legal/`](legal/) directory for complete licensing documentation
 
 ---------------------------------------------------------------------
 
@@ -118,37 +122,23 @@ For full policies and contracting information:
 
 ---------------------------------------------------------------------
 
-## Documentation Index
+## Documentation
 
-### Core Docs
-- Quick Start Guide  
-- Architecture Overview  
-- Configuration Reference  
-- Data Processing Guide  
-- Model Training Manual  
-- Feature Selection Methodology  
-- Column Reference / Data Schema  
-- Migration Notes  
+**New users start here:**
+- **[Quick Start](docs/00_executive/QUICKSTART.md)** - Get running in 5 minutes
+- **[Getting Started](docs/00_executive/GETTING_STARTED.md)** - Complete onboarding guide
+- **[Architecture Overview](docs/00_executive/ARCHITECTURE_OVERVIEW.md)** - System at a glance
 
-### Components
-- Trading integrations (paper trading only)  
-- Data pipelines  
-- Feature engineering workflows  
-- Configuration system  
+**Complete documentation:**
+- **[Documentation Index](docs/INDEX.md)** - Full documentation navigation
+- **[Tutorials](docs/01_tutorials/)** - Step-by-step guides
+- **[Reference Docs](docs/02_reference/)** - Technical reference
+- **[Technical Appendices](docs/03_technical/)** - Deep technical topics
 
-### Research & Training
-- Feature selection pipelines  
-- Optimization workflows  
-- Experimental workflow design  
-- Multi-model feature ranking  
-
-### Technical Notes
-- GPU setup  
-- Leakage audits  
-- Dataset sizing  
-- Journald logging  
-- Code corrections and known issues  
-- Roadmaps and improvement notes  
+**Documentation structure:**
+- **[Architecture](docs/ARCHITECTURE.md)** - Documentation organization
+- **[Style Guide](docs/STYLE_GUIDE.md)** - Writing guidelines
+- **[Migration Plan](docs/MIGRATION_PLAN.md)** - Migration status  
 
 ---------------------------------------------------------------------
 

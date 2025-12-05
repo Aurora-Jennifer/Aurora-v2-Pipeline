@@ -1,12 +1,12 @@
 # FOX ML INFRASTRUCTURE — COMMERCIAL LICENSE v1.0
-Copyright (c) 2025-2026 Jennifer Lewis
+Copyright (c) 2025 Jennifer Lewis
 
 1. DEFINITIONS  
-“Software” refers to the Fox-v1-infra codebase, modules, configurations, models, documentation, and all included assets, excluding third-party components governed by their own licenses.
+"Software" refers to the Fox-v1-infra codebase, modules, configurations, models, documentation, and all included assets, excluding third-party components governed by their own licenses.
 
-“Licensee” refers to the individual or organization obtaining rights under this License.
+"Licensee" refers to the individual or organization obtaining rights under this License.
 
-“Commercial Use” means any use of the Software by a business, organization, institution, or individual that:  
+"Commercial Use" means any use of the Software by a business, organization, institution, or individual that:  
   (a) generates revenue directly or indirectly,  
   (b) contributes to a commercial product or service,  
   (c) is deployed internally within a company for operational, analytical, modeling, forecasting, optimization, or research purposes,  
@@ -57,7 +57,7 @@ Upon termination:
 ---
 
 5. NO WARRANTY / LIMITATION OF LIABILITY  
-THE SOFTWARE IS PROVIDED “AS IS,” WITHOUT WARRANTY OF ANY KIND.  
+THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND.  
 THE LICENSOR IS NOT LIABLE FOR ANY DAMAGES, INCLUDING BUT NOT LIMITED TO:  
 LOSS OF PROFITS, MODELING ERRORS, DATA LOSS, BUSINESS INTERRUPTION,  
 OR ANY CONSEQUENTIAL DAMAGES ARISING FROM USE OF THE SOFTWARE.
