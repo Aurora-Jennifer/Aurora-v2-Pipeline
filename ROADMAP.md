@@ -6,9 +6,8 @@ No major feature work will begin until **January 2026**.
 
 ## Current Work (Winter 2025 — Docs Only)
 - Improve clarity and readability across existing documentation.
-- Fix formatting inconsistencies.
+- Fix formatting inconsistencies and reorganize sections where needed.
 - Add small clarifications or examples where helpful.
-- Light restructuring to make docs easier to navigate.
 
 **No feature development until January 2026.**
 
@@ -17,27 +16,34 @@ No major feature work will begin until **January 2026**.
 ## Planned Work (Beginning January 2026)
 
 ### 1. Centralized Configuration
-- Move scattered config settings into structured YAML files.
-- Standardize a configuration schema and add validation.
-- Provide example configs for typical workflows.
+- Move scattered configuration variables into structured YAML files.
+- Create a standard, documented configuration schema.
+- Add basic validation and provide example configs.
 
 ### 2. Improved Output & UX Formatting
-- Make logs and pipeline output more readable and consistent.
-- Add structured, LLM-friendly formatting where appropriate.
-- Clean naming, terminology, and formatting across modules.
+- Make logs and pipeline outputs more readable and consistent.
+- Introduce structured, LLM-friendly formatting for easier automated parsing.
+- Clean up naming conventions across modules.
 
 ### 3. Public Website + Automated Payments
 - Launch the official Fox ML Infrastructure website.
-- Integrate automated Stripe payments for applicable tiers.
+- Integrate automated Stripe payments for eligible commercial tiers.
 - Add a polished “Request Access / Contact” flow for enterprise clients.
-- Present docs, pricing, onboarding, and system overview in one place.
+- Present documentation, pricing, onboarding, and system overview in one place.
 
 ### 4. Exploratory Module Work
-- Explore potential toon implementation or similar extensions.
-- Additional improvements based on evaluation and user feedback.
+- Explore potential toon implementation or related extensions.
+- Improve or extend system internals based on user evaluations.
+
+### 5. Lower-Level Rewrites (Performance & Integration)
+- Begin rewriting performance-critical components in lower-level languages
+  (e.g., C/C++/Rust) where it meaningfully improves speed or system efficiency.
+- Improve interoperability with existing high-performance libraries.
+- Build a foundation for future high-throughput, HPC-aligned capabilities.
 
 ---
 
 ## Summary
-**Winter 2025 = docs only.**  
-**January 2026 = full development resumes (config, UX/output, website, payments, new modules).**
+**Winter 2025 = documentation cleanup only.**  
+**January 2026 and onward = configuration system, UX/output improvements,
+website + payments, exploratory module work, and performance-oriented lower-level rewrites.**
