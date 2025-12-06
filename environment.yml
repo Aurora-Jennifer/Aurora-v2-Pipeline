@@ -50,6 +50,9 @@ dependencies:
   - tqdm>=4.65.0
   - colorlog>=6.7.0
   
+  # System Utilities
+  - psutil>=5.9.0
+  
   # Financial Data
   - yfinance>=0.2.0
   - pandas-datareader>=0.10.0

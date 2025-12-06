@@ -25,8 +25,7 @@ Unified model prediction engine for all model types (tabular + sequential + mult
 
 import numpy as np
 import logging
-from typing Dict, List, Any, Optional
-from typing import Dict, List, Any, Tuple
+from typing import Dict, List, Any, Optional, Tuple
 import torch
 
 logger = logging.getLogger(__name__)

@@ -13,17 +13,13 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-"""
 
-"""
 Sequence Builder for Sequential Models
 =====================================
 
 Leak-safe sequence builder for CNN1D, LSTM, Transformer, TabLSTM, TabTransformer models.
 Builds (N, T, F) windows ending at time t with labels at t for t→t+H.
 """
-
-
 from __future__ import annotations
 import numpy as np
 import pandas as pd

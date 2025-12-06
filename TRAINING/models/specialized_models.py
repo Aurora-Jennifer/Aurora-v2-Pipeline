@@ -1331,7 +1331,7 @@ def _predict_temporal_model(model, Xseq):
         y = y[0]
     return np.asarray(y).ravel()
 
-def train_with_strategy(args.strategy, mtf_data: Dict[str, pd.DataFrame], target: str, families: List[str], common_features: List[str], output_dir: str, min_cs: int, max_samples_per_symbol: int = 10000, batch_id: int = None, cs_normalize: str = "per_ts_split", args=None, all_targets: set = None):
+def train_with_strategy(strategy: str, mtf_data: Dict[str, pd.DataFrame], target: str, families: List[str], common_features: List[str], output_dir: str, min_cs: int, max_samples_per_symbol: int = 10000, batch_id: int = None, cs_normalize: str = "per_ts_split", args=None, all_targets: set = None):
     """Train all model families for a specific interval/target with cross-sectional evaluation."""
     logger.info(f"\n🎯 Training models for target: {target} (CROSS-SECTIONAL)")
     
@@ -1811,13 +1811,12 @@ def main():
     parser.add_argument("--dry-run", action="store_true",
                         help="Show what would be done without executing")
     parser.add_argument("--targets", nargs="+",
+                        help="Specific targets to train on (default: auto-discover all targets)")
 
     # Strategy arguments
-    parser.add_argument("--strategy", choices=['single_task', 'multi_task', 'cascade', 'auto'], 
-                       default='auto', help="Training strategy (auto = single_task)")
+    parser.add_argument("--strategy", choices=['single_task', 'multi_task', 'cascade', 'auto'],
+                        default='auto', help="Training strategy (auto = single_task)")
     parser.add_argument("--strategy-config", type=str, help="Path to strategy configuration file")
-
-                        help="Specific targets to train on (default: auto-discover all targets)")
     
     args = parser.parse_args()
     

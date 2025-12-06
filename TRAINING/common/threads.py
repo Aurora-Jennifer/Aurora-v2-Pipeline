@@ -13,10 +13,7 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-"""
 
-# common/threads.py
-"""
 Unified threading & runtime control for all trainers.
 - Consistent OMP/MKL/BLAS threading across families
 - Prevents TF/JAX/XLA GPU init for CPU-only families

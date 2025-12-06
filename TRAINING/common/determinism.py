@@ -15,9 +15,7 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-"""
 
-"""
 Deterministic Training System
 ============================
 
@@ -35,8 +33,6 @@ Usage:
     # Derive per-target/fold seeds
     seed = seed_for(target_name, fold_idx, "all_symbols")
 """
-
-
 from __future__ import annotations
 import os
 import random

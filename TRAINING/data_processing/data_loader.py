@@ -193,7 +193,16 @@ def prepare_training_data_cross_sectional(
             if lf[time_col].dtype in (pl.Int64, pl.UInt64, pl.Int32, pl.UInt32):
                 # infer unit by span and convert with from_epoch
                 span = max(abs(int(lf[time_col].min() or 0)), abs(int(lf[time_col].max() or 0)))
-                
+                # TODO: Use span to determine epoch unit and convert timestamp
+                pass
+            
+            # Append to list for concatenation
+            lfs.append(lf)
+            processed_symbols += 1
+            
+        except Exception as e:
+            logger.error(f"Symbol {sym}: Error processing data: {e}")
+            continue
 
 def _apply_cs_transforms_polars(df, feat_cols, time_col, p, ddof):
     """Polars-based CS transforms with multi-threading and streaming."""
@@ -345,5 +354,6 @@ def cs_transform_live(df_snapshot: pd.DataFrame, feature_cols: List[str], p=0.01
         s = s.clip(lo, hi, axis=1)
         df_snapshot[available_cols] = (s - mu) / (sd + 1e-8)
     else:
-        # quantile winsorization (
+        # quantile winsorization (not implemented)
+        pass
 
