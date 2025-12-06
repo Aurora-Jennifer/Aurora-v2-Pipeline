@@ -137,7 +137,7 @@ pip install -e . --no-deps
 echo "✅ XGBoost with CUDA support installed!"
 echo ""
 echo "Testing installation..."
-python3 << 'PYEOF'
+python3 << 'PYTEST'
 import xgboost as xgb
 import os
 os.environ.setdefault("CUDA_VISIBLE_DEVICES", "0")
@@ -148,7 +148,7 @@ try:
     print("✅ SUCCESS! XGBoost GPU support is working!")
 except Exception as e:
     print(f"❌ GPU support not working: {e}")
-PYEOF
+PYTEST
 
 echo ""
 echo "🎉 Done! XGBoost GPU support should now be available."
