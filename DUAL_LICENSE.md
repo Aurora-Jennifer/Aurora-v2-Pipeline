@@ -23,6 +23,7 @@ Fox ML Infrastructure is dual-licensed under two distinct license options:
 - Required for integration into proprietary systems
 - Allows internal modification and deployment without AGPL disclosure obligations
 - No requirement to open-source modifications
+- Includes enterprise-grade protections: liability caps, indemnity, export control compliance, force majeure, and standard commercial license clauses
 - Full terms available in `COMMERCIAL_LICENSE.md`
 
 **When to use:**

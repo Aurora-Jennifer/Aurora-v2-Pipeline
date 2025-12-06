@@ -1,4 +1,4 @@
-Fox-v1-infra — Commercial License Agreement (CLA v1.2)
+Fox-v1-infra — Commercial License Agreement (CLA v1.3)
 
 Fox ML Infrastructure LLC
 © 2025 Jennifer Lewis. All rights reserved.
@@ -68,6 +68,8 @@ Claim ownership of the Software or its architectural design.
 
 Use the Software in violation of applicable law or export controls.
 
+Use the Software in high-risk environments including but not limited to: medical diagnosis, critical infrastructure, weapons systems, life support systems, nuclear systems, or any environment where failure could result in death, serious injury, or significant property damage.
+
 Violation constitutes a material breach and may result in immediate termination.
 
 4. Fees & Payment Terms
@@ -94,11 +96,19 @@ Licenses renew annually at the then-current pricing unless canceled prior to the
 
 Failure to pay may result in suspension or termination of rights under this Agreement.
 
-5. Updates
+5. Updates and Upgrades
 
-Licensor may, at its discretion, provide updates, patches, performance improvements, or new modules. Updates are included during the active paid term.
+**Version Definition.** "Version" refers to a release of the Software with a distinct version number (e.g., v1.0, v1.1, v2.0).
 
-Licensor does not guarantee development of specific features.
+**Updates and Upgrades.** Unless explicitly included in a separate agreement:
+- Minor updates, patches, and hotfixes are NOT automatically included
+- Major version upgrades are NOT automatically included
+- New modules, features, or components are NOT automatically included
+- Licensee must purchase separate licenses or upgrade agreements for new versions
+
+**No Obligation.** Licensor has no obligation to provide updates, upgrades, or new versions of the Software. Licensor does not guarantee development of specific features.
+
+**No Service Level Guarantees.** Licensor provides no uptime guarantee, no obligation of maintenance, and no guaranteed update schedule. The Software is provided "as is" and Licensee assumes all risk of use, including in production environments.
 
 6. Support (Optional)
 
@@ -131,6 +141,8 @@ architectural design,
 proprietary modules and algorithms.
 
 Licensee owns its internal Derivative Works but may not distribute, publish, or commercialize them.
+
+**Feedback License.** Licensee grants Licensor a non-exclusive, perpetual, irrevocable, worldwide, royalty-free license to use, modify, and incorporate any feedback, suggestions, error reports, or improvements provided by Licensee regarding the Software, without any obligation to Licensee and without giving Licensee ownership of any improvements or modifications made by Licensor.
 
 8. Confidentiality
 
@@ -184,7 +196,41 @@ certify deletion in writing within 7 days.
 
 No refunds are provided for terminated licenses.
 
-10. Audit Rights
+9.1. No Warranty / Limitation of Liability
+
+THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+
+THE LICENSOR IS NOT LIABLE FOR ANY DAMAGES, INCLUDING BUT NOT LIMITED TO:
+LOSS OF PROFITS, MODELING ERRORS, DATA LOSS, BUSINESS INTERRUPTION,
+OR ANY CONSEQUENTIAL DAMAGES ARISING FROM USE OF THE SOFTWARE.
+
+**Liability Cap:** IN NO EVENT WILL LICENSOR'S TOTAL AGGREGATE LIABILITY ARISING OUT OF OR RELATED TO THIS AGREEMENT EXCEED THE FEES PAID BY LICENSEE TO LICENSOR FOR THE SOFTWARE IN THE TWELVE (12) MONTHS PRECEDING THE EVENT GIVING RISE TO THE CLAIM.
+
+9.2. Indemnity
+
+Licensee agrees to indemnify and hold harmless Licensor from and against any third-party claims, damages, or expenses (including reasonable attorneys' fees) arising out of Licensee's misuse of the Software, violation of this Agreement, or violation of applicable laws.
+
+10. Export Control Compliance
+
+Licensee acknowledges that the Software may be subject to export control laws and regulations, including but not limited to:
+- United States Export Administration Regulations (EAR)
+- European Union export control regulations
+- United Kingdom export control regulations
+
+Licensee agrees to comply with all applicable export control laws and regulations. Licensee represents and warrants that:
+- Licensee is not located in, under the control of, or a national or resident of any country subject to comprehensive sanctions
+- Licensee will not export, re-export, or transfer the Software to any prohibited destination or end-user
+- Licensee will not use the Software for any purpose prohibited by applicable export control laws
+
+11. Independent Development
+
+Licensor may continue to develop, market, and provide software, products, or services that are similar to or competitive with the Software, regardless of any suggestions, feedback, or feature requests provided by Licensee. This Agreement does not restrict Licensor's right to develop or provide such products or services independently.
+
+12. Publicity
+
+Unless otherwise agreed in writing, Licensor may not use Licensee's name, logo, or trademarks in any publicity, marketing materials, or customer lists without Licensee's prior written consent.
+
+13. Audit Rights
 
 Licensor reserves the right to audit Licensee's use of the Software to verify compliance with this Agreement.
 
@@ -198,7 +244,12 @@ Audit Terms:
 
 Confidentiality: All audit information shall be treated as confidential and used solely for compliance verification.
 
-11. Assignment
+**Audit Terms (Updated):**
+- Licensor may conduct no more than one audit per 12-month period
+- Audits shall be conducted during normal business hours
+- All other terms remain as stated above
+
+14. Assignment
 
 Licensee Assignment:
 Licensee may not assign, transfer, or delegate this Agreement or any rights hereunder without Licensor's prior written consent, except that Licensee may assign this Agreement to an affiliate or in connection with a merger, acquisition, or sale of all or substantially all of Licensee's assets, provided that:
@@ -211,7 +262,7 @@ Licensor may freely assign this Agreement, including in connection with a merger
 
 Any attempted assignment in violation of this section is void.
 
-12. Dispute Resolution
+15. Dispute Resolution
 
 Informal Resolution:
 The parties agree to attempt to resolve disputes through good faith negotiation for at least 30 days before initiating formal proceedings.
@@ -225,13 +276,25 @@ For claims of $250,000 or more, disputes shall be resolved in the state or feder
 Class Action Waiver:
 Both parties waive any right to participate in class actions, collective actions, or representative proceedings.
 
-13. Governing Law
+16. Governing Law
 
 This Agreement is governed by the laws of the State of Delaware, United States, without regard to conflicts of law principles. The United Nations Convention on Contracts for the International Sale of Goods does not apply.
 
-14. Entire Agreement
+17. Force Majeure
 
-This Agreement constitutes the entire understanding between the parties and supersedes all prior communications regarding licensing of the Software.
+Neither party shall be liable for any failure or delay in performance under this Agreement due to circumstances beyond its reasonable control, including but not limited to: acts of God, war, terrorism, riots, embargoes, acts of civil or military authorities, fire, floods, accidents, network or infrastructure failures, strikes, or shortages of transportation facilities, fuel, energy, labor, or materials.
+
+18. Severability
+
+If any provision of this Agreement is held to be invalid, illegal, or unenforceable by a court of competent jurisdiction, the remaining provisions shall remain in full force and effect. The invalid, illegal, or unenforceable provision shall be replaced with a valid, legal, and enforceable provision that comes closest to the intent of the original provision.
+
+19. Entire Agreement
+
+This Agreement, together with any separate signed commercial agreement or Statement of Work, constitutes the entire agreement between the parties regarding the subject matter hereof and supersedes all prior or contemporaneous agreements, understandings, negotiations, and discussions, whether oral or written, relating to the Software. No modification, amendment, or waiver of any provision of this Agreement shall be effective unless in writing and signed by both parties.
+
+20. Survival
+
+Sections 3 (Restrictions), 9.1 (No Warranty / Limitation of Liability), 9.2 (Indemnity), 10 (Export Control Compliance), 13 (Audit Rights), 15 (Dispute Resolution), 16 (Governing Law), 8 (Confidentiality), 18 (Severability), 19 (Entire Agreement), and this Section 20 (Survival) will survive termination or expiration of this Agreement.
 
 Signatures
 
