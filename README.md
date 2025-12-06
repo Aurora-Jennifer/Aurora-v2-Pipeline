@@ -1,5 +1,7 @@
 # Fox-v1-infra — ML & Quantitative Systems Infrastructure
 
+> **📋 See [ROADMAP.md](ROADMAP.md) for most recent updates, current development focus, and status of modules (including known broken/untested components).**
+
 Fox-v1-infra is a high-performance research and machine learning infrastructure stack.  
 It provides a reference-grade architecture for ML pipelines, quantitative workflows, reproducible experiments, and HPC-optimized engineering without exposing proprietary signals or production-ready trading systems.
 
