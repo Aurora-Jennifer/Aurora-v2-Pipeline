@@ -72,9 +72,9 @@ if _os.getenv("TRAINER_CHILD_NO_TORCH", "0") == "1":
     for module_name in ("torch", "torch._C", "torch.cuda", "pytorch_lightning", "torchvision"):
         _block_module(module_name)
 
-# Suppress TensorFlow CUDA warnings (they're harmless - TF will just use CPU)
-_os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "3")  # ERROR level only
-_os.environ.setdefault("TF_LOGGING_VERBOSITY", "ERROR")
+# Show TensorFlow warnings so user knows if GPU isn't working
+# _os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "3")  # Removed - show warnings
+# _os.environ.setdefault("TF_LOGGING_VERBOSITY", "ERROR")  # Removed - show warnings
 
 # Ensure conda CUDA libraries are accessible to TensorFlow
 _conda_prefix = _os.environ.get("CONDA_PREFIX")
@@ -187,23 +187,8 @@ def _bootstrap_family_runtime(family: str, logger_inst):
         if "tf" in policy.backends and not no_tf:
             # Ensure TF memory growth is enabled before import
             _os.environ.setdefault("TF_FORCE_GPU_ALLOW_GROWTH", "true")
-            # Suppress CUDA warnings during import (they're harmless - TF will use CPU)
-            import sys
-            import io
-            import contextlib
-            
-            @contextlib.contextmanager
-            def suppress_stderr():
-                """Temporarily redirect stderr to suppress TensorFlow CUDA warnings."""
-                old_stderr = sys.stderr
-                try:
-                    sys.stderr = io.StringIO()
-                    yield
-                finally:
-                    sys.stderr = old_stderr
-            
-            with suppress_stderr():
-                import tensorflow as tf
+            # Import TensorFlow - show warnings so user knows if GPU isn't working
+            import tensorflow as tf
             
             # Set TF threading (read from env vars set by child_env_for_family)
             intra = int(_os.getenv("TF_NUM_INTRAOP_THREADS", "1"))

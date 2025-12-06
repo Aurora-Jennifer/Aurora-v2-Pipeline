@@ -133,12 +133,11 @@ def set_global_determinism(
         # TensorFlow determinism (only read if set pre-import)
         "TF_DETERMINISTIC_OPS": "1" if tf_on else os.environ.get("TF_DETERMINISTIC_OPS", "1"),
         "TF_CUDNN_DETERMINISTIC": "1" if tf_on else os.environ.get("TF_CUDNN_DETERMINISTIC", "1"),
-        "TF_CPP_MIN_LOG_LEVEL": "3",  # Suppress all TensorFlow warnings (ERROR level only)
+        # Show TensorFlow warnings so user knows if GPU isn't working
+        # "TF_CPP_MIN_LOG_LEVEL": "3",  # Removed - show warnings
         "TF_ENABLE_ONEDNN_OPTS": "0",  # More deterministic kernels
-        # Suppress CUDA warnings - these are expected when TF can't find matching CUDA version
         "TF_FORCE_GPU_ALLOW_GROWTH": "true",  # Allow memory growth
-        # Redirect TensorFlow stderr to reduce noise (CUDA warnings go to stderr)
-        "TF_LOGGING_VERBOSITY": "ERROR",  # Only show errors, not warnings
+        # "TF_LOGGING_VERBOSITY": "ERROR",  # Removed - show warnings
         # GPU memory limits
         "CUDA_VISIBLE_DEVICES": "0",  # Use only GPU 0
         "TF_FORCE_GPU_ALLOW_GROWTH": "true",  # Allow memory growth

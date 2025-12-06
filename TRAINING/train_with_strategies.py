@@ -35,9 +35,9 @@ if conda_prefix:
         updated_ld_path = ":".join(new_paths + [current_ld_path] if current_ld_path else new_paths)
         os.environ["LD_LIBRARY_PATH"] = updated_ld_path
 
-# Suppress TensorFlow CUDA warnings (they're harmless - TF will just use CPU)
-os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "3")  # ERROR level only
-os.environ.setdefault("TF_LOGGING_VERBOSITY", "ERROR")
+# Show TensorFlow warnings so user knows if GPU isn't working
+# os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "3")  # Removed - show warnings
+# os.environ.setdefault("TF_LOGGING_VERBOSITY", "ERROR")  # Removed - show warnings
 
 # project root likely: .../secure/trader (parent of TRAINING)
 _PROJECT_ROOT = Path(__file__).resolve().parents[1]
