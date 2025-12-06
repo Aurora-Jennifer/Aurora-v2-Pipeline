@@ -96,7 +96,7 @@ selected_features = [f[0] for f in top_50]
 
 ## Best Practices
 
-1. **Start Simple**: Use SimpleFeatureBuilder first
+1. **Start Simple**: Use SimpleFeatureComputer first
 2. **Validate**: Check for NaN values and data quality
 3. **Select**: Use feature selection to reduce dimensionality
 4. **Monitor**: Track feature importance over time

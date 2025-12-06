@@ -71,7 +71,7 @@ pip install alpaca-trade-api  # For Alpaca integration
 Test your environment:
 
 ```bash
-python -c "from CONFIG.config_loader import load_config; print('Config loader OK')"
+python -c "from CONFIG.config_loader import load_model_config; print('Config loader OK')"
 python -c "from DATA_PROCESSING.pipeline import normalize_interval; print('Data processing OK')"
 python -c "from TRAINING.model_fun import LightGBMTrainer; print('Training OK')"
 ```

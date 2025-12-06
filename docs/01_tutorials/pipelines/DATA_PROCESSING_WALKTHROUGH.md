@@ -126,15 +126,17 @@ df = pd.read_parquet(f"data/data_labeled/interval=5m/{symbol}.parquet")
 df_clean = normalize_interval(df, interval="5m")
 
 # Stage 2: Build features
-feature_builder = ComprehensiveFeatureBuilder()
-features = feature_builder.build(df_clean)
+feature_computer = SimpleFeatureComputer()
+features = feature_computer.compute(df_clean)
 
-# Stage 3: Generate targets
-target_builder = BarrierTargetBuilder()
-targets = target_builder.build(df_clean, horizon="5m", barrier=0.001)
+# Stage 3: Generate targets (functions, not classes)
+from DATA_PROCESSING.targets import add_barrier_targets_to_dataframe
+df_with_targets = add_barrier_targets_to_dataframe(
+    df_clean, horizon_minutes=15, barrier_size=0.5
+)
 
-# Combine
-labeled_data = pd.concat([features, targets], axis=1)
+# Combine features and targets
+labeled_data = pd.concat([features, df_with_targets.filter(regex='target|will_')], axis=1)
 
 # Save
 labeled_data.to_parquet(f"data/labeled/{symbol}_labeled.parquet")
