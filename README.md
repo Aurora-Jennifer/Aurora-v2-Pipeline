@@ -2,6 +2,8 @@
 
 > **📋 See [ROADMAP.md](ROADMAP.md) for most recent updates, current development focus, and status of modules (including known broken/untested components).**
 
+*A picture is worth a thousand words* 📸 — See the [training pipeline in action](docs/images/TRAINING_PIPELINE_LOG.md).
+
 Fox-v1-infra is a high-performance research and machine learning infrastructure stack.  
 It provides a reference-grade architecture for ML pipelines, quantitative workflows, reproducible experiments, and HPC-optimized engineering without exposing proprietary signals or production-ready trading systems.
 
