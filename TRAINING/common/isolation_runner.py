@@ -55,6 +55,12 @@ _GPU_FAMILIES = {"MLP", "VAE", "GAN", "MetaLearning", "MultiTask", "XGBoost",
 _CPU_FAMILIES = {"QuantileLightGBM", "LightGBM", "RewardBased", "Ensemble",
                  "ChangePoint", "NGBoost", "GMMRegime", "FTRLProximal"}
 
+# ---- Fix readline library symbol lookup error ----
+# Suppress readline issues that can cause "sh: undefined symbol: rl_print_keybinding"
+# This happens when sh/bash was compiled against a different readline version
+_os.environ.setdefault("SHELL", "/usr/bin/bash")  # Use bash instead of sh if available
+_os.environ.setdefault("TERM", "dumb")  # Disable readline features
+
 if _FAMILY in _GPU_FAMILIES:
     # GPU family: expose GPU 0 (unless parent explicitly set a different value)
     _os.environ.setdefault("CUDA_VISIBLE_DEVICES", "0")

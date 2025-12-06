@@ -335,6 +335,11 @@ def child_env_for_family(family: str, threads: int, gpu_ok: bool = True) -> dict
         actual_omp = plan["OMP"]
     
     env = {
+        # Fix readline library symbol lookup error
+        # Suppress "sh: undefined symbol: rl_print_keybinding" errors
+        "SHELL": os.environ.get("SHELL", "/usr/bin/bash"),  # Use bash instead of sh
+        "TERM": "dumb",  # Disable readline features to avoid symbol lookup errors
+        
         # Threading knobs
         "OMP_NUM_THREADS": str(actual_omp),
         "MKL_NUM_THREADS": str(plan["MKL"]),
