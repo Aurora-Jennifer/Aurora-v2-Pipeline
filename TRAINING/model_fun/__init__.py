@@ -28,7 +28,6 @@ import os as _os
 # ---- CPU-only families (safe to import everywhere) ----
 from .lightgbm_trainer import LightGBMTrainer
 from .quantile_lightgbm_trainer import QuantileLightGBMTrainer
-from .xgboost_trainer import XGBoostTrainer
 from .reward_based_trainer import RewardBasedTrainer
 from .ngboost_trainer import NGBoostTrainer
 from .ensemble_trainer import EnsembleTrainer
@@ -40,7 +39,6 @@ from .base_trainer import BaseModelTrainer
 __all__ = [
     'LightGBMTrainer',
     'QuantileLightGBMTrainer',
-    'XGBoostTrainer',
     'RewardBasedTrainer',
     'NGBoostTrainer',
     'EnsembleTrainer',
@@ -49,6 +47,15 @@ __all__ = [
     'FTRLProximalTrainer',
     'BaseModelTrainer',
 ]
+
+# ---- XGBoost (conditional - may not be available if built from source) ----
+try:
+    from .xgboost_trainer import XGBoostTrainer
+    __all__.append('XGBoostTrainer')
+except ImportError as e:
+    # XGBoost may not be available if built from source and not in child process path
+    import logging
+    logging.getLogger(__name__).debug(f"XGBoostTrainer not available: {e}")
 
 # ---- TensorFlow families (only import if TF is allowed and available) ----
 if _os.getenv("TRAINER_CHILD_NO_TF", "0") != "1":
