@@ -49,11 +49,13 @@ Enterprise-ready documentation for buyers, legal departments, and CTOs:
 - **`SECURITY.md`** — Public-facing security statement: data handling, privacy, supply chain integrity, and client-hosted architecture
 - **`DATA_PROCESSING_ADDENDUM.md`** — Data Processing Addendum (DPA): zero data processing, no telemetry, client-hosted architecture
 - **`INFOSEC_SELF_ASSESSMENT.md`** — Information security self-assessment: pre-empts enterprise security review questions
+- **`SECURITY_CONTROLS_MATRIX.md`** — Security controls matrix: access control, encryption, logging, secrets management, and compliance
 - **`PRIVACY_POLICY.md`** — Privacy Policy: data collection, usage, retention, and user rights
 - **`DATA_RETENTION_DELETION_POLICY.md`** — Data retention periods and deletion procedures
 - **`INCIDENT_RESPONSE_PLAN.md`** — Incident Response Plan (IRP): detection, response, and notification procedures
 - **`BUSINESS_CONTINUITY_PLAN.md`** — Business Continuity Plan (BCP): operational resilience and recovery procedures
 - **`RISK_ASSESSMENT_MATRIX.md`** — Risk assessment matrix: risk identification, assessment, and mitigation strategies
+- **`PENETRATION_TESTING_STATEMENT.md`** — Penetration testing statement: planned testing and third-party authorization
 
 **Legal & Risk Management:**
 - **`INDEMNIFICATION.md`** — Standalone indemnification clause: licensee and licensor indemnification obligations
@@ -72,6 +74,7 @@ Enterprise-ready documentation for buyers, legal departments, and CTOs:
 - **`CLIENT_ONBOARDING.md`** — Client onboarding guide: setup, configuration, integration, and custom feature requests
 - **`ENTERPRISE_CHECKLIST.md`** — Enterprise readiness checklist: documentation, logging, security, testing, deployability, and compliance
 - **`TRADEMARK_POLICY.md`** — Trademark and branding policy: permitted uses, prohibited uses, and brand protection
+- **`SYSTEM_ARCHITECTURE_DIAGRAM.md`** — System architecture diagram: component architecture, data flow, and deployment model
 
 ### 📁 `consulting/` — Consulting & Custom Development Documents
 
