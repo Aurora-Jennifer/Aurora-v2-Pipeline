@@ -1438,13 +1438,9 @@ def _legacy_train_fallback(family: str, X: np.ndarray, y: np.ndarray, **kwargs):
             try:
                 import xgboost as xgb
                 if not CPU_ONLY:
-                    try:
-                        from xgboost.core import _has_cuda_context
-                        has_cuda = bool(_has_cuda_context())
-                    except Exception:
-                        has_cuda = False
-                    xgb_conf.update({"tree_method": "gpu_hist", "predictor": "gpu_predictor"} if has_cuda
-                                    else {"tree_method": "hist"})
+                    # Check GPU availability properly (XGBoostTrainer will do the real check)
+                    # Just set CPU defaults here, let the trainer decide
+                    xgb_conf.update({"tree_method": "hist"})  # Default to CPU, trainer will upgrade if GPU works
                 else:
                     xgb_conf.update({"tree_method": "hist"})
             except Exception:

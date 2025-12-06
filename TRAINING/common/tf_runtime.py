@@ -52,7 +52,22 @@ def ensure_tf_initialized(cpu_only: bool = False, intra: int = 1, inter: int = 1
         os.environ.setdefault("CUDA_VISIBLE_DEVICES", "")
 
     # Import AFTER env is set
-    import tensorflow as tf
+    # Workaround for libtensorflow_cc.so.2 executable stack issue
+    # This is a known issue on some Linux systems - try to import gracefully
+    try:
+        import tensorflow as tf
+    except Exception as e:
+        error_msg = str(e).lower()
+        if "executable stack" in error_msg or "libtensorflow" in error_msg:
+            logger.error(f"TensorFlow import failed (system library issue): {e}")
+            logger.error("This is a system-level TensorFlow installation problem.")
+            logger.error("Possible fixes:")
+            logger.error("  1. Reinstall TensorFlow: pip install --upgrade --force-reinstall tensorflow")
+            logger.error("  2. Check system security settings (SELinux, AppArmor)")
+            logger.error("  3. Try: execstack -c $(python -c 'import tensorflow; print(tensorflow.__file__)')/../libtensorflow_cc.so.2")
+            logger.error("TensorFlow families will be skipped.")
+            raise ImportError(f"TensorFlow not available due to system library issue: {e}")
+        raise
 
     # Threads must be set before any heavy TF ops occur
     try:

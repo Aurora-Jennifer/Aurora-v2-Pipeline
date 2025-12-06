@@ -228,20 +228,58 @@ class XGBoostTrainer(BaseModelTrainer):
         cvd = os.getenv("CUDA_VISIBLE_DEVICES", "unset")
         logger.info(f"[XGBoost] Checking GPU availability (CVD={cvd})")
         
+        # If GPU is explicitly hidden, don't try to use it
+        if cvd == "-1" or cvd == "":
+            logger.info("[XGBoost] GPU hidden via CUDA_VISIBLE_DEVICES, using CPU")
+            return False
+        
         try:
             import xgboost as xgb
-            # Log XGBoost build info
+            # Check build info first
             build_info = xgb.build_info()
-            logger.info(f"[XGBoost] Build info: USE_CUDA={build_info.get('USE_CUDA', 'unknown')}")
+            use_cuda = build_info.get('USE_CUDA', False)
+            logger.info(f"[XGBoost] Build info: USE_CUDA={use_cuda}")
             
-            # Quick test with tiny data
-            test_data = xgb.DMatrix([[1, 2, 3]], label=[1])
-            xgb.train({"tree_method": "gpu_hist", "max_depth": 1}, test_data, num_boost_round=1)
-            logger.info("[XGBoost] ✅ GPU available and working!")
-            return True
+            # If not built with CUDA, definitely can't use GPU
+            if not use_cuda:
+                logger.info("[XGBoost] Built without CUDA support, using CPU")
+                return False
+            
+            # Check if CUDA runtime is actually available
+            try:
+                import subprocess
+                result = subprocess.run(['nvidia-smi', '--query-gpu=name', '--format=csv,noheader'], 
+                                      capture_output=True, timeout=2)
+                if result.returncode != 0:
+                    logger.info("[XGBoost] nvidia-smi failed, GPU not accessible")
+                    return False
+            except (FileNotFoundError, subprocess.TimeoutExpired):
+                logger.info("[XGBoost] nvidia-smi not available, GPU not accessible")
+                return False
+            
+            # Try to actually use gpu_hist - this is the real test
+            try:
+                test_data = xgb.DMatrix([[1, 2, 3]], label=[1])
+                # Try with gpu_hist - if this fails, GPU isn't actually usable
+                xgb.train({"tree_method": "gpu_hist", "max_depth": 1}, test_data, num_boost_round=1)
+                logger.info("[XGBoost] ✅ GPU available and working!")
+                return True
+            except ValueError as ve:
+                # ValueError means gpu_hist isn't a valid option (even if built with CUDA)
+                error_msg = str(ve).lower()
+                if "gpu_hist" in error_msg or "valid values" in error_msg:
+                    logger.warning(f"[XGBoost] ❌ GPU tree_method not available: {ve}")
+                    logger.info("[XGBoost] Falling back to CPU (tree_method='hist')")
+                    return False
+                raise  # Re-raise if it's a different ValueError
+            except Exception as e:
+                # Any other error means GPU isn't working
+                logger.warning(f"[XGBoost] ❌ GPU test failed: {e}")
+                logger.info("[XGBoost] Falling back to CPU (tree_method='hist')")
+                return False
         except Exception as e:
-            logger.warning(f"[XGBoost] ❌ GPU not available: {e}")
-            logger.info(f"[XGBoost] Falling back to CPU (tree_method='hist')")
+            logger.warning(f"[XGBoost] ❌ Error checking GPU: {e}")
+            logger.info("[XGBoost] Falling back to CPU (tree_method='hist')")
             return False
     
     def _build_model(self, cpu_only: bool = False):
