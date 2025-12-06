@@ -59,7 +59,16 @@ Impact: A smoother experience for both open-source users and enterprise clients.
 
 Impact: Prevents OOM errors and enables training on larger datasets reliably.
 
-### 4. Testing & Validation
+### 4. Polars Cross-Sectional DataFrame Optimization
+- Optimize Polars cross-sectional dataframe building to avoid huge RAM spikes
+- Create cleaner, more manageable memory usage patterns
+- Implement streaming/chunked processing for large cross-sectional datasets
+- Reduce memory footprint during dataframe concatenation and transformation
+- Add memory-efficient cross-sectional aggregation methods
+
+Impact: Enables processing of larger symbol universes without memory exhaustion, improves stability during training.
+
+### 5. Testing & Validation
 
 **Current Status:**
 - **Alpaca Trading Module**: Broken due to minor errors - needs fixes
@@ -140,6 +149,7 @@ Current focus areas (in rough order, subject to change):
 - **Current Focus**: Training and ranking portions
 - **Next**: Config system + logging/output overhaul
 - **Next**: Fix automated memory batching and control
+- **Next**: Optimize Polars cross-sectional dataframe building
 - **Pending**: Alpaca module fixes (broken due to minor errors)
 - **Pending**: IBKR module testing (untested, needs validation)
 - **Future**: Website + integrated Stripe checkout
