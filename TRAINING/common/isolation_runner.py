@@ -119,6 +119,26 @@ import time
 import signal
 from .safety import set_global_numeric_guards
 
+# Suppress readline errors by redirecting stderr early
+# The "sh: undefined symbol: rl_print_keybinding" error is harmless but annoying
+# It comes from system calls that spawn sh, and we can't easily prevent it
+# So we'll filter it from stderr output
+import sys
+_original_stderr = sys.stderr
+class _FilteredStderr:
+    """Filter stderr to suppress readline symbol lookup errors."""
+    def __init__(self, original):
+        self.original = original
+    def write(self, s):
+        if s and "symbol lookup error" in s and "rl_print_keybinding" in s:
+            return  # Suppress this specific error
+        return self.original.write(s)
+    def flush(self):
+        return self.original.flush()
+    def __getattr__(self, name):
+        return getattr(self.original, name)
+sys.stderr = _FilteredStderr(_original_stderr)
+
 # Set global numeric guards in child processes too
 set_global_numeric_guards()
 
