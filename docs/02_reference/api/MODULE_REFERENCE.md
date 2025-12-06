@@ -10,7 +10,7 @@ Python API reference for Fox-v1-infra modules.
 from CONFIG.config_loader import (
     load_model_config,
     load_training_config,
-    get_available_model_configs
+    list_available_configs
 )
 
 # Load model config
@@ -20,7 +20,8 @@ config = load_model_config("lightgbm", variant="conservative")
 training_cfg = load_training_config("first_batch_specs")
 
 # List available configs
-configs = get_available_model_configs()
+configs = list_available_configs()
+# Returns: {"model_configs": [...], "training_configs": [...]}
 ```
 
 ## Data Processing

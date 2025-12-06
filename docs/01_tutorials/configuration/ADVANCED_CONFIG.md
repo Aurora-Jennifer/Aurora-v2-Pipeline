@@ -7,17 +7,22 @@ Advanced configuration techniques and patterns.
 Combine multiple config files:
 
 ```python
-from CONFIG.config_loader import load_config
+import yaml
+from pathlib import Path
 
 # Load base config
-base_config = load_config("CONFIG/base.yaml")
+with open("CONFIG/base.yaml") as f:
+    base_config = yaml.safe_load(f)
 
 # Load overlay
-overlay_config = load_config("CONFIG/overlays/custom.yaml")
+with open("CONFIG/overlays/custom.yaml") as f:
+    overlay_config = yaml.safe_load(f)
 
 # Merge (overlay takes precedence)
 config = {**base_config, **overlay_config}
 ```
+
+> **Note**: `load_config` function does not exist in `CONFIG.config_loader`. Use `yaml.safe_load()` directly or use `load_model_config()` / `load_training_config()` for specific config types.
 
 ## Environment-Based Configuration
 
@@ -52,18 +57,20 @@ config = create_custom_config("lightgbm", 0.02, 7)
 
 ## Configuration Validation
 
-Validate configs before use:
+> **Note**: `validate_config` function does not exist in `CONFIG.config_loader`. Validate configs manually or use try/except when loading.
 
 ```python
-from CONFIG.config_loader import validate_config
+from CONFIG.config_loader import load_model_config
+from TRAINING.model_fun import LightGBMTrainer
 
 config = load_model_config("lightgbm")
-errors = validate_config(config)
 
-if errors:
-    print(f"Config errors: {errors}")
-else:
+# Validate by attempting to create trainer
+try:
     trainer = LightGBMTrainer(config)
+    print("Config is valid")
+except Exception as e:
+    print(f"Config error: {e}")
 ```
 
 ## Multi-Target Configuration

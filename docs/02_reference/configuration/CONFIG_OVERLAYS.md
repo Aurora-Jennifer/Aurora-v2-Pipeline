@@ -13,33 +13,41 @@ Overlays allow you to:
 ## Basic Overlay
 
 ```python
-from CONFIG.config_loader import load_config
+import yaml
 
 # Load base config
-base = load_config("CONFIG/base.yaml")
+with open("CONFIG/base.yaml") as f:
+    base = yaml.safe_load(f)
 
 # Load overlay
-overlay = load_config("CONFIG/overlays/production.yaml")
+with open("CONFIG/overlays/production.yaml") as f:
+    overlay = yaml.safe_load(f)
 
 # Merge (overlay takes precedence)
 config = {**base, **overlay}
 ```
 
+> **Note**: `load_config` function does not exist in `CONFIG.config_loader`. Use `yaml.safe_load()` directly.
+
 ## Environment-Based Overlays
 
 ```python
 import os
+import yaml
 
 env = os.getenv("ENVIRONMENT", "development")
 
 # Load base
-base = load_config("CONFIG/base.yaml")
+with open("CONFIG/base.yaml") as f:
+    base = yaml.safe_load(f)
 
 # Load environment overlay
 if env == "production":
-    overlay = load_config("CONFIG/overlays/production.yaml")
+    with open("CONFIG/overlays/production.yaml") as f:
+        overlay = yaml.safe_load(f)
 elif env == "development":
-    overlay = load_config("CONFIG/overlays/development.yaml")
+    with open("CONFIG/overlays/development.yaml") as f:
+        overlay = yaml.safe_load(f)
 
 config = {**base, **overlay}
 ```

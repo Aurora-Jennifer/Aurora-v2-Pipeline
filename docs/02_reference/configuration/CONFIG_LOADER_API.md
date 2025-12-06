@@ -44,18 +44,21 @@ config = load_training_config("first_batch_specs")
 
 **Returns:** dict - Configuration dictionary
 
-### get_available_model_configs
+### list_available_configs
 
-List all available model configurations.
+List all available configuration files.
 
 ```python
-from CONFIG.config_loader import get_available_model_configs
+from CONFIG.config_loader import list_available_configs
 
-configs = get_available_model_configs()
-# Returns: {"lightgbm": ["conservative", "balanced", "aggressive"], ...}
+configs = list_available_configs()
+# Returns: {
+#     "model_configs": ["lightgbm", "xgboost", "mlp", ...],
+#     "training_configs": ["first_batch_specs", ...]
+# }
 ```
 
-**Returns:** dict - Model names and their variants
+**Returns:** dict - Dictionary with "model_configs" and "training_configs" lists
 
 ### get_config_variants
 
@@ -117,11 +120,15 @@ config = load_model_config("mlp", overrides={
 ### List Available Models
 
 ```python
-from CONFIG.config_loader import get_available_model_configs
+from CONFIG.config_loader import list_available_configs, get_config_variants
 
-all_configs = get_available_model_configs()
-for model, variants in all_configs.items():
-    print(f"{model}: {variants}")
+all_configs = list_available_configs()
+print("Model configs:", all_configs["model_configs"])
+print("Training configs:", all_configs["training_configs"])
+
+# Get variants for a specific model
+variants = get_config_variants("lightgbm")
+print(f"LightGBM variants: {variants}")
 ```
 
 ## See Also
